@@ -21,7 +21,7 @@ public class MapNode {
     private boolean isSonless;  // 无子节点 不可用子节点列表为空判断->可能只是没加载
     private boolean isSelected; // 是否被选中
     private ArrayList<MapNode> extraEdge;   //除了父子间的线以外的关系线  将当前节点与列表中的节点分别连一根线
-    static double SCALE=1; //长宽高的单位 用于缩放导图
+    static double SCALE=100; //长宽高的单位 用于缩放导图
 
     public MapNode() {
         this.content = "";
@@ -34,6 +34,14 @@ public class MapNode {
         this.isSelected = true; // 默认被创建时选中
         this.isSonless = true;
         this.extraEdge = null;
+    }
+
+    public MapNode(int Id,double leftX,double topY) {
+        this();
+        this.Id=Id;
+        this.leftX=leftX;
+        this.topY = topY;
+
     }
 
     public int getId() {
