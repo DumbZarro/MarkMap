@@ -1,0 +1,71 @@
+/*
+右上角控件按钮的样式
+*/
+.ConTrollPROBut{
+    -fx-pref-width: 25px;
+    -fx-pref-height: 20px;
+}
+
+/*
+右上角控件的样式
+*/
+.ConTrollPRO{
+    -fx-background-color: white;
+    -fx-pref-width: 30px;
+    -fx-pref-height: 30px;
+}
+.ConTrollPRO:hover{
+    -fx-background-color: rgb(230,230,230);
+}
+/*
+* 左上角menubar样式
+*/
+#LeftMenuBar{
+    -fx-pref-width: 400px;
+    -fx-pref-height: 30px;
+    -fx-background-color: white ;
+    -fx-padding: 0px 10px 0px 20px;
+}
+/*
+* 左上角menu的样式
+*/
+.menu{
+    -fx-pref-width: 70px;
+    -fx-pref-height: 30px;
+    -fx-font-size: 15px;
+    -fx-border-radius: 15px;
+}
+.menu:hover{
+    -fx-text-fill: white;
+}
+/*思维导图和大纲按钮
+*/
+.mindAC{
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-font-size: 25px;
+    -fx-border-width: 2px;
+    -fx-border-radius: 30px;
+    -fx-background-radius: 30px;
+}
+/*
+* 主题与子主题等
+*/
+.chooseBut {
+    -fx-background-color: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(one-pass-box, #72b9da, 10.0,0, 0, 0);
+    -fx-pref-width: 45px;
+    -fx-pref-height: 45px;
+}
+
+.chooseBut:hover{
+    -fx-background-color: rgb(230,230,230);
+}
+.MAPpane{
+    -fx-background-color: rgb(84, 87, 83);
+}
+#butBox{
+    -fx-padding: 10px 10px 10px 10px;
+}
