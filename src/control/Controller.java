@@ -1,7 +1,21 @@
 package control;
 
-import javafx.scene.text.Text;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.MenuBar;
+import javafx.scene.layout.Pane;
 
 public class Controller {
-    public Text actiontarget;
+
+    @FXML
+    private MenuBar LeftMenuBar;
+
+    @FXML
+    private Pane butBox;
+
+    @FXML
+    void genrateTopic(ActionEvent event) {
+
+    }
+
 }
