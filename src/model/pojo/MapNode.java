@@ -9,39 +9,48 @@ public class MapNode {
     private int Id; // 唯一标识符    [由MapTree来决定]
     private String content; // 显示的文本
     private String note;    // 注释
-    private ArrayList<MapNode> childrens;   // 子节点列表
-    private String level;   // 节点的级别 也就是深度(以树的角度来看) [由MapTree来决定]
-    private double topY;    // 节点左上角的Y坐标    [由MapTree来决定]
-    private double leftX;   // 节点左上角的X坐标    [由MapTree来决定]
-    private double height;  // 节点的高度,一般都是一样高,超过最大宽度则变成两行高
-    private double width;   // 节点的宽度
+    private ArrayList<Integer> childrensId;   // 子节点Id列表
+    private Integer parentId;   // 父节点的Id
+    private Integer level;   // 节点的级别 也就是深度(以树的角度来看) [由MapTree来决定] ********
+    private Double topY;    // 节点左上角的Y坐标    [由MapTree来决定]
+    private Double leftX;   // 节点左上角的X坐标    [由MapTree来决定]
+    private Double height;  // 节点的高度,一般都是一样高,超过最大宽度则变成两行高
+    private Double width;   // 节点的宽度
+    private Integer blockSize;   // 块大小
     private String cssClass;    // 节点的样式
-    private boolean isVisible;  // 节点是否显示 懒加载有的节点加载而不显示
-    private boolean isAlong;    // 孤立 无父无子  [由MapTree来决定]
-    private boolean isSonless;  // 无子节点 不可用子节点列表为空判断->可能只是没加载
-    private boolean isSelected; // 是否被选中
+    private Integer counter;    //用于计数
+    private Boolean isVisible;  // 节点是否显示 懒加载有的节点加载而不显示  ********
+    private Boolean isAlong;    // 孤立 无父无子  [由MapTree来决定]
+    private Boolean isSonDisplay;  // 子节点是否显示 不可用子节点列表为空判断->可能只是没加载
+    private Boolean isSelected; // 是否被选中
     private ArrayList<MapNode> extraEdge;   //除了父子间的线以外的关系线  将当前节点与列表中的节点分别连一根线
-    static double SCALE=100; //长宽高的单位 用于缩放导图
+    static Integer SCALE = 100; //长宽高的单位 用于缩放导图
 
     public MapNode() {
         this.content = "";
-        this.note=null;
-        this.childrens = null;
-        this.height = SCALE;
-        this.width = 2*height;
+        this.note = null;
+        this.childrensId = null;
+        this.height = SCALE*1.;
+        this.width = 2 * height;
+        this.blockSize = 0;
         this.cssClass = "default";
+        this.counter = 0;
         this.isVisible = true;
         this.isSelected = true; // 默认被创建时选中
-        this.isSonless = true;
+        this.isSonDisplay = true;
         this.extraEdge = null;
     }
 
-    public MapNode(int Id,double leftX,double topY) {
+    public MapNode(int Id, double leftX, double topY) {
         this();
-        this.Id=Id;
-        this.leftX=leftX;
+        this.Id = Id;
+        this.leftX = leftX;
         this.topY = topY;
 
+    }
+    public MapNode(int Id) {
+        this();
+        this.Id = Id;
     }
 
     public int getId() {
@@ -68,52 +77,68 @@ public class MapNode {
         this.note = note;
     }
 
-    public ArrayList<MapNode> getChildrens() {
-        return childrens;
+    public ArrayList<Integer> getChildrensId() {
+        return childrensId;
     }
 
-    public void setChildrens(ArrayList<MapNode> childrens) {
-        this.childrens = childrens;
+    public void setChildrensId(ArrayList<Integer> childrensId) {
+        this.childrensId = childrensId;
     }
 
-    public String getLevel() {
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
-    public double getTopY() {
+    public Double getTopY() {
         return topY;
     }
 
-    public void setTopY(double topY) {
+    public void setTopY(Double topY) {
         this.topY = topY;
     }
 
-    public double getLeftX() {
+    public Double getLeftX() {
         return leftX;
     }
 
-    public void setLeftX(double leftX) {
+    public void setLeftX(Double leftX) {
         this.leftX = leftX;
     }
 
-    public double getHeight() {
+    public Double getHeight() {
         return height;
     }
 
-    public void setHeight(double height) {
+    public void setHeight(Double height) {
         this.height = height;
     }
 
-    public double getWidth() {
+    public Double getWidth() {
         return width;
     }
 
-    public void setWidth(double width) {
+    public void setWidth(Double width) {
         this.width = width;
+    }
+
+    public Integer getBlockSize() {
+        return blockSize;
+    }
+
+    public void setBlockSize(Integer blockSize) {
+        this.blockSize = blockSize;
     }
 
     public String getCssClass() {
@@ -124,35 +149,43 @@ public class MapNode {
         this.cssClass = cssClass;
     }
 
-    public boolean isVisible() {
+    public Integer getCounter() {
+        return counter;
+    }
+
+    public void setCounter(Integer counter) {
+        this.counter = counter;
+    }
+
+    public Boolean getVisible() {
         return isVisible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible(Boolean visible) {
         isVisible = visible;
     }
 
-    public boolean isAlong() {
+    public Boolean getAlong() {
         return isAlong;
     }
 
-    public void setAlong(boolean along) {
+    public void setAlong(Boolean along) {
         isAlong = along;
     }
 
-    public boolean isSonless() {
-        return isSonless;
+    public Boolean getSonDisplay() {
+        return isSonDisplay;
     }
 
-    public void setSonless(boolean sonless) {
-        isSonless = sonless;
+    public void setSonDisplay(Boolean sonDisplay) {
+        isSonDisplay = sonDisplay;
     }
 
-    public boolean isSelected() {
+    public Boolean getSelected() {
         return isSelected;
     }
 
-    public void setSelected(boolean selected) {
+    public void setSelected(Boolean selected) {
         isSelected = selected;
     }
 
@@ -164,11 +197,11 @@ public class MapNode {
         this.extraEdge = extraEdge;
     }
 
-    public static double getSCALE() {
+    public static Integer getSCALE() {
         return SCALE;
     }
 
-    public static void setSCALE(double SCALE) {
+    public static void setSCALE(Integer SCALE) {
         MapNode.SCALE = SCALE;
     }
 
@@ -178,17 +211,22 @@ public class MapNode {
                 "Id=" + Id +
                 ", content='" + content + '\'' +
                 ", note='" + note + '\'' +
-                ", childrens=" + childrens +
-                ", level='" + level + '\'' +
+                ", childrensId=" + childrensId +
+                ", parentId=" + parentId +
+                ", level=" + level +
                 ", topY=" + topY +
                 ", leftX=" + leftX +
                 ", height=" + height +
                 ", width=" + width +
+                ", blockSize=" + blockSize +
                 ", cssClass='" + cssClass + '\'' +
+                ", counter=" + counter +
                 ", isVisible=" + isVisible +
                 ", isAlong=" + isAlong +
-                ", isSonless=" + isSonless +
+                ", isSonDisplay=" + isSonDisplay +
                 ", isSelected=" + isSelected +
+                ", extraEdge=" + extraEdge +
                 '}';
     }
+
 }

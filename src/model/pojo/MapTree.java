@@ -1,33 +1,23 @@
 package model.pojo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
- * Description:思维导图树的类,实际上就是根节点加上布局
+ * Description:思维导图树的类,实际上就是节点列表加上布局
  */
 public class MapTree {
-    private final MapNode root;
-    private ArrayList<MapNode> tree;
+    private final Integer rootId;
     private String layout;
 
-    public MapTree(MapNode root) {
-        this.root = root;
-        this.tree = null;
-        this.layout = "default";
+    public MapTree(Integer rootId) {   // 通过节点列表构造
+        this.rootId = rootId;
+        this.layout = "right";
     }
 
-    public ArrayList<MapNode> getTree() {
-        return tree;
+    public Integer getRootId() {
+        return rootId;
     }
-
-    public void setTree(ArrayList<MapNode> tree) {
-        this.tree = tree;
-    }
-
-    public MapNode getRoot() {
-        return root;
-    }
-
 
     public String getLayout() {
         return layout;
