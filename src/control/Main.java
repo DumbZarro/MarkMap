@@ -13,7 +13,9 @@ import view.Generator;
 
 import java.util.HashMap;
 
-public class Main extends Application {
+public class Main extends Application { // 创建服务
+    NodeServiceImpl nodeService = new NodeServiceImpl();
+    TreeServiceImpl treeService = new TreeServiceImpl(nodeService);
 
     @Override
     public void start(Stage primaryStage) throws Exception {
