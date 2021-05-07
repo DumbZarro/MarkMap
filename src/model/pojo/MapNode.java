@@ -36,7 +36,7 @@ public class MapNode {
         this.cssClass = "default";
         this.counter = 0;
         this.isVisible = true;
-        this.isSelected = true; // 默认被创建时选中
+        this.isSelected = false; // 默认被创建时选中
         this.isSonDisplay = true;
         this.extraEdge = null;
     }

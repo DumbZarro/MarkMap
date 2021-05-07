@@ -2,6 +2,7 @@ package model.service.impl;
 
 import model.pojo.MapNode;
 import model.pojo.MapTree;
+import model.service.NodeService;
 import model.service.TreeService;
 
 import java.util.*;
@@ -30,6 +31,12 @@ public class TreeServiceImpl implements TreeService {
         this.rootNode = nodeService.getNodeById(tree.getRootId());
     }
 
+    public  TreeServiceImpl(NodeServiceImpl nodeService){
+        this.nodeService = nodeService;
+        this.tree  = new MapTree(1);
+        this.rootNode = nodeService.getNodeList().get(1);
+    }
+
     public MapTree getTree() {
         return tree;
     }
@@ -49,6 +56,8 @@ public class TreeServiceImpl implements TreeService {
         for (MapNode node : nodeService.getNodeList().values()) {
             if (node.getSonDisplay()) {
                 node.setBlockSize(1);
+                if (node.getId()==1)
+                    continue;
                 CounterQueue.add(node);
             }
         }

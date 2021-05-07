@@ -14,7 +14,8 @@ public class NodeServiceImpl implements NodeService {
 
     public NodeServiceImpl() {
         nodeList = new HashMap<Integer, MapNode>();
-        MapNode testNode = new MapNode(1);
+        MapNode testNode = new MapNode(1,100,100);
+        testNode.setContent("中心节点");
         nodeList.put(testNode.getId(), testNode);
     }
 
@@ -65,6 +66,10 @@ public class NodeServiceImpl implements NodeService {
     //1. get id by id
     @Override
     public ArrayList<Integer> getChildrenIdById(Integer id) {
+        if(getNodeById(id).getChildrensId() == null) {
+            ArrayList<Integer> childNodeList = new ArrayList<Integer>();
+            getNodeById(id).setChildrensId(childNodeList);
+        }
         return getNodeById(id).getChildrensId();
     }
 
