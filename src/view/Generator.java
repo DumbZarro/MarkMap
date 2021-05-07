@@ -20,6 +20,11 @@ import model.service.NodeService;
 import model.service.impl.NodeServiceImpl;
 
 public class Generator {
+    private NodeServiceImpl nodeService;
+    public Generator(NodeServiceImpl nodeService) {
+        this.nodeService=nodeService;
+    }
+
     public void showNode(Parent root, MapNode showNode){
         AnchorPane MindMapPane = (AnchorPane)root.lookup("#mindMapPane");
         Rectangle nodeRectangle = new Rectangle(showNode.getWidth(),showNode.getHeight());
@@ -66,6 +71,7 @@ public class Generator {
                 text.setVisible(false);
                 text1.setVisible(true);
                 text1.setText(text.getText());
+                showNode.setContent(text.getText());
             }
         });
 
@@ -78,8 +84,8 @@ public class Generator {
         MindMapPane.getChildren().add(text);
         MindMapPane.getChildren().add(text1);
 
-        NodeServiceImpl getUtils = new NodeServiceImpl();
-        MapNode parentNode = getUtils.getParentNodeByNode(showNode);
+
+        MapNode parentNode = nodeService.getParentNodeByNode(showNode);
         if (parentNode != null){
             Path path = new Path();
             path.getElements().add(new MoveTo(parentNode.getLeftX()+ parentNode.getWidth(), parentNode.getTopY()+ parentNode.getHeight()/2));

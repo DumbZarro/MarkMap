@@ -2,10 +2,8 @@ package model.service.impl;
 
 import model.pojo.MapNode;
 import model.pojo.MapTree;
-import model.service.NodeService;
 import model.service.TreeService;
 
-import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -16,6 +14,10 @@ public class TreeServiceImpl implements TreeService {
     private ArrayBlockingQueue<MapNode> CounterQueue;   // 计算块大小时用的队列
     private MapNode rootNode;   //根节点
     private NodeServiceImpl nodeService;
+
+    public MapNode getRootNode() {
+        return rootNode;
+    }
 
     public TreeServiceImpl() {
         this.nodeService = new NodeServiceImpl();
@@ -51,14 +53,16 @@ public class TreeServiceImpl implements TreeService {
         return 0;
     }
 
-    public void initBlockCounter() {
+    public void initBlockCounter() {//找出叶子节点并blockSize赋初值
         CounterQueue = new ArrayBlockingQueue<MapNode>(20);
         for (MapNode node : nodeService.getNodeList().values()) {
-            if (node.getSonDisplay()) {
-                node.setBlockSize(100);
-                if (node.getId()==getTree().getRootId()){ // 根节点为边界
-                    continue;
-                }
+            if (node.getId()==getTree().getRootId()){ // 根节点初始size永远为0
+                continue;
+            }
+            // 子节点不可见而自己可见(叶子节点)
+            if (!node.getSonDisplay()&&node.getVisible()) {
+                // TODO 封装合适的间距
+                node.setBlockSize(60);//这里的大小决定间距的大小
                 CounterQueue.add(node);
             }
         }
@@ -71,7 +75,7 @@ public class TreeServiceImpl implements TreeService {
             MapNode parentNode = nodeService.getNodeList().get(node.getParentId());
             parentNode.setBlockSize(parentNode.getBlockSize() + node.getBlockSize());
             parentNode.setCounter(parentNode.getCounter() + 1);
-            if (parentNode.getCounter() == parentNode.getChildrensId().size()) {
+            if (parentNode.getCounter() == parentNode.getChildrenId().size()) {
                 if (tree.getRootId().equals(parentNode.getId())) {
                     break;
                 }
@@ -82,8 +86,10 @@ public class TreeServiceImpl implements TreeService {
 
     public void setLayout() {
         toCountBlock();
-        rootNode.setLeftX(0.);
-        rootNode.setTopY(0.);
+        // TODO 计算根节点位置
+        // 设置根节点位置
+        rootNode.setLeftX(400.);
+        rootNode.setTopY(300.);
         switch (tree.getLayout()) {
             case "default" -> defaultLayout();
             case "right" -> rightLayout();
@@ -108,14 +114,14 @@ public class TreeServiceImpl implements TreeService {
 
     private void computeAllCoordinate(Integer now_id, Integer flag) { //根据flag动态生成左树或者右树(从中心节点向外计算坐标)
         MapNode nowNode = nodeService.getNodeById(now_id);
-        double childX = nowNode.getLeftX() + flag * nowNode.getWidth();  //x轴 flag  左树累加 右树累减
+        double childX = nowNode.getLeftX() + flag * nowNode.getWidth() + 50;  //x轴 flag  左树累加 右树累减
         // 第一个子节点的位置
         Integer delta = nowNode.getBlockSize();
         Double nowY = nowNode.getTopY();
-        if(nowNode.getChildrensId()==null){     //叶子节点直接返回,不继续递推
+        if(nowNode.getChildrenId()==null){     //叶子节点直接返回,不继续递推
             return;
         }
-        for (Integer childId : nowNode.getChildrensId()) {
+        for (Integer childId : nowNode.getChildrenId()) {
             MapNode childNode = nodeService.getNodeById(childId);
             //算x
             childNode.setLeftX(childX);

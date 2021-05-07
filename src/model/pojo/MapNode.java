@@ -9,7 +9,7 @@ public class MapNode {
     private int Id; // 唯一标识符    [由MapTree来决定]
     private String content; // 显示的文本
     private String note;    // 注释
-    private ArrayList<Integer> childrensId;   // 子节点Id列表
+    private ArrayList<Integer> childrenId;   // 子节点Id列表
     private Integer parentId;   // 父节点的Id
     private Integer level;   // 节点的级别 也就是深度(以树的角度来看) [由MapTree来决定] ********
     private Double topY;    // 节点左上角的Y坐标    [由MapTree来决定]
@@ -29,7 +29,7 @@ public class MapNode {
     public MapNode() {
         this.content = "";
         this.note = null;
-        this.childrensId = null;
+        this.childrenId = new ArrayList<>();//节点列表要初始化
         this.height = SCALE*1.;
         this.width = 2 * height;
         this.blockSize = 0;
@@ -37,7 +37,7 @@ public class MapNode {
         this.counter = 0;
         this.isVisible = true;
         this.isSelected = false; // 默认被创建时选中
-        this.isSonDisplay = true;
+        this.isSonDisplay = false;//新创节点无子则不可见
         this.extraEdge = null;
         this.leftX=0.;
         this.topY=0.;
@@ -79,12 +79,12 @@ public class MapNode {
         this.note = note;
     }
 
-    public ArrayList<Integer> getChildrensId() {
-        return childrensId;
+    public ArrayList<Integer> getChildrenId() {
+        return childrenId;
     }
 
-    public void setChildrensId(ArrayList<Integer> childrensId) {
-        this.childrensId = childrensId;
+    public void setChildrenId(ArrayList<Integer> childrenId) {
+        this.childrenId = childrenId;
     }
 
     public Integer getParentId() {
@@ -213,7 +213,7 @@ public class MapNode {
                 "Id=" + Id +
                 ", content='" + content + '\'' +
                 ", note='" + note + '\'' +
-                ", childrensId=" + childrensId +
+                ", childrensId=" + childrenId +
                 ", parentId=" + parentId +
                 ", level=" + level +
                 ", topY=" + topY +
