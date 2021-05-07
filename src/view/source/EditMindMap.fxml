@@ -86,7 +86,7 @@
                 <AnchorPane fx:id="mindMapPane" minHeight="0.0" minWidth="0.0" prefHeight="732.0" prefWidth="1600.0" styleClass="MAPpane" />
               </content>
             </ScrollPane>
-            <Button layoutX="41.0" layoutY="13.0" mnemonicParsing="false" styleClass="mindAC" text="思维导图" />
+            <Button fx:id="MapToOutline" layoutX="41.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#MapToOutline" styleClass="mindAC" text="思维导图" />
             <Button layoutX="175.0" layoutY="13.0" mnemonicParsing="false" styleClass="mindAC" text="大纲" />
             <Button layoutX="1146.0" layoutY="8.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="47.0" styleClass="chooseBut">
                <graphic>

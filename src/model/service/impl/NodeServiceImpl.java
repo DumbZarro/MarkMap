@@ -14,7 +14,7 @@ public class NodeServiceImpl implements NodeService {
 
     public NodeServiceImpl() {
         nodeList = new HashMap<Integer, MapNode>();
-        MapNode testNode = new MapNode(1,100,100);
+        MapNode testNode = new MapNode(1,0,0);
         testNode.setContent("中心节点");
         nodeList.put(testNode.getId(), testNode);
     }

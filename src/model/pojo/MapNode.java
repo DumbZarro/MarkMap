@@ -39,6 +39,8 @@ public class MapNode {
         this.isSelected = false; // 默认被创建时选中
         this.isSonDisplay = true;
         this.extraEdge = null;
+        this.leftX=0.;
+        this.topY=0.;
     }
 
     public MapNode(int Id, double leftX, double topY) {

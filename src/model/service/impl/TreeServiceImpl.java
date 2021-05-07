@@ -55,9 +55,10 @@ public class TreeServiceImpl implements TreeService {
         CounterQueue = new ArrayBlockingQueue<MapNode>(20);
         for (MapNode node : nodeService.getNodeList().values()) {
             if (node.getSonDisplay()) {
-                node.setBlockSize(1);
-                if (node.getId()==1)
+                node.setBlockSize(100);
+                if (node.getId()==getTree().getRootId()){ // 根节点为边界
                     continue;
+                }
                 CounterQueue.add(node);
             }
         }
@@ -105,14 +106,17 @@ public class TreeServiceImpl implements TreeService {
 //        computeAllCoordinate(rootNode.getId());
     }
 
-    private void computeAllCoordinate(Integer now_id, Integer flag) { //根据flag动态生成左树或者右树
+    private void computeAllCoordinate(Integer now_id, Integer flag) { //根据flag动态生成左树或者右树(从中心节点向外计算坐标)
         MapNode nowNode = nodeService.getNodeById(now_id);
         double childX = nowNode.getLeftX() + flag * nowNode.getWidth();  //x轴 flag  左树累加 右树累减
         // 第一个子节点的位置
         Integer delta = nowNode.getBlockSize();
         Double nowY = nowNode.getTopY();
+        if(nowNode.getChildrensId()==null){     //叶子节点直接返回,不继续递推
+            return;
+        }
         for (Integer childId : nowNode.getChildrensId()) {
-            MapNode childNode = nodeService.getNodeById(now_id);
+            MapNode childNode = nodeService.getNodeById(childId);
             //算x
             childNode.setLeftX(childX);
             //算y
