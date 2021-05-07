@@ -20,8 +20,6 @@ public class Main extends Application { // 创建服务
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../view/source/EditMindMap.fxml"));
-        NodeServiceImpl impl = new NodeServiceImpl();
-        Generator TEST = new Generator();
         primaryStage.setTitle("思维导图");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
