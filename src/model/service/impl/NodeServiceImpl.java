@@ -39,7 +39,6 @@ public class NodeServiceImpl implements NodeService {
     private void addParentToSon(Integer parentId, Integer sonId) {
 //        getChildrenIdById(parentId).add(sonId);
 //        getNodeById(sonId).setParentId(parentId);
-        System.out.println(parentId);
         MapNode parent = getNodeById(parentId);
         parent.setSonDisplay(true);
         parent.getChildrenId().add(sonId);//把子节点添加到父节点的子节点列表中
