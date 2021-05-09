@@ -1,6 +1,9 @@
 package control;
 
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -34,20 +37,22 @@ public class Main extends Application { // 创建服务
         sonNode0.setContent("11111");
         sonNode1.setContent("22222");
         sonNode2.setContent("33333");
+
         // 添加节点
         nodeService.addNode(parentId,sonNode0.getId(),sonNode0);
         nodeService.addNode(parentId,sonNode1.getId(),sonNode1);
         nodeService.addNode(parentId,sonNode2.getId(),sonNode2);
+
         // 重新计算坐标
         treeService.getTree().setLayout("right");
         treeService.setLayout();
 
-
-        Generator TEST = new Generator(nodeService);
+        Generator TEST = new Generator(nodeService,treeService,root);
         HashMap nodeMap = nodeService.getNodeList();
         nodeMap.forEach((key,value)->{
-            TEST.showNode(root,(MapNode) value);
+            TEST.showNode((MapNode) value);
         });
+        TEST.drawLine();
     }
 
 

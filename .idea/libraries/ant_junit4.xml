@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="ant-junit4">
-    <CLASSES>
-      <root url="jar://$APPLICATION_HOME_DIR$/lib/ant/lib/ant-junit4.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

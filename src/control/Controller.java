@@ -1,14 +1,14 @@
 package control;
 
-import javafx.event.ActionEvent;
+import javafx.application.Application;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-
-
+import javafx.stage.Stage;
 
 public class Controller {
 
@@ -25,13 +25,39 @@ public class Controller {
     private Button MapToOutline;
 
     @FXML
-    void MapToOutline(MouseEvent event) {
-        System.out.println(111);
+    void close(Event event) {
+        System.exit(0);
     }
 
     @FXML
-    void genrateTopic(ActionEvent event) {
+    void maxmize(Event event) {
+        Stage stage = (Stage) mindMapPane.getScene().getWindow();
+        Scene scene = (Scene) mindMapPane.getScene();
+        stage.setMaximized(true);
 
     }
+
+    @FXML
+    void minimize(Event event) {
+        Stage stage = (Stage) mindMapPane.getScene().getWindow();
+        Scene scene = (Scene) mindMapPane.getScene();
+        stage.setAlwaysOnTop(false);
+    }
+
+    @FXML
+    void OutlineToMap(Event event) {
+        mindMapPane.setVisible(false);
+    }
+
+    @FXML
+    void MapToOutline(Event event) {
+        mindMapPane.setVisible(true);
+    }
+
+    @FXML
+    void newNode(Event event) {
+
+    }
+
 
 }

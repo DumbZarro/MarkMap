@@ -14,7 +14,7 @@
          <children>
             <Pane layoutX="1117.0" prefHeight="32.0" prefWidth="165.0">
                <children>
-                  <Button layoutX="119.0" layoutY="1.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="53.0" styleClass="ConTrollPRO">
+                  <Button layoutX="119.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#close" prefHeight="29.0" prefWidth="53.0" styleClass="ConTrollPRO">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="ConTrollPROBut">
                            <image>
@@ -23,7 +23,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button layoutX="83.0" layoutY="1.0" mnemonicParsing="false" styleClass="ConTrollPRO">
+                  <Button layoutX="83.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#maxmize" styleClass="ConTrollPRO">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="ConTrollPROBut">
                            <image>
@@ -32,7 +32,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button layoutX="43.0" layoutY="1.0" mnemonicParsing="false" styleClass="ConTrollPRO">
+                  <Button layoutX="43.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#minimize" styleClass="ConTrollPRO">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="ConTrollPROBut">
                            <image>
@@ -83,11 +83,14 @@
          <children>
             <ScrollPane layoutY="79.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="1280.0">
               <content>
-                <AnchorPane fx:id="mindMapPane" minHeight="0.0" minWidth="0.0" prefHeight="732.0" prefWidth="1600.0" styleClass="MAPpane" />
+                <AnchorPane fx:id="mindMapPane" layoutX="111.0" layoutY="1110.0" minHeight="0.0" minWidth="0.0" prefHeight="732.0" prefWidth="1600.0" styleClass="MAPpane" translateX="-11.0">
+                     <rotationAxis>
+                        <Point3D />
+                     </rotationAxis></AnchorPane>
               </content>
             </ScrollPane>
+            <Button layoutX="175.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#OutlineToMap" styleClass="mindAC" text="大纲" />
             <Button fx:id="MapToOutline" layoutX="41.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#MapToOutline" styleClass="mindAC" text="思维导图" />
-            <Button layoutX="175.0" layoutY="13.0" mnemonicParsing="false" styleClass="mindAC" text="大纲" />
             <Button layoutX="1146.0" layoutY="8.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="47.0" styleClass="chooseBut">
                <graphic>
                   <ImageView fitHeight="52.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
@@ -171,7 +174,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button layoutX="18.0" layoutY="7.0" mnemonicParsing="false" onAction="#genrateTopic" prefHeight="32.0" prefWidth="161.0" styleClass="chooseBut">
+                        <Button layoutX="18.0" layoutY="7.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="161.0" styleClass="chooseBut">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
