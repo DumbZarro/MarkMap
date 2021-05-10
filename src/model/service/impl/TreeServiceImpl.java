@@ -24,19 +24,21 @@ public class TreeServiceImpl implements TreeService {
         //测试用例,右布局
         this.tree = new MapTree(1);
         this.rootNode = nodeService.getNodeById(tree.getRootId());
-
+        this.rootNode.setSelected(true);
     }
 
     public TreeServiceImpl(MapTree tree) {
         this.nodeService = new NodeServiceImpl();
         this.tree = tree;
         this.rootNode = nodeService.getNodeById(tree.getRootId());
+        this.rootNode.setSelected(true);
     }
 
     public  TreeServiceImpl(NodeServiceImpl nodeService){
         this.nodeService = nodeService;
         this.tree  = new MapTree(1);
         this.rootNode = nodeService.getNodeList().get(1);
+        this.rootNode.setSelected(true);
     }
 
     public MapTree getTree() {

@@ -17,9 +17,9 @@ import view.Generator;
 import java.util.HashMap;
 
 public class Main extends Application { // 创建服务
-    NodeServiceImpl nodeService = new NodeServiceImpl();
-    TreeServiceImpl treeService = new TreeServiceImpl(nodeService);
-
+    static NodeServiceImpl nodeService = new NodeServiceImpl();
+    static TreeServiceImpl treeService = new TreeServiceImpl(nodeService);
+    static Generator generator;
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../view/source/EditMindMap.fxml"));
@@ -34,6 +34,8 @@ public class Main extends Application { // 创建服务
         MapNode sonNode0 = new MapNode(2);
         MapNode sonNode1 = new MapNode(3);
         MapNode sonNode2 = new MapNode(4);
+        MapNode gransonNode =  new MapNode(5);
+        MapNode gransonNode1 =  new MapNode(6);
         sonNode0.setContent("11111");
         sonNode1.setContent("22222");
         sonNode2.setContent("33333");
@@ -42,17 +44,18 @@ public class Main extends Application { // 创建服务
         nodeService.addNode(parentId,sonNode0.getId(),sonNode0);
         nodeService.addNode(parentId,sonNode1.getId(),sonNode1);
         nodeService.addNode(parentId,sonNode2.getId(),sonNode2);
-
+        nodeService.addNode(sonNode2.getId(),gransonNode.getId(),gransonNode);
+        nodeService.addNode(sonNode2.getId(),gransonNode1.getId(),gransonNode1);
         // 重新计算坐标
         treeService.getTree().setLayout("right");
         treeService.setLayout();
 
-        Generator TEST = new Generator(nodeService,treeService,root);
+        generator = new Generator(nodeService,treeService,root);
         HashMap nodeMap = nodeService.getNodeList();
         nodeMap.forEach((key,value)->{
-            TEST.showNode((MapNode) value);
+            generator.showNode((MapNode) value);
         });
-        TEST.drawLine();
+        generator.drawLine();
     }
 
 

@@ -26,9 +26,11 @@ public class Generator {
     private NodeServiceImpl nodeService;
     private TreeServiceImpl treeService;
     private Parent root;
-    AnchorPane MindMapPane ;
+    static public Integer selectedNodeNum = 1;
+    AnchorPane MindMapPane;
     Stack<MapNode> notYetDrawPStack = new Stack<>();
     Color lineColor = Color.BLUE;
+
     public Generator(NodeServiceImpl nodeService,TreeServiceImpl treeService,Parent root) {
         this.nodeService=nodeService;
         this.treeService=treeService;
@@ -39,11 +41,12 @@ public class Generator {
     public void showNode(MapNode showNode){
         AnchorPane MindMapPane = (AnchorPane)root.lookup("#mindMapPane");
         Rectangle nodeRectangle = new Rectangle(showNode.getWidth(),showNode.getHeight());
-        nodeRectangle.setArcHeight(40);
-        nodeRectangle.setArcWidth(40);
         nodeRectangle.setLayoutY(showNode.getTopY());
         nodeRectangle.setLayoutX(showNode.getLeftX());
+        Color color =Color.rgb(84, 87, 83);
+        nodeRectangle.setFill(color);
         nodeRectangle.setId("abc");
+
 
 
         TextField text = new TextField();
@@ -52,57 +55,30 @@ public class Generator {
         text.setLayoutY(showNode.getTopY());
         text.setPrefHeight(100);
         text.setPrefWidth(200);
-        text.setStyle("-fx-font-size: 15px;-fx-border-radius: 20;\n" +
-                "    -fx-background-radius: 20; -fx-font-weight: bold");
-        text.setVisible(false);
-        text.setFont(new Font(1));
+        text.setStyle("-fx-font-size: 15px;-fx-border-radius: 15;\n" +
+                    "    -fx-background-radius: 15; -fx-font-weight: bold;");
+        text.setVisible(true);
+        text.setFont(new Font(10));
 
-        Text text1 = new Text();
-        text1.setText(showNode.getContent());
-        text1.setLayoutX(showNode.getLeftX()+showNode.getWidth()/4);
-        text1.setLayoutY(showNode.getTopY()+showNode.getHeight()/2);
-        text1.setStyle("-fx-font-size: 15px; -fx-font-weight: bold");
 
-        text1.setWrappingWidth(100);
-        text1.setVisible(true);
-        text1.setFont(new Font(1));
 
-        nodeRectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        text.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                text.setVisible(true);
-                text1.setVisible(false);
-                showNode.setContent(text.getText());
-
+                nodeService.getNodeById(selectedNodeNum).setSelected(false);
+                showNode.setSelected(true);
+                selectedNodeNum = showNode.getId();
             }
         });
-        text1.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                text.setVisible(true);
-                text1.setVisible(false);
-                showNode.setContent(text.getText());
-
-            }
-        });
-
         text.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                text.setVisible(false);
-                text1.setVisible(true);
-                text1.setText(text.getText());
                 showNode.setContent(text.getText());
             }
         });
 
-        Color color =Color.WHITE;
-        nodeRectangle.setFill(color);
-        nodeRectangle.setStyle("");
         MindMapPane.getChildren().add(nodeRectangle);
         MindMapPane.getChildren().add(text);
-        MindMapPane.getChildren().add(text1);
-
 
     }
     public void drawLine(){
@@ -122,7 +98,7 @@ public class Generator {
                     veriticalLineRight.setStroke(Color.rgb(73, 156, 84));
                     veriticalLineRight.setStrokeWidth(6);
                     MindMapPane.getChildren().add(veriticalLineRight);
-                    System.out.println(maxAndMinY);
+
                 break;
                 case "left":maxAndMinY = leftDrawMapLine(childList);//左布局画线
                     Line parNodeLineleft = new Line(notYetDrawP.getLeftX(),notYetDrawP.getTopY()+notYetDrawP.getHeight()/2,notYetDrawP.getLeftX()-20,notYetDrawP.getTopY()+notYetDrawP.getHeight()/2);//父节点伸出一小段线
@@ -133,8 +109,8 @@ public class Generator {
                     veriticalLineLeft.setStroke(Color.rgb(73, 156, 84));
                     veriticalLineLeft.setStrokeWidth(6);
                     MindMapPane.getChildren().add(veriticalLineLeft);
-                    System.out.println(maxAndMinY);
-                    leftDrawMapLine(childList);break;
+
+                    break;
             }
 
         }

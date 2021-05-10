@@ -9,6 +9,10 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.pojo.MapNode;
+import view.Generator;
+
+import java.util.HashMap;
 
 public class Controller {
 
@@ -56,8 +60,22 @@ public class Controller {
 
     @FXML
     void newNode(Event event) {
+        Integer nodeId =  (int)(Math.random()*100);
 
+        Integer parentId;
+        if (Generator.selectedNodeNum!=1)
+            parentId = Main.nodeService.getParentNodeById(Generator.selectedNodeNum).getId();//当选中节点不是中心节点时，给选中节点添加兄弟节点
+        else
+            parentId = Generator.selectedNodeNum;
+        MapNode newNode = new MapNode(nodeId);
+        System.out.println(parentId);
+        System.out.println(nodeId);
+        Main.nodeService.addNode(parentId, nodeId,newNode);
+        Main.treeService.setLayout();
+        mindMapPane.getChildren().clear();
+        Main.nodeService.getNodeList().forEach((key,value)->{
+            Main.generator.showNode((MapNode) value);
+        });
+        Main.generator.drawLine();
     }
-
-
 }
