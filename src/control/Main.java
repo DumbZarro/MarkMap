@@ -7,6 +7,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.pojo.MapNode;
@@ -14,6 +15,7 @@ import model.service.impl.NodeServiceImpl;
 import model.service.impl.TreeServiceImpl;
 import view.Generator;
 
+import java.awt.*;
 import java.util.HashMap;
 
 public class Main extends Application { // 创建服务
@@ -45,20 +47,30 @@ public class Main extends Application { // 创建服务
         nodeService.addNode(parentId,sonNode1.getId(),sonNode1);
         nodeService.addNode(parentId,sonNode2.getId(),sonNode2);
         nodeService.addNode(sonNode2.getId(),gransonNode.getId(),gransonNode);
-
+        nodeService.addNode(sonNode2.getId(),gransonNode1.getId(),gransonNode1);
 
         // 重新计算坐标
         treeService.getTree().setLayout("right");
         treeService.setLayout();
-        nodeService.addNode(sonNode2.getId(),gransonNode1.getId(),gransonNode1);
-        treeService.setLayout();
+
+
         generator = new Generator(nodeService,treeService,root);
+        generator.showMap();
 
-
-        nodeService.getNodeList().forEach((key,value)->{
-            generator.showNode((MapNode) value);
-        });
-        generator.drawLine();
+        Button OutlineToMap = (Button) root.lookup("#OutlineToMap");
+        Button MapToOutline = (Button) root.lookup("#MapToOutline");
+        OutlineToMap.setStyle("-fx-background-color: rgb(230, 230, 231);\n" +
+                "    -fx-text-fill: black;\n" +
+                "    -fx-font-size: 25px;\n" +
+                "    -fx-border-width: 2px;\n" +
+                "    -fx-border-radius: 30px;\n" +
+                "    -fx-background-radius: 30px; -fx-font-weight: bold");
+        MapToOutline.setStyle("-fx-background-color: rgb(244, 244, 244);\n" +
+                "    -fx-text-fill: rgb(125, 125, 125);\n" +
+                "    -fx-font-size: 25px;\n" +
+                "    -fx-border-width: 2px;\n" +
+                "    -fx-border-radius: 30px;\n" +
+                "    -fx-background-radius: 30px; ");
     }
 
 

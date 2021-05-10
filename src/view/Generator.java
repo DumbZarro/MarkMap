@@ -37,8 +37,15 @@ public class Generator {
         this.root = root;
         this.MindMapPane = (AnchorPane)root.lookup("#mindMapPane");
     }
-
-    public void showNode(MapNode showNode){
+//画图
+    public void showMap(){
+        nodeService.getNodeList().forEach((key,value)->{
+            showNode((MapNode) value);
+        });
+        drawLine();
+    }
+//    展示该节点
+    private void showNode(MapNode showNode){
         MindMapPane = (AnchorPane)root.lookup("#mindMapPane");
         Rectangle nodeRectangle = new Rectangle(showNode.getWidth(),showNode.getHeight());
         nodeRectangle.setLayoutY(showNode.getTopY());
@@ -81,7 +88,8 @@ public class Generator {
         MindMapPane.getChildren().add(text);
 
     }
-    public void drawLine(){
+//    画线
+    private void drawLine(){
         notYetDrawPStack.push(nodeService.getNodeById(1));
         String layout = treeService.getTree().getLayout();
         while(!notYetDrawPStack.empty()){
@@ -115,6 +123,7 @@ public class Generator {
 
         }
     }
+//    右布局画线
     private ArrayList<Double> rightDrawMapLine(ArrayList<Integer> childList){
         Double MAXY,MINY;
         MAXY = nodeService.getNodeById(childList.get(0)).getTopY();
@@ -140,22 +149,23 @@ public class Generator {
         maxAndMinY.add(MINY);
         return maxAndMinY;
     }
-    private ArrayList<Double> leftDrawMapLine(ArrayList<Integer> childList){
-        Double MAXY,MINY;
+//左布局画线
+    private ArrayList<Double> leftDrawMapLine(ArrayList<Integer> childList) {
+        Double MAXY, MINY;
         MAXY = nodeService.getNodeById(childList.get(0)).getTopY();
         MINY = nodeService.getNodeById(childList.get(0)).getTopY();
-        for (int i = 0; i<childList.size();i++){
+        for (int i = 0; i < childList.size(); i++) {
             MapNode currentNode = nodeService.getNodeById(childList.get(i));
-            if (currentNode.getTopY()>MAXY){
+            if (currentNode.getTopY() > MAXY) {
                 MAXY = currentNode.getTopY();
             }
-            if (currentNode.getTopY()<MINY){
+            if (currentNode.getTopY() < MINY) {
                 MINY = currentNode.getTopY();
             }
-            if(nodeService.getChildrenNodeByNode(currentNode).size()!=0)
+            if (nodeService.getChildrenNodeByNode(currentNode).size() != 0)
                 notYetDrawPStack.push(currentNode);
             MapNode parentNode = nodeService.getParentNodeByNode(currentNode);
-            Line nodeLine= new Line(parentNode.getLeftX()-20,currentNode.getTopY()+currentNode.getHeight()/2,currentNode.getLeftX()+currentNode.getWidth(),currentNode.getTopY()+currentNode.getHeight()/2);
+            Line nodeLine = new Line(parentNode.getLeftX() - 20, currentNode.getTopY() + currentNode.getHeight() / 2, currentNode.getLeftX() + currentNode.getWidth(), currentNode.getTopY() + currentNode.getHeight() / 2);
             nodeLine.setStroke(Color.rgb(73, 156, 84));
             nodeLine.setStrokeWidth(6);
             MindMapPane.getChildren().add(nodeLine);
@@ -164,5 +174,8 @@ public class Generator {
         maxAndMinY.add(MAXY);
         maxAndMinY.add(MINY);
         return maxAndMinY;
+    }
+    public void extraLine(){
+
     }
 }

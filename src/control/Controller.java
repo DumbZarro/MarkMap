@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 public class Controller {
 
+
     @FXML
     private AnchorPane mindMapPane;
 
@@ -27,6 +28,9 @@ public class Controller {
 
     @FXML
     private Button MapToOutline;
+
+    @FXML
+    private Button OutlineToMap;
 
     @FXML
     void close(Event event) {
@@ -49,18 +53,45 @@ public class Controller {
     }
 
     @FXML
-    void OutlineToMap(Event event) {
+    void MapToOutline(Event event) {
         mindMapPane.setVisible(false);
+        MapToOutline.setStyle("-fx-background-color: rgb(230, 230, 231);\n" +
+                "    -fx-text-fill: black;\n" +
+                "    -fx-font-size: 25px;\n" +
+                "    -fx-border-width: 2px;\n" +
+                "    -fx-border-radius: 30px;\n" +
+                "    -fx-background-radius: 30px; -fx-font-weight: bold");
+        OutlineToMap.setStyle("-fx-background-color: rgb(244, 244, 244);\n" +
+                "    -fx-text-fill:rgb(125, 125, 125);\n" +
+                "    -fx-font-size: 25px;\n" +
+                "    -fx-border-width: 2px;\n" +
+                "    -fx-border-radius: 30px;\n" +
+                "    -fx-background-radius: 30px; ");
     }
 
     @FXML
-    void MapToOutline(Event event) {
+    void OutlineToMap(Event event) {
         mindMapPane.setVisible(true);
+        OutlineToMap.setStyle("-fx-background-color: rgb(230, 230, 231);\n" +
+                "    -fx-text-fill: black;\n" +
+                "    -fx-font-size: 25px;\n" +
+                "    -fx-border-width: 2px;\n" +
+                "    -fx-border-radius: 30px;\n" +
+                "    -fx-background-radius: 30px; -fx-font-weight: bold");
+        MapToOutline.setStyle("-fx-background-color: rgb(244, 244, 244);\n" +
+                "    -fx-text-fill: rgb(125, 125, 125);\n" +
+                "    -fx-font-size: 25px;\n" +
+                "    -fx-border-width: 2px;\n" +
+                "    -fx-border-radius: 30px;\n" +
+                "    -fx-background-radius: 30px;");
     }
 
     @FXML
     void newNode(Event event) {
-        Integer nodeId =  (int)(Math.random()*100);
+        int k;
+        while (Main.nodeService.getNodeList().get(k = (int)(Math.random()*10000)) ==null)
+            break;
+        Integer nodeId =  k;
         Integer parentId;
         if (Generator.selectedNodeNum!=1)
             parentId = Main.nodeService.getParentNodeById(Generator.selectedNodeNum).getId();//当选中节点不是中心节点时，给选中节点添加兄弟节点
@@ -70,9 +101,25 @@ public class Controller {
         Main.nodeService.addNode(parentId, nodeId,newNode);
         Main.treeService.setLayout();
         mindMapPane.getChildren().clear();
-        Main.nodeService.getNodeList().forEach((key,value)->{
-            Main.generator.showNode((MapNode) value);
-        });
-        Main.generator.drawLine();
+        Main.generator.showMap();
     }
+    @FXML
+    void newChildNode(Event event){
+        Integer parentId = Generator.selectedNodeNum;
+        int k;
+        while (Main.nodeService.getNodeList().get(k = (int)(Math.random()*10000)) ==null)
+            break;
+        Integer nodeId =  k;
+        MapNode newNode = new MapNode(nodeId);
+        Main.nodeService.addNode(parentId, nodeId,newNode);
+        Main.treeService.setLayout();
+        mindMapPane.getChildren().clear();
+        Main.generator.showMap();
+    }
+    @FXML
+    void extraLine(Event event){
+
+    }
+
+
 }

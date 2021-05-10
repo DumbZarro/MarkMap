@@ -89,8 +89,8 @@
                      </rotationAxis></AnchorPane>
               </content>
             </ScrollPane>
-            <Button layoutX="175.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#OutlineToMap" styleClass="mindAC" text="大纲" />
-            <Button fx:id="MapToOutline" layoutX="41.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#MapToOutline" styleClass="mindAC" text="思维导图" />
+            <Button fx:id="MapToOutline" layoutX="175.0" layoutY="13.0" mnemonicParsing="false" onAction="#MapToOutline" styleClass="mindAC" text="大纲" />
+            <Button fx:id="OutlineToMap" layoutX="41.0" layoutY="13.0" mnemonicParsing="false" onAction="#OutlineToMap" styleClass="mindAC" text="思维导图" />
             <Button layoutX="1146.0" layoutY="8.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="47.0" styleClass="chooseBut">
                <graphic>
                   <ImageView fitHeight="52.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
@@ -108,27 +108,10 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Pane layoutX="326.0" layoutY="-8.0" prefHeight="78.0" prefWidth="589.0">
+            <Pane layoutX="395.0" layoutY="-8.0" prefHeight="78.0" prefWidth="589.0">
                <children>
                   <Pane fx:id="butBox" layoutX="68.0" layoutY="8.0" prefHeight="63.0" prefWidth="453.0">
                      <children>
-                        <MenuBar layoutX="401.0" layoutY="7.0" prefHeight="2.0" prefWidth="21.0" styleClass="chooseBut">
-                           <menus>
-                              <Menu mnemonicParsing="false">
-                                 <items>
-                                    <MenuItem mnemonicParsing="false" text="Close">
-                                       <graphic>
-                                          <ImageView fitHeight="45.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@image/插入.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </MenuItem>
-                                 </items>
-                              </Menu>
-                           </menus>
-                        </MenuBar>
                         <Button layoutX="339.0" layoutY="7.0" mnemonicParsing="false" styleClass="chooseBut">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -156,7 +139,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button layoutX="147.0" layoutY="7.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="58.0" styleClass="chooseBut">
+                        <Button layoutX="147.0" layoutY="7.0" mnemonicParsing="false" onAction="#extraLine" prefHeight="33.0" prefWidth="58.0" styleClass="chooseBut">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -165,7 +148,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button layoutX="82.0" layoutY="7.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="35.0" styleClass="chooseBut">
+                        <Button layoutX="82.0" layoutY="7.0" mnemonicParsing="false" onAction="#newChildNode" prefHeight="40.0" prefWidth="35.0" styleClass="chooseBut">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -189,7 +172,6 @@
                   <Label layoutX="149.0" layoutY="65.0" styleClass="labelOfBut" text="子主题" />
                   <Label layoutX="295.0" layoutY="64.0" styleClass="labelOfBut" text="外框" />
                   <Label layoutX="417.0" layoutY="64.0" styleClass="labelOfBut" text="笔记" />
-                  <Label layoutX="477.0" layoutY="64.0" styleClass="labelOfBut" text="插入" />
                   <Label layoutX="357.0" layoutY="65.0" styleClass="labelOfBut" text="概要" />
                   <Label layoutX="227.0" layoutY="65.0" styleClass="labelOfBut" text="联系" />
                </children>
