@@ -61,15 +61,12 @@ public class Controller {
     @FXML
     void newNode(Event event) {
         Integer nodeId =  (int)(Math.random()*100);
-
         Integer parentId;
         if (Generator.selectedNodeNum!=1)
             parentId = Main.nodeService.getParentNodeById(Generator.selectedNodeNum).getId();//当选中节点不是中心节点时，给选中节点添加兄弟节点
         else
-            parentId = Generator.selectedNodeNum;
+            parentId = Generator.selectedNodeNum;//当选中节点为中心节点，给中心节点添加子节点
         MapNode newNode = new MapNode(nodeId);
-        System.out.println(parentId);
-        System.out.println(nodeId);
         Main.nodeService.addNode(parentId, nodeId,newNode);
         Main.treeService.setLayout();
         mindMapPane.getChildren().clear();

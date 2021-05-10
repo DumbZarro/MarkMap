@@ -39,7 +39,7 @@ public class Generator {
     }
 
     public void showNode(MapNode showNode){
-        AnchorPane MindMapPane = (AnchorPane)root.lookup("#mindMapPane");
+        MindMapPane = (AnchorPane)root.lookup("#mindMapPane");
         Rectangle nodeRectangle = new Rectangle(showNode.getWidth(),showNode.getHeight());
         nodeRectangle.setLayoutY(showNode.getTopY());
         nodeRectangle.setLayoutX(showNode.getLeftX());

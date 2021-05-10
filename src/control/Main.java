@@ -45,14 +45,17 @@ public class Main extends Application { // 创建服务
         nodeService.addNode(parentId,sonNode1.getId(),sonNode1);
         nodeService.addNode(parentId,sonNode2.getId(),sonNode2);
         nodeService.addNode(sonNode2.getId(),gransonNode.getId(),gransonNode);
-        nodeService.addNode(sonNode2.getId(),gransonNode1.getId(),gransonNode1);
+
+
         // 重新计算坐标
         treeService.getTree().setLayout("right");
         treeService.setLayout();
-
+        nodeService.addNode(sonNode2.getId(),gransonNode1.getId(),gransonNode1);
+        treeService.setLayout();
         generator = new Generator(nodeService,treeService,root);
-        HashMap nodeMap = nodeService.getNodeList();
-        nodeMap.forEach((key,value)->{
+
+
+        nodeService.getNodeList().forEach((key,value)->{
             generator.showNode((MapNode) value);
         });
         generator.drawLine();
