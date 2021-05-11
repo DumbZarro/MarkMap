@@ -24,7 +24,8 @@ public class Main extends Application { // 创建服务
     static Generator generator;
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../view/source/EditMindMap.fxml"));
+
+        Parent root = FXMLLoader.load(getClass().getResource("../EditMindMap.fxml"));
         primaryStage.setTitle("思维导图");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
