@@ -58,7 +58,9 @@ public class TreeServiceImpl implements TreeService {
     public void initBlockCounter() {//找出叶子节点并blockSize赋初值
         CounterQueue = new ArrayBlockingQueue<MapNode>(20);
         for (MapNode node : nodeService.getNodeList().values()) {
+            node.setCounter(0);
             if (node.getId()==getTree().getRootId()){ // 根节点初始size永远为0
+                node.setBlockSize(0);
                 continue;
             }
             // 子节点不可见而自己可见(叶子节点)
@@ -67,6 +69,10 @@ public class TreeServiceImpl implements TreeService {
                 node.setBlockSize(60);//这里的大小决定间距的大小
                 CounterQueue.add(node);
             }
+            else {
+                node.setBlockSize(0);
+            }
+
         }
     }
 
