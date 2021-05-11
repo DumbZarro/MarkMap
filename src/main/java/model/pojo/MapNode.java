@@ -16,7 +16,8 @@ public class MapNode {
     private Double leftX;   // 节点左上角的X坐标    [由MapTree来决定]
     private Double height;  // 节点的高度,一般都是一样高,超过最大宽度则变成两行高
     private Double width;   // 节点的宽度
-    private Integer blockSize;   // 块大小
+    private Integer blockHeight;   // 块高
+    private Integer blockWidth;     // 块宽
     private String cssClass;    // 节点的样式
     private Integer counter;    //用于计数
     private Boolean isVisible;  // 节点是否显示 懒加载有的节点加载而不显示  ********
@@ -24,15 +25,15 @@ public class MapNode {
     private Boolean isSonDisplay;  // 子节点是否显示 不可用子节点列表为空判断->可能只是没加载
     private Boolean isSelected; // 是否被选中
     private ArrayList<MapNode> extraEdge;   //除了父子间的线以外的关系线  将当前节点与列表中的节点分别连一根线
-    static Integer SCALE = 100; //长宽高的单位 用于缩放导图
+//    static Integer SCALE = 100; //默认高度 长宽高的单位 用于缩放导图
 
     public MapNode() {
-        this.content = "";
+        this.content = "新建节点";
         this.note = null;
         this.childrenId = new ArrayList<>();//节点列表要初始化
-        this.height = SCALE*1.;
+        this.height = 100*1.;   // TODO 解决初始化高度
         this.width = 2 * height;
-        this.blockSize = 0;
+        this.blockHeight = 0;
         this.cssClass = "default";
         this.counter = 0;
         this.isVisible = true;
@@ -41,6 +42,7 @@ public class MapNode {
         this.extraEdge = null;
         this.leftX=0.;
         this.topY=0.;
+        this.level=0;
     }
 
     public MapNode(int Id, double leftX, double topY) {
@@ -135,12 +137,12 @@ public class MapNode {
         this.width = width;
     }
 
-    public Integer getBlockSize() {
-        return blockSize;
+    public Integer getBlockHeight() {
+        return blockHeight;
     }
 
-    public void setBlockSize(Integer blockSize) {
-        this.blockSize = blockSize;
+    public void setBlockHeight(Integer blockHeight) {
+        this.blockHeight = blockHeight;
     }
 
     public String getCssClass() {
@@ -199,12 +201,12 @@ public class MapNode {
         this.extraEdge = extraEdge;
     }
 
-    public static Integer getSCALE() {
-        return SCALE;
+    public Integer getBlockWidth() {
+        return blockWidth;
     }
 
-    public static void setSCALE(Integer SCALE) {
-        MapNode.SCALE = SCALE;
+    public void setBlockWidth(Integer blockWidth) {
+        this.blockWidth = blockWidth;
     }
 
     @Override
@@ -213,14 +215,15 @@ public class MapNode {
                 "Id=" + Id +
                 ", content='" + content + '\'' +
                 ", note='" + note + '\'' +
-                ", childrensId=" + childrenId +
+                ", childrenId=" + childrenId +
                 ", parentId=" + parentId +
                 ", level=" + level +
                 ", topY=" + topY +
                 ", leftX=" + leftX +
                 ", height=" + height +
                 ", width=" + width +
-                ", blockSize=" + blockSize +
+                ", blockHeight=" + blockHeight +
+                ", blockWidth=" + blockWidth +
                 ", cssClass='" + cssClass + '\'' +
                 ", counter=" + counter +
                 ", isVisible=" + isVisible +
@@ -230,5 +233,4 @@ public class MapNode {
                 ", extraEdge=" + extraEdge +
                 '}';
     }
-
 }

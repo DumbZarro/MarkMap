@@ -11,6 +11,7 @@ import java.util.HashMap;
  */
 public class NodeServiceImpl implements NodeService {
     private HashMap<Integer, MapNode> nodeList;
+    private Integer SCALE =100;
 
     public NodeServiceImpl() {
         nodeList = new HashMap<Integer, MapNode>();
@@ -19,12 +20,21 @@ public class NodeServiceImpl implements NodeService {
         nodeList.put(centerNode.getId(), centerNode);
     }
 
+
     public NodeServiceImpl(HashMap<Integer, MapNode> nodeList) {
         this.nodeList = nodeList;
     }
 
     public HashMap<Integer, MapNode> getNodeList() {
         return nodeList;
+    }
+
+    public Integer getSCALE() {
+        return SCALE;
+    }
+
+    public void setSCALE(Integer SCALE) {
+        this.SCALE = SCALE;
     }
 
     public void setNodeList(HashMap<Integer, MapNode> nodeList) {
@@ -109,5 +119,12 @@ public class NodeServiceImpl implements NodeService {
         return getNodeById(getParentIdById(id));
     }
 
+
+    public Integer getDefaultHeight(){
+        return SCALE;
+    }
+    public Integer getDefaultWidth(){
+        return getDefaultHeight()*2;
+    }
 
 }

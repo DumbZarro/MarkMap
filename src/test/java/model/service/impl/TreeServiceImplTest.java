@@ -1,9 +1,6 @@
 package model.service.impl;
 
 import model.pojo.MapNode;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Description: 测试TreeService
@@ -26,7 +23,7 @@ public class TreeServiceImplTest {
         nodeService.addNode(parentId, sonNode.getId(), sonNode);
         nodeService.addNode(parentId, sonNode1.getId(), sonNode1);
         // 重新计算坐标
-        treeService.setLayout();
+        treeService.updateLayout();
     }
 
 }
