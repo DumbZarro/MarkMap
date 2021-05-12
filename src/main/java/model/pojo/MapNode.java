@@ -1,5 +1,7 @@
 package model.pojo;
 
+import org.bson.codecs.pojo.annotations.BsonId;
+
 import java.util.ArrayList;
 
 /**
@@ -20,13 +22,15 @@ public class MapNode {
     private Integer blockWidth;     // 块宽
     private String cssClass;    // 节点的样式
     private Integer counter;    //用于计数
+
+    private Boolean flag;   //标志位,主要用于判断节点是否计算了blockWidth
+
     private Boolean isVisible;  // 节点是否显示 懒加载有的节点加载而不显示  ********
     private Boolean isAlong;    // 孤立 无父无子  [由MapTree来决定]
     private Boolean isSonDisplay;  // 子节点是否显示 不可用子节点列表为空判断->可能只是没加载
     private Boolean isSelected; // 是否被选中
     private ArrayList<MapNode> extraEdge;   //除了父子间的线以外的关系线  将当前节点与列表中的节点分别连一根线
 //    static Integer SCALE = 100; //默认高度 长宽高的单位 用于缩放导图
-
     public MapNode() {
         this.content = "新建节点";
         this.note = null;
@@ -43,6 +47,7 @@ public class MapNode {
         this.leftX=0.;
         this.topY=0.;
         this.level=0;
+        this.flag = false;
     }
 
     public MapNode(int Id, double leftX, double topY) {
@@ -52,17 +57,17 @@ public class MapNode {
         this.topY = topY;
 
     }
+
     public MapNode(int Id) {
         this();
         this.Id = Id;
     }
-
     public int getId() {
         return Id;
     }
 
-    public void setId(int id) {
-        Id = id;
+    public void setId(int Id) {
+        this.Id = Id;
     }
 
     public String getContent() {
@@ -159,6 +164,14 @@ public class MapNode {
 
     public void setCounter(Integer counter) {
         this.counter = counter;
+    }
+
+    public Boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
     }
 
     public Boolean getVisible() {

@@ -3,11 +3,9 @@ package model.dao;
 import java.util.List;
 
 /**
- * Description: 打算用Neo4j 暂时都是空实现
+ * Description: MongoDB的增删改查
  */
 public abstract class BaseDao {
-    //使用DbUtils操作数据库
-//    private QueryRunner queryRunner = new QueryRunner();
 
     /**
      * update() 方法用来执行：Insert\Update\Delete语句

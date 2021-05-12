@@ -48,7 +48,7 @@ public class Main extends Application { // 创建服务
         nodeService.addNode(sonNode2.getId(),gransonNode1.getId(),gransonNode1);
         treeService.updateLayout();
         generator = new Generator(nodeService,treeService,root);
-
+//        treeService.saveToCloud();
 
         nodeService.getNodeList().forEach((key,value)->{
             generator.showNode((MapNode) value);
