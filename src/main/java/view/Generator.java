@@ -60,8 +60,8 @@ public class Generator {
         text.setText(showNode.getContent());
         text.setLayoutX(showNode.getLeftX());
         text.setLayoutY(showNode.getTopY());
-        text.setPrefHeight(100);
-        text.setPrefWidth(200);
+        text.setPrefHeight(nodeService.getDefaultHeight());
+        text.setPrefWidth(nodeService.getDefaultWidth());
         text.setStyle("-fx-font-size: 15px;-fx-border-radius: 15;\n" +
                     "    -fx-background-radius: 15; -fx-font-weight: bold;");
         text.setVisible(true);

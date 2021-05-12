@@ -1,6 +1,5 @@
 package control;
 
-import javafx.application.Application;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -11,8 +10,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.pojo.MapNode;
 import view.Generator;
-
-import java.util.HashMap;
 
 public class Controller {
 
@@ -99,7 +96,7 @@ public class Controller {
             parentId = Generator.selectedNodeNum;//当选中节点为中心节点，给中心节点添加子节点
         MapNode newNode = new MapNode(nodeId);
         Main.nodeService.addNode(parentId, nodeId,newNode);
-        Main.treeService.setLayout();
+        Main.treeService.updateLayout();
         mindMapPane.getChildren().clear();
         Main.generator.showMap();
     }

@@ -81,9 +81,9 @@
       </Pane>
       <Pane layoutY="38.0" prefHeight="690.0" prefWidth="1288.0">
          <children>
-            <ScrollPane layoutY="79.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="1280.0">
+            <ScrollPane layoutY="79.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1280.0">
               <content>
-                <AnchorPane fx:id="mindMapPane" layoutX="111.0" layoutY="1110.0" minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="2500.0" styleClass="MAPpane" translateX="-11.0">
+                <AnchorPane fx:id="mindMapPane" layoutX="111.0" layoutY="1110.0" minHeight="0.0" minWidth="0.0" prefHeight="1600.0" prefWidth="1280.0" styleClass="MAPpane" translateX="-11.0">
                      <rotationAxis>
                         <Point3D />
                      </rotationAxis></AnchorPane>

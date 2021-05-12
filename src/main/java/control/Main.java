@@ -1,20 +1,14 @@
 package control;
 
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.pojo.MapNode;
 import model.service.impl.NodeServiceImpl;
 import model.service.impl.TreeServiceImpl;
 import view.Generator;
-
-import java.util.HashMap;
 
 public class Main extends Application { // 创建服务
     static NodeServiceImpl nodeService = new NodeServiceImpl();
@@ -27,6 +21,7 @@ public class Main extends Application { // 创建服务
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
+
 
         MapNode parentNode = treeService.getRootNode();
         // 创建新的节点,以及找到父节点
@@ -49,8 +44,9 @@ public class Main extends Application { // 创建服务
 
         // 重新计算坐标
         treeService.getTree().setLayout("right");
+//        nodeService.setSCALE(50);//TODO 放缩
         nodeService.addNode(sonNode2.getId(),gransonNode1.getId(),gransonNode1);
-        treeService.setLayout();
+        treeService.updateLayout();
         generator = new Generator(nodeService,treeService,root);
 
 
