@@ -22,9 +22,8 @@ public class MapNode {
     private Integer blockWidth;     // 块宽
     private String cssClass;    // 节点的样式
     private Integer counter;    //用于计数
-
+    private Boolean haveBlock;  //是否有外框
     private Boolean flag;   //标志位,主要用于判断节点是否计算了blockWidth
-
     private Boolean isVisible;  // 节点是否显示 懒加载有的节点加载而不显示  ********
     private Boolean isAlong;    // 孤立 无父无子  [由MapTree来决定]
     private Boolean isSonDisplay;  // 子节点是否显示 不可用子节点列表为空判断->可能只是没加载
@@ -48,6 +47,7 @@ public class MapNode {
         this.topY=0.;
         this.level=0;
         this.flag = false;
+        this.haveBlock=false;
     }
 
     public MapNode(int Id, double leftX, double topY) {
@@ -222,6 +222,14 @@ public class MapNode {
         this.blockWidth = blockWidth;
     }
 
+    public Boolean getHaveBlock() {
+        return haveBlock;
+    }
+
+    public void setHaveBlock(Boolean haveBlock) {
+        this.haveBlock = haveBlock;
+    }
+
     @Override
     public String toString() {
         return "MapNode{" +
@@ -239,6 +247,8 @@ public class MapNode {
                 ", blockWidth=" + blockWidth +
                 ", cssClass='" + cssClass + '\'' +
                 ", counter=" + counter +
+                ", haveBlock=" + haveBlock +
+                ", flag=" + flag +
                 ", isVisible=" + isVisible +
                 ", isAlong=" + isAlong +
                 ", isSonDisplay=" + isSonDisplay +

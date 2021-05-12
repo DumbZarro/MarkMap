@@ -1,16 +1,11 @@
 package model.dao.impl;
 
-
 import com.alibaba.fastjson.JSONObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
 import model.dao.BaseDao;
-
 import model.pojo.MapNode;
-
 import model.utils.JdbcUtils;
 import org.bson.Document;
 
@@ -92,7 +87,6 @@ public class MindMapDaoImpl extends BaseDao {
             nodeList.put(node.getId(), node);
         }
         System.out.println(JSONObject.toJSONString(nodeList));
-        nodeList.values();
     }
 
 
