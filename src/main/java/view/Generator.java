@@ -82,7 +82,11 @@ public class Generator {
 
     }
     public void drawLine(){
-        notYetDrawPStack.push(nodeService.getNodeById(1));
+        MapNode rootNode = treeService.getRootNode();
+        notYetDrawPStack.push(rootNode);
+        if(!rootNode.getSonDisplay()){//父节点没有可见子节点就不要划线了
+            return;
+        }
         String layout = treeService.getTree().getLayout();
         while(!notYetDrawPStack.empty()){
             MapNode notYetDrawP = notYetDrawPStack.pop();//有子节点的节点出栈

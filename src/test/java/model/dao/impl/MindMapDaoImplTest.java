@@ -23,11 +23,11 @@ public class MindMapDaoImplTest {
         MapNode parentNode = treeService.getRootNode();
         // 创建新的节点,以及找到父节点
         Integer parentId = treeService.getTree().getRootId();
-        MapNode sonNode0 = new MapNode(2);
-        MapNode sonNode1 = new MapNode(3);
-        MapNode sonNode2 = new MapNode(4);
-        MapNode gransonNode =  new MapNode(5);
-        MapNode gransonNode1 =  new MapNode(6);
+        MapNode sonNode0 = new MapNode(2,nodeService.getDefaultHeight(),nodeService.getDefaultWidth());
+        MapNode sonNode1 = new MapNode(3,nodeService.getDefaultHeight(),nodeService.getDefaultWidth());
+        MapNode sonNode2 = new MapNode(4,nodeService.getDefaultHeight(),nodeService.getDefaultWidth());
+        MapNode gransonNode =  new MapNode(5,nodeService.getDefaultHeight(),nodeService.getDefaultWidth());
+        MapNode gransonNode1 =  new MapNode(6,nodeService.getDefaultHeight(),nodeService.getDefaultWidth());
         sonNode0.setContent("66666");
         sonNode1.setContent("22222");
         sonNode2.setContent("333412433");

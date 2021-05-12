@@ -48,7 +48,7 @@ public class Main extends Application {
 
         // 重新计算坐标
         treeService.getTree().setLayout("right");
-//        nodeService.setSCALE(50);//TODO 放缩
+        nodeService.changeNodeSize(100);//TODO 放缩
 //        nodeService.addNode(sonNode2.getId(),gransonNode1.getId(),gransonNode1);
         treeService.updateLayout();
         generator = new Generator(nodeService,treeService,root);

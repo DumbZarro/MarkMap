@@ -16,8 +16,8 @@ public class MapNode {
     private Integer level;   // 节点的级别 也就是深度(以树的角度来看) [由MapTree来决定] ********
     private Double topY;    // 节点左上角的Y坐标    [由MapTree来决定]
     private Double leftX;   // 节点左上角的X坐标    [由MapTree来决定]
-    private Double height;  // 节点的高度,一般都是一样高,超过最大宽度则变成两行高
-    private Double width;   // 节点的宽度
+    private Double height=0.;  // 节点的高度,一般都是一样高,超过最大宽度则变成两行高
+    private Double width=0.;   // 节点的宽度
     private Integer blockHeight;   // 块高
     private Integer blockWidth;     // 块宽
     private String cssClass;    // 节点的样式
@@ -29,13 +29,12 @@ public class MapNode {
     private Boolean isSonDisplay;  // 子节点是否显示 不可用子节点列表为空判断->可能只是没加载
     private Boolean isSelected; // 是否被选中
     private ArrayList<MapNode> extraEdge;   //除了父子间的线以外的关系线  将当前节点与列表中的节点分别连一根线
-//    static Integer SCALE = 100; //默认高度 长宽高的单位 用于缩放导图
+    private Integer SCALE = 100; //默认高度 长宽高的单位 用于缩放导图
+
     public MapNode() {
         this.content = "新建节点";
         this.note = null;
         this.childrenId = new ArrayList<>();//节点列表要初始化
-        this.height = 100*1.;   // TODO 解决初始化高度
-        this.width = 2 * height;
         this.blockHeight = 0;
         this.cssClass = "default";
         this.counter = 0;
@@ -50,17 +49,12 @@ public class MapNode {
         this.haveBlock=false;
     }
 
-    public MapNode(int Id, double leftX, double topY) {
+
+    public MapNode(int Id,double height,double width) {
         this();
         this.Id = Id;
-        this.leftX = leftX;
-        this.topY = topY;
-
-    }
-
-    public MapNode(int Id) {
-        this();
-        this.Id = Id;
+        this.height=height;
+        this.width=width;
     }
     public int getId() {
         return Id;
@@ -228,6 +222,14 @@ public class MapNode {
 
     public void setHaveBlock(Boolean haveBlock) {
         this.haveBlock = haveBlock;
+    }
+
+    public Integer getSCALE() {
+        return SCALE;
+    }
+
+    public void setSCALE(Integer SCALE) {
+        this.SCALE = SCALE;
     }
 
     @Override
