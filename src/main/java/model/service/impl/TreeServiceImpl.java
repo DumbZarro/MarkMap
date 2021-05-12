@@ -135,7 +135,7 @@ public class TreeServiceImpl implements TreeService {
             case "right" -> rightLayout();
             case "left" -> leftLayout();
         }
-
+        this.saveToCloud();//每次更新保存一次
     }
 
     private void rightLayout() {

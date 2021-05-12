@@ -1,5 +1,6 @@
 package model.service.impl;
 
+import model.dao.impl.MindMapDaoImpl;
 import model.pojo.MapNode;
 import model.service.NodeService;
 
@@ -10,19 +11,20 @@ import java.util.HashMap;
  * Description:
  */
 public class NodeServiceImpl implements NodeService {
-    private HashMap<Integer, MapNode> nodeList;
+    private HashMap<Integer, MapNode> nodeList= new HashMap<Integer, MapNode>();
+    MindMapDaoImpl dataBaseService;
     private Integer SCALE =100;
 
     public NodeServiceImpl() {
-        nodeList = new HashMap<Integer, MapNode>();
         MapNode centerNode= new MapNode(1);
         centerNode.setContent("中心节点");
         nodeList.put(centerNode.getId(), centerNode);
     }
 
-
-    public NodeServiceImpl(HashMap<Integer, MapNode> nodeList) {
-        this.nodeList = nodeList;
+    public NodeServiceImpl(MindMapDaoImpl dataBaseService){// 数据库服务的初始化方式
+        this.dataBaseService=dataBaseService;
+        dataBaseService.loadMap(this.nodeList);
+        System.out.println(this.nodeList);
     }
 
     public HashMap<Integer, MapNode> getNodeList() {

@@ -6,6 +6,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import model.dao.BaseDao;
 import model.pojo.MapNode;
+import model.service.impl.NodeServiceImpl;
 import model.utils.JdbcUtils;
 import org.bson.Document;
 
@@ -19,8 +20,10 @@ public class MindMapDaoImpl extends BaseDao {
     private MongoCollection<Document> coll;
 
     public MindMapDaoImpl() {//一个用户对应一个数据库 一个collection对应一个思维导图
-        this.coll = JdbcUtils.getCollection("mindMap","map");
+//        this.coll = JdbcUtils.getCollection("mindMap","map");//云端
+        this.coll = JdbcUtils.getCollection("testCollection","myCollection");
     }
+
 
     public MindMapDaoImpl(String dbName) {
         this.coll = JdbcUtils.getCollection(dbName,"map");//默认导图
@@ -88,7 +91,6 @@ public class MindMapDaoImpl extends BaseDao {
         }
         System.out.println(JSONObject.toJSONString(nodeList));
     }
-
 
 
 
