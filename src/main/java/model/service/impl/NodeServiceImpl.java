@@ -75,8 +75,9 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public void deleteNode(Integer id) {
-        nodeList.remove(id);//删除自己
+
         getChildrenIdById(getParentIdById(id)).remove(id);//删除父节点记录
+        nodeList.remove(id);//删除自己
         for (Integer childrenId : getChildrenIdById(id)) {//循环删除子节点
             deleteNode(childrenId);
         }

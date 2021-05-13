@@ -11,6 +11,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -65,17 +67,27 @@ public class Main extends Application {
                     Pane butPane = (Pane) scene.getRoot().lookup("#butPane");
                     Pane butBox = (Pane) scene.getRoot().lookup("#butBox");
                     Pane layoutPane = (Pane) scene.getRoot().lookup("#layoutPane");
+                    Pane treePane = (Pane) scene.getRoot().lookup("#treePane");
+                    SplitPane splitPane = (SplitPane)  scene.getRoot().lookup("#splitPane");
+                    TreeView<String> treeView = (TreeView)  scene.getRoot().lookup("#treeView");
 
-                    allPane.setMaxHeight(primaryStage.getHeight());
+                    allPane.setMaxHeight(primaryStage.getHeight());//设置最底下的平面
                     allPane.setMaxWidth(primaryStage.getWidth());
-                    topPane.setPrefSize(allPane.getWidth(), 0.04 * allPane.getHeight());
-                    bottomPane.setPrefSize(allPane.getWidth(), 0.96 * allPane.getHeight());
+                    topPane.setPrefSize(allPane.getWidth(), 0.04 * allPane.getHeight());//设置上方平面
+                    bottomPane.setPrefSize(allPane.getWidth(), 0.96 * allPane.getHeight());//设置下方平面
+                    splitPane.setPrefHeight(allPane.getHeight() * 5 / 6);//设置分割的平面
+                    splitPane.setPrefWidth(allPane.getWidth());
                     scrollPane.setPrefHeight(allPane.getHeight() * 5 / 6);
-                    scrollPane.setPrefWidth(allPane.getWidth());
+                    scrollPane.setPrefWidth(allPane.getWidth()*3/4);
+                    treePane.setPrefHeight(allPane.getHeight() * 5 / 6);
+                    treePane.setPrefWidth(allPane.getWidth()*1/4);
+                    treeView.setPrefHeight(allPane.getHeight() * 5 / 6);
+                    treeView.setPrefWidth(allPane.getWidth()*1/4);
                     butPane.setLayoutX(allPane.getWidth() / 2 - 204);
                     butBox.setLayoutX(allPane.getWidth() - 165);
                     butPane.setLayoutY(-8);
                     layoutPane.setLayoutX(allPane.getWidth() - 191);
+
                 }
             });
         }
@@ -85,7 +97,7 @@ public class Main extends Application {
 
     private void initialize() {
         treeService.getTree().setLayout("right");
-        nodeService.changeNodeSize(50);
+        nodeService.changeNodeSize(100);
         treeService.updateLayout();
 
         generator = new Generator(nodeService, treeService, root);

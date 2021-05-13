@@ -47,7 +47,17 @@
                <menus>
                   <Menu mnemonicParsing="false" text="文件">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                        <Menu mnemonicParsing="false" text="导出">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#outputPNG" text="导出PNG格式" />
+                              <MenuItem mnemonicParsing="false" text="导出MarkDown格式" />
+                           </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="导入">
+                           <items>
+                              <MenuItem mnemonicParsing="false" text="导入" />
+                           </items>
+                        </Menu>
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="编辑">
@@ -81,17 +91,9 @@
       </Pane>
       <Pane fx:id="bottomPane" layoutY="38.0" maxHeight="730.0" maxWidth="2500.0" prefHeight="690.0" prefWidth="1288.0">
          <children>
-            <ScrollPane fx:id="scrollPane" layoutY="79.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1280.0">
-              <content>
-                <AnchorPane fx:id="mindMapPane" layoutX="111.0" layoutY="1110.0" minHeight="0.0" minWidth="0.0" onMouseMoved="#checkMousePosition" prefHeight="1600.0" prefWidth="2500.0" styleClass="MAPpane" translateX="-11.0">
-                     <rotationAxis>
-                        <Point3D />
-                     </rotationAxis></AnchorPane>
-              </content>
-            </ScrollPane>
             <Button fx:id="MapToOutline" layoutX="175.0" layoutY="13.0" mnemonicParsing="false" onAction="#MapToOutline" styleClass="mindAC" text="大纲" />
             <Button fx:id="OutlineToMap" layoutX="41.0" layoutY="13.0" mnemonicParsing="false" onAction="#OutlineToMap" styleClass="mindAC" text="思维导图" />
-            <Pane fx:id="butPane" layoutX="436.0" layoutY="2.0" prefHeight="74.0" prefWidth="408.0">
+            <Pane fx:id="butPane" layoutX="436.0" layoutY="2.0" prefHeight="74.0" prefWidth="458.0">
                <children>
                   <Button layoutX="339.0" layoutY="7.0" mnemonicParsing="false" styleClass="chooseBut">
                      <graphic>
@@ -111,7 +113,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button layoutX="211.0" layoutY="7.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="48.0" styleClass="chooseBut">
+                  <Button layoutX="211.0" layoutY="7.0" mnemonicParsing="false" onAction="#outLineBorder" prefHeight="37.0" prefWidth="48.0" styleClass="chooseBut">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -153,6 +155,13 @@
                   <Label layoutX="157.0" layoutY="60.0" styleClass="labelOfBut" text="联系" />
                   <Label layoutX="85.0" layoutY="60.0" styleClass="labelOfBut" text="子主题" />
                   <Label layoutX="28.0" layoutY="60.0" styleClass="labelOfBut" text="主题" />
+                  <Button layoutX="399.0" layoutY="7.0" mnemonicParsing="false" onAction="#deleteNode" styleClass="chooseBut" />
+                  <ImageView fitHeight="20.0" fitWidth="23.0" layoutX="411.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../target/classes/image/减号.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="391.0" layoutY="60.0" styleClass="labelOfBut" text="删除主题" />
                </children>
             </Pane>
             <Pane fx:id="layoutPane" layoutX="1089.0" layoutY="2.0" prefHeight="74.0" prefWidth="191.0">
@@ -165,6 +174,24 @@
                   <Label layoutX="118.0" layoutY="57.0" styleClass="labelOfBut" text="中心布局" />
                </children>
             </Pane>
+            <SplitPane fx:id="splitPane" dividerPositions="0.5" layoutX="1.0" layoutY="81.0" prefHeight="603.0" prefWidth="1280.0">
+               <items>
+                  <ScrollPane fx:id="scrollPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="960.0">
+                     <content>
+                        <AnchorPane fx:id="mindMapPane" layoutX="111.0" layoutY="1110.0" minHeight="0.0" minWidth="0.0" onMouseMoved="#checkMousePosition" prefHeight="1600.0" prefWidth="2500.0" styleClass="MAPpane" translateX="-11.0">
+                           <rotationAxis>
+                              <Point3D />
+                           </rotationAxis>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+                  <Pane fx:id="treePane" prefHeight="601.0" prefWidth="320.0">
+                     <children>
+                        <TreeView fx:id="treeView" prefHeight="601.0" prefWidth="310.0" />
+                     </children>
+                  </Pane>
+               </items>
+            </SplitPane>
          </children>
       </Pane>
    </children>

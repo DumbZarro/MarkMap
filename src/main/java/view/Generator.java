@@ -2,10 +2,13 @@ package view;
 
 import com.sun.source.tree.Tree;
 import control.Controller;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -44,18 +47,23 @@ public class Generator {
     }
     //画图
     public void showMap(){
+        MindMapPane.getChildren().clear();
         nodeService.getNodeList().forEach((key,value)->{
-            showNode((MapNode) value);
+            if (value.getVisible()) {
+                showNode((MapNode) value);
+                System.out.println(131);
+            }
+            System.out.println(value.getVisible());
         });
         drawLine();
-
+        treeView();
     }
     //    展示showNode
     private void showNode(MapNode showNode){
         MindMapPane = (AnchorPane)root.lookup("#mindMapPane");
         Rectangle nodeRectangle = nodeSelectedRectangle(showNode);//假若该节点被选中的长方形
         TextField text = nodeInputRectangle(showNode);
-
+        Button sonVisibleNodeBut = storeButInit(showNode);
         if (showNode.getExtraEdge()!=null)//当前显示节点有额外边的话调用画额外边的函数
             for (MapNode extraTargetNode: showNode.getExtraEdge()){
                 drawextraLine(showNode,extraTargetNode);
@@ -92,7 +100,7 @@ public class Generator {
 
         MindMapPane.getChildren().add(nodeRectangle);
         MindMapPane.getChildren().add(text);
-
+        MindMapPane.getChildren().add(sonVisibleNodeBut);
     }
     //    画线
     public void drawLine(){
@@ -139,6 +147,8 @@ public class Generator {
         MINY = nodeService.getNodeById(childList.get(0)).getTopY();
         for (int i = 0; i<childList.size();i++){
             MapNode currentNode = nodeService.getNodeById(childList.get(i));
+            if (!currentNode.getVisible())
+                continue;
             if (currentNode.getTopY()>MAXY){
                 MAXY = currentNode.getTopY();
             }
@@ -165,6 +175,8 @@ public class Generator {
         MINY = nodeService.getNodeById(childList.get(0)).getTopY();
         for (int i = 0; i < childList.size(); i++) {
             MapNode currentNode = nodeService.getNodeById(childList.get(i));
+            if (!currentNode.getVisible())
+                continue;
             if (currentNode.getTopY() > MAXY) {
                 MAXY = currentNode.getTopY();
             }
@@ -212,6 +224,7 @@ public class Generator {
         text.setLayoutY(showNode.getTopY());
         text.setPrefHeight(showNode.getHeight());
         text.setPrefWidth(showNode.getWidth());
+        text.setPrefColumnCount(1);
         text.setStyle("-fx-font-size: 15px;-fx-border-radius: 15;\n" +
                 "    -fx-background-radius: 15; -fx-font-weight: bold;");
         text.setVisible(true);
@@ -235,4 +248,57 @@ public class Generator {
             nodeRectangle.setVisible(true);
         return nodeRectangle;
     }
+    private Button storeButInit(MapNode showNode){
+        Button storeBut = new Button();
+        storeBut.setStyle("-fx-background-color: rgb(255, 199, 0);\n" +
+                "    -fx-border-radius: 10px;\n" +
+                "    -fx-background-radius: 10px;\n" +
+                "    -fx-effect: dropshadow(one-pass-box, #72b9da, 10.0,0, 0, 0);\n" +
+                "    -fx-pref-width: 20px;\n" +
+                "    -fx-pref-height: 20px;");
+        storeBut.setLayoutX(showNode.getLeftX()+showNode.getWidth()/2-10);
+        storeBut.setLayoutY(showNode.getTopY()-20);
+
+        storeBut.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (showNode.getSonDisplay()){
+                    showNode.setSonDisplay(false);
+                    for (Integer sonNodeID:
+                            showNode.getChildrenId()) {
+                        nodeService.getNodeById(sonNodeID).setVisible(false);
+                    }
+                    treeService.updateLayout();
+                }
+                else {
+                    showNode.setSonDisplay(true);
+                    for (Integer sonNodeID:
+                            showNode.getChildrenId()) {
+                        nodeService.getNodeById(sonNodeID).setVisible(true);
+                    }
+                    treeService.updateLayout();
+                }
+                showMap();
+            }
+        });
+        return  storeBut;
+    }
+    private void treeView(){
+        MapNode rootNode = treeService.getRootNode();
+        TreeView<String> treeView = (TreeView)  root.lookup("#treeView");
+        HashMap<Integer,TreeItem> searchMap = new HashMap<>();
+        nodeService.getNodeList().forEach((key,value)->{
+            TreeItem<String> item = new TreeItem<>(value.getContent());
+            item.setExpanded(true);
+            searchMap.put(value.getId(),item);
+        });
+        nodeService.getNodeList().forEach((key,value)->{
+            TreeItem item = searchMap.get(value.getId());
+            if (value.getParentId()!=null) {
+                TreeItem parentItem = searchMap.get(value.getParentId());
+                parentItem.getChildren().add(item);
+            }
+        });
+        treeView.setRoot(searchMap.get(1));
+     }
 }
