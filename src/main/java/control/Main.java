@@ -24,9 +24,9 @@ import view.Generator;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Objects;
 
-public class Main extends Application { // 创建服务
-    static NodeServiceImpl nodeService = new NodeServiceImpl();
+
 public class Main extends Application {
     // 创建服务
     static MindMapDaoImpl dataBaseService = new MindMapDaoImpl("map");  //打开思维导图
@@ -37,7 +37,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        root = FXMLLoader.load(getClass().getResource("../EditMindMap.fxml"));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../EditMindMap.fxml")));
         primaryStage.setTitle("思维导图");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
@@ -84,26 +84,8 @@ public class Main extends Application {
     }
 
     private void initialize() {
-        MapNode parentNode = treeService.getRootNode();
-        // 创建新的节点,以及找到父节点
-        Integer parentId = treeService.getTree().getRootId();
-        MapNode sonNode0 = new MapNode(2);
-        MapNode sonNode1 = new MapNode(3);
-        MapNode sonNode2 = new MapNode(4);
-        sonNode0.setContent("11111");
-        sonNode1.setContent("22222");
-        sonNode2.setContent("33333");
-
-        nodeService.setSCALE(50);
-        // 添加节点
-        nodeService.addNode(parentId, sonNode0.getId(), sonNode0);
-        nodeService.addNode(parentId, sonNode1.getId(), sonNode1);
-        nodeService.addNode(parentId, sonNode2.getId(), sonNode2);
-
-        // 重新计算坐标
-        treeService.getTree().setLayout("left");
         treeService.getTree().setLayout("right");
-        nodeService.changeNodeSize(50);//能缩放了
+        nodeService.changeNodeSize(50);
         treeService.updateLayout();
 
         generator = new Generator(nodeService, treeService, root);

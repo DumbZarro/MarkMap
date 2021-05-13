@@ -5,6 +5,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
@@ -132,7 +133,7 @@ public class Controller {
         while (Main.nodeService.getNodeList().get(k = (int)(Math.random()*10000)) ==null)
             break;
         Integer nodeId =  k;
-        MapNode newNode = new MapNode(nodeId);
+        MapNode newNode = new MapNode(nodeId,Main.nodeService.getDefaultHeight(),Main.nodeService.getDefaultWidth());
         Main.nodeService.addNode(parentId, nodeId,newNode);
 
         if (Main.treeService.getRootNode().getBlockHeight()*2>mindMapPane.getHeight()){

@@ -95,8 +95,6 @@ public class Generator {
 
     }
     //    画线
-    private void drawLine(){
-        notYetDrawPStack.push(nodeService.getNodeById(1));
     public void drawLine(){
         MapNode rootNode = treeService.getRootNode();
         notYetDrawPStack.push(rootNode);
@@ -114,7 +112,7 @@ public class Generator {
                     parNodeLine.setStroke(Color.rgb(104, 151, 187));
                     parNodeLine.setStrokeWidth(6);
                     MindMapPane.getChildren().add(parNodeLine);
-                    Line veriticalLineRight = new Line(notYetDrawP.getLeftX()+notYetDrawP.getWidth()+20,maxAndMinY.get(0)+notYetDrawP.getHeight()/2,notYetDrawP.getLeftX()+notYetDrawP.getWidth()+20,maxAndMinY.get(1)+notYetDrawP.getHeight()/2);//链接所有节点的竖线
+                    Line veriticalLineRight = new Line(notYetDrawP.getLeftX()+notYetDrawP.getWidth()+(nodeService.getNodeById(childList.get(0)).getLeftX()-notYetDrawP.getLeftX()-notYetDrawP.getWidth())/2,maxAndMinY.get(0)+notYetDrawP.getHeight()/2,notYetDrawP.getLeftX()+notYetDrawP.getWidth()+(nodeService.getNodeById(childList.get(0)).getLeftX()-notYetDrawP.getLeftX()-notYetDrawP.getWidth())/2,maxAndMinY.get(1)+notYetDrawP.getHeight()/2);//链接所有节点的竖线
                     veriticalLineRight.setStroke(Color.rgb(104, 151, 187));
                     veriticalLineRight.setStrokeWidth(6);
                     MindMapPane.getChildren().add(veriticalLineRight);
@@ -125,7 +123,7 @@ public class Generator {
                     parNodeLineleft.setStroke(Color.rgb(104, 151, 187));
                     parNodeLineleft.setStrokeWidth(6);
                     MindMapPane.getChildren().add(parNodeLineleft);
-                    Line veriticalLineLeft = new Line(notYetDrawP.getLeftX()-20,maxAndMinY.get(0)+notYetDrawP.getHeight()/2,notYetDrawP.getLeftX()-20,maxAndMinY.get(1)+notYetDrawP.getHeight()/2);//链接所有节点的竖线
+                    Line veriticalLineLeft = new Line(notYetDrawP.getLeftX()-(notYetDrawP.getLeftX()-(nodeService.getNodeById(childList.get(0))).getLeftX()-(nodeService.getNodeById(childList.get(0))).getWidth())/2,maxAndMinY.get(0)+notYetDrawP.getHeight()/2,notYetDrawP.getLeftX()-(notYetDrawP.getLeftX()-(nodeService.getNodeById(childList.get(0))).getLeftX()-(nodeService.getNodeById(childList.get(0))).getWidth())/2,maxAndMinY.get(1)+notYetDrawP.getHeight()/2);//链接所有节点的竖线
                     veriticalLineLeft.setStroke(Color.rgb(104, 151, 187));
                     veriticalLineLeft.setStrokeWidth(6);
                     MindMapPane.getChildren().add(veriticalLineLeft);
@@ -212,8 +210,8 @@ public class Generator {
         text.setText(showNode.getContent());
         text.setLayoutX(showNode.getLeftX());
         text.setLayoutY(showNode.getTopY());
-        text.setPrefHeight(nodeService.getSCALE().doubleValue());
-        text.setPrefWidth(nodeService.getSCALE().doubleValue());
+        text.setPrefHeight(showNode.getHeight());
+        text.setPrefWidth(showNode.getWidth());
         text.setStyle("-fx-font-size: 15px;-fx-border-radius: 15;\n" +
                 "    -fx-background-radius: 15; -fx-font-weight: bold;");
         text.setVisible(true);
@@ -221,10 +219,10 @@ public class Generator {
         return text;
     }
     public Rectangle nodeSelectedRectangle(MapNode showNode){
-        Rectangle nodeRectangle = new Rectangle(nodeService.getSCALE().doubleValue()+nodeService.getSCALE().doubleValue()/3,nodeService.getSCALE().doubleValue()+nodeService.getSCALE().doubleValue()/3);//节点被选中的浮出框
+        Rectangle nodeRectangle = new Rectangle(nodeService.getDefaultWidth()*4/3,nodeService.getDefaultHeight()*4/3);//节点被选中的浮出框
         nodeRectangle.setFill(Color.rgb(84, 87, 83));
-        nodeRectangle.setLayoutY(showNode.getTopY()-nodeService.getSCALE().doubleValue()/6);
-        nodeRectangle.setLayoutX(showNode.getLeftX()-nodeService.getSCALE().doubleValue()/6);
+        nodeRectangle.setLayoutY(showNode.getTopY()-nodeService.getDefaultHeight()/6);
+        nodeRectangle.setLayoutX(showNode.getLeftX()-nodeService.getDefaultWidth()/6);
         nodeRectangle.setId("abc");
         nodeRectangle.setStroke(Color.rgb(73, 156, 84));//边框颜色
         nodeRectangle.setStrokeWidth(5);
