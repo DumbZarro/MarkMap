@@ -194,6 +194,8 @@ public class MapNode {
     }
 
     public ArrayList<MapNode> getExtraEdge() {
+        if (extraEdge == null)
+            extraEdge = new ArrayList<MapNode>();
         return extraEdge;
     }
 
