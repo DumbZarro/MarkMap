@@ -12,7 +12,7 @@ public class MapTree {
 
     public MapTree(Integer rootId) {   // 通过节点列表构造
         this.rootId = rootId;
-        this.layout = "left";
+        this.layout = "right";
     }
 
     public Integer getRootId() {

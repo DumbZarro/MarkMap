@@ -1,5 +1,6 @@
 package model.service.impl;
 
+import model.dao.impl.MindMapDaoImpl;
 import model.pojo.MapNode;
 import model.service.NodeService;
 
@@ -10,19 +11,27 @@ import java.util.HashMap;
  * Description:
  */
 public class NodeServiceImpl implements NodeService {
-    private HashMap<Integer, MapNode> nodeList;
+    private HashMap<Integer, MapNode> nodeList= new HashMap<Integer, MapNode>();
+    MindMapDaoImpl dataBaseService;
     private Integer SCALE =100;
 
     public NodeServiceImpl() {
-        nodeList = new HashMap<Integer, MapNode>();
-        MapNode centerNode= new MapNode(1);
+        MapNode centerNode= new MapNode(1,getDefaultHeight(),getDefaultWidth());
         centerNode.setContent("中心节点");
         nodeList.put(centerNode.getId(), centerNode);
     }
 
+    public NodeServiceImpl(MindMapDaoImpl dataBaseService){// 数据库服务的初始化方式
+        this.dataBaseService=dataBaseService;
+        if(dataBaseService.getColl().countDocuments()==0){
+            MapNode centerNode= new MapNode(1,getDefaultHeight(),getDefaultWidth());
+            centerNode.setContent("中心节点");
+            nodeList.put(centerNode.getId(), centerNode);
+        }else{
+            dataBaseService.loadMap(this.nodeList);
+            System.out.println(this.nodeList);
+        }
 
-    public NodeServiceImpl(HashMap<Integer, MapNode> nodeList) {
-        this.nodeList = nodeList;
     }
 
     public HashMap<Integer, MapNode> getNodeList() {
@@ -71,7 +80,6 @@ public class NodeServiceImpl implements NodeService {
         for (Integer childrenId : getChildrenIdById(id)) {//循环删除子节点
             deleteNode(childrenId);
         }
-        ;
     }
 
     @Override
@@ -125,6 +133,18 @@ public class NodeServiceImpl implements NodeService {
     }
     public Integer getDefaultWidth(){
         return getDefaultHeight()*2;
+    }
+
+    public void changeNodeSize(Integer scale){
+        setSCALE(scale);
+        for(MapNode node:nodeList.values()){
+            Integer preScale =  node.getSCALE();
+            Double nowHeight = (node.getHeight()*scale)/preScale;
+            node.setHeight(nowHeight);
+            Double nowWidth = (node.getWidth()*scale)/preScale;
+            node.setWidth(nowWidth);
+            node.setSCALE(scale);
+        }
     }
 
 }

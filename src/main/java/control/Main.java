@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.dao.impl.MindMapDaoImpl;
 import model.pojo.MapNode;
 import model.service.impl.NodeServiceImpl;
 import model.service.impl.TreeServiceImpl;
@@ -26,6 +27,10 @@ import java.util.HashMap;
 
 public class Main extends Application { // 创建服务
     static NodeServiceImpl nodeService = new NodeServiceImpl();
+public class Main extends Application {
+    // 创建服务
+    static MindMapDaoImpl dataBaseService = new MindMapDaoImpl("map");  //打开思维导图
+    static NodeServiceImpl nodeService = new NodeServiceImpl(dataBaseService);
     static TreeServiceImpl treeService = new TreeServiceImpl(nodeService);
     static Generator generator;
     private Parent root;
@@ -97,6 +102,8 @@ public class Main extends Application { // 创建服务
 
         // 重新计算坐标
         treeService.getTree().setLayout("left");
+        treeService.getTree().setLayout("right");
+        nodeService.changeNodeSize(50);//能缩放了
         treeService.updateLayout();
 
         generator = new Generator(nodeService, treeService, root);

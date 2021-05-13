@@ -12,8 +12,9 @@ public class JdbcUtilsTest {
 
     @Test
     public void getDatabase() {
-        MongoDatabase database = JdbcUtils.getDatabase("mindMap");
-        System.out.println(database.getName());
+
+        System.out.println(JdbcUtils.getCollection("map").countDocuments());
+
     }
 
     @Test
