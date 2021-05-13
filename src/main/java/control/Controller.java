@@ -27,6 +27,8 @@ public class Controller{
 
     @FXML
     void close(Event event) {
+        System.out.println("11111");
+        Main.treeService.saveToCloud();//结束时保存
         System.exit(0);
     }
 

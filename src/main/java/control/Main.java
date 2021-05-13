@@ -1,10 +1,12 @@
 package control;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.dao.impl.MindMapDaoImpl;
 import model.pojo.MapNode;
 import model.service.impl.NodeServiceImpl;
@@ -13,7 +15,8 @@ import view.Generator;
 
 public class Main extends Application {
     // 创建服务
-    static MindMapDaoImpl dataBaseService = new MindMapDaoImpl("map");  //打开思维导图
+    public static String mapName="map1";
+    static MindMapDaoImpl dataBaseService = new MindMapDaoImpl(mapName);  //打开思维导图
     static NodeServiceImpl nodeService = new NodeServiceImpl(dataBaseService);
     static TreeServiceImpl treeService = new TreeServiceImpl(nodeService);
     static Generator generator;
@@ -26,7 +29,7 @@ public class Main extends Application {
         primaryStage.show();
 
         // 重新计算坐标
-        treeService.getTree().setLayout("right");
+        treeService.getTree().setLayout("default");
         nodeService.changeNodeSize(50);//能缩放了
         treeService.updateLayout();
         generator = new Generator(nodeService,treeService,root);
