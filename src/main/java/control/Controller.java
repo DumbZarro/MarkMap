@@ -57,8 +57,8 @@ public class Controller{
 
     @FXML
     void newNode(Event event) {
-        Integer nodeId =  (int)(Math.random()*100);
-        Integer parentId;
+        int nodeId =  (int)(Math.random()*100);
+        int parentId;
         if (Generator.selectedNodeNum!=1)
             parentId = Main.nodeService.getParentNodeById(Generator.selectedNodeNum).getId();//当选中节点不是中心节点时，给选中节点添加兄弟节点
         else

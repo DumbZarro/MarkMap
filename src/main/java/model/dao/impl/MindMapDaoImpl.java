@@ -20,17 +20,11 @@ public class MindMapDaoImpl extends BaseDao {
     private MongoCollection<Document> coll;
 
     public MindMapDaoImpl() {//一个用户对应一个数据库 一个collection对应一个思维导图
-//        this.coll = JdbcUtils.getCollection("mindMap","map");//云端
-        this.coll = JdbcUtils.getCollection("testCollection","myCollection");
+        this.coll = JdbcUtils.getCollection("map"); //默认这个导图
     }
 
-
-    public MindMapDaoImpl(String dbName) {
-        this.coll = JdbcUtils.getCollection(dbName,"map");//默认导图
-    }
-
-    public MindMapDaoImpl(String dbName,String collName) {
-        this.coll = JdbcUtils.getCollection(dbName,collName);//默认导图
+    public MindMapDaoImpl(String collName) {
+        this.coll = JdbcUtils.getCollection(collName);//默认导图
     }
 
     public void setDb(MongoDatabase db) {

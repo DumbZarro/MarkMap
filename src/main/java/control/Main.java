@@ -13,7 +13,7 @@ import view.Generator;
 
 public class Main extends Application {
     // 创建服务
-    static MindMapDaoImpl dataBaseService = new MindMapDaoImpl("testCollection","myCollection");//本地
+    static MindMapDaoImpl dataBaseService = new MindMapDaoImpl("map");  //打开思维导图
     static NodeServiceImpl nodeService = new NodeServiceImpl(dataBaseService);
     static TreeServiceImpl treeService = new TreeServiceImpl(nodeService);
     static Generator generator;
@@ -27,7 +27,7 @@ public class Main extends Application {
 
         // 重新计算坐标
         treeService.getTree().setLayout("right");
-        nodeService.changeNodeSize(100);//TODO 放缩
+        nodeService.changeNodeSize(50);//能缩放了
         treeService.updateLayout();
         generator = new Generator(nodeService,treeService,root);
 

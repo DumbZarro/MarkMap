@@ -46,10 +46,10 @@ public class MindMapDaoImplTest {
 
     @Test
     public void saveMap() {
-        MongoDatabase database = JdbcUtils.getDatabase("testCollection");
-        MindMapDaoImpl db = new MindMapDaoImpl("testCollection","myCollection");
+        MongoDatabase database = JdbcUtils.getDatabase();
+        MindMapDaoImpl db = new MindMapDaoImpl("map");
         System.out.println(database.getName());
-        System.out.println(database.getCollection("myCollection").countDocuments());
+        System.out.println(database.getCollection("map").countDocuments());
 
         db.saveMap(nodeService.getNodeList());
         System.out.println("存储结束");
@@ -58,8 +58,8 @@ public class MindMapDaoImplTest {
 
     @Test
     public void findAll() {
-        MongoDatabase database = JdbcUtils.getDatabase("testCollection");
-        MindMapDaoImpl db = new MindMapDaoImpl("testCollection","myCollection");
+        MongoDatabase database = JdbcUtils.getDatabase();
+        MindMapDaoImpl db = new MindMapDaoImpl("map");
         System.out.println(database.getName());
         System.out.println(database.getCollection("myCollection").countDocuments());
 
@@ -68,8 +68,8 @@ public class MindMapDaoImplTest {
 
     @Test
     public void loadMap() {
-        MongoDatabase database = JdbcUtils.getDatabase("testCollection");
-        MindMapDaoImpl db = new MindMapDaoImpl("testCollection","myCollection");
+        MongoDatabase database = JdbcUtils.getDatabase();
+        MindMapDaoImpl db = new MindMapDaoImpl("map");
         System.out.println(database.getName());
         System.out.println(database.getCollection("myCollection").countDocuments());
 
