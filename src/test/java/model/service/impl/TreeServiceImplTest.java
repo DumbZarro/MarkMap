@@ -15,8 +15,8 @@ public class TreeServiceImplTest {
     public void setLayout() {
         // 创建新的节点,以及找到父节点
         Integer parentId = treeService.getTree().getRootId();
-        MapNode sonNode = new MapNode(2,nodeService.getDefaultHeight(),nodeService.getDefaultWidth());
-        MapNode sonNode1 = new MapNode(3,nodeService.getDefaultHeight(),nodeService.getDefaultWidth());
+        MapNode sonNode = new MapNode(2,nodeService.getDefaultHeight(),nodeService.getDefaultWidth(),nodeService.getSCALE());
+        MapNode sonNode1 = new MapNode(3,nodeService.getDefaultHeight(),nodeService.getDefaultWidth(),nodeService.getSCALE());
         sonNode.setContent("两只老婆爱跳舞");
         sonNode1.setContent("fxhSB");
         // 添加节点

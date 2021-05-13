@@ -47,7 +47,7 @@ public class TreeServiceImpl implements TreeService {
     }
 
     public void initBlockCounter() {//找出叶子节点并blockSize赋初值
-        CounterQueue = new ArrayBlockingQueue<MapNode>(20);
+        CounterQueue = new ArrayBlockingQueue<MapNode>(1000);
         for (MapNode node : nodeService.getNodeList().values()) {
             //每个节点都初始化
             node.setCounter(0);
@@ -78,10 +78,11 @@ public class TreeServiceImpl implements TreeService {
             MapNode parentNode = nodeService.getNodeList().get(node.getParentId());
             parentNode.setBlockHeight(parentNode.getBlockHeight() + node.getBlockHeight());//计算块高
 
+            //计算块宽
             ArrayList<MapNode> broNodes = nodeService.getChildrenNodeByNode(parentNode);
             boolean allChildFinish = true;
             for (MapNode broNode : broNodes) {
-                if (!broNode.getFlag()) {
+                if (!broNode.getFlag()) {   //如果有兄弟节点没有算完块宽
                     allChildFinish = false;
                     break;
                 }
@@ -90,15 +91,7 @@ public class TreeServiceImpl implements TreeService {
                 Integer X_bias = nodeService.getSCALE() / 2; //设置合适的横向间距 TODO 统一X_bias
                 // 高级实现Comparator的高级写法
                 MapNode maxChild = Collections.max(broNodes, Comparator.comparingInt(MapNode::getBlockWidth));
-//                Object obj = Collections.max(nodeService.getChildrenNodeByNode(parentNode), (o1, o2) -> o1.getBlockWidth() - o2.getBlockWidth());
-//
-//                Object obj = Collections.max(nodeService.getChildrenNodeByNode(parentNode), new Comparator<MapNode>() {
-//                    @Override
-//                    public int compare(MapNode o1, MapNode o2) {
-//                        return o1.getBlockWidth() - o2.getBlockWidth();
-//                    }
-//                });
-                parentNode.setBlockWidth(parentNode.getBlockWidth() + maxChild.getBlockWidth() + X_bias);//计算块宽
+                parentNode.setBlockWidth(parentNode.getBlockWidth() + maxChild.getBlockWidth() + X_bias);
             }
 
 
@@ -115,8 +108,8 @@ public class TreeServiceImpl implements TreeService {
     public void updateLayout() {
         toCountBlock();
         // 设置根节点位置
-        rootNode.setLeftX(rootNode.getBlockWidth().doubleValue());//TODO 寻找合适的横坐标值
-        rootNode.setTopY(rootNode.getBlockHeight().doubleValue());
+        rootNode.setLeftX(1250.);//TODO 寻找合适的横坐标值
+        rootNode.setTopY(800.);
         switch (tree.getLayout()) {
             case "default" -> defaultLayout();
             case "right" -> rightLayout();
@@ -125,19 +118,19 @@ public class TreeServiceImpl implements TreeService {
     }
 
     private void rightLayout() {
-        computeAllCoordinate(rootNode.getId(), 1);
+        computeCoordinate(rootNode.getId(), 1);
     }
 
     private void leftLayout() {
-        computeAllCoordinate(rootNode.getId(), -1);
+        computeCoordinate(rootNode.getId(), -1);
     }
 
     private void defaultLayout() {
-        computeAllCoordinate(rootNode.getId(), 0);
+        computeCoordinate(rootNode.getId(), 0);
         // TODO 中心分布 划分中心节点
     }
 
-    private void computeAllCoordinate(Integer now_id, Integer flag) { //根据flag动态生成左树或者右树(从中心节点向外计算坐标)
+    private void computeCoordinate(Integer now_id, Integer flag) { //根据flag动态生成左树或者右树(从中心节点向外计算坐标)
         MapNode nowNode = nodeService.getNodeById(now_id);
 
         if (nowNode.getChildrenId() == null) {     //叶子节点直接返回,不继续递推
@@ -147,7 +140,7 @@ public class TreeServiceImpl implements TreeService {
             nowNode.setLevel(0);
         }
         // 设定所有子节点的横坐标
-        Integer X_bias = nodeService.getSCALE() / 2; //设置合适的横向间距
+
         if(flag==0){//中心布局要特殊处理
             nowNode.setCounter(0);
             int half = nowNode.getChildrenId().size()/2;
@@ -164,6 +157,8 @@ public class TreeServiceImpl implements TreeService {
                 //计数
                 nowNode.setCounter(nowNode.getCounter()+1);
             }
+            rightSize/=2;
+            leftSize/=2;
 
             // 第一个子节点的位置
             Integer delta = nowNode.getBlockHeight() / 2;
@@ -189,6 +184,7 @@ public class TreeServiceImpl implements TreeService {
                 }
 
                 //算x
+                Integer X_bias = nodeService.getSCALE() / 2; //设置合适的横向间距
                 double childX = nowNode.getLeftX() + flag * (nowNode.getWidth() + X_bias);  //x轴 通过flag实现:左树累加、右树累减
                 childNode.setLeftX(childX);
 
@@ -197,9 +193,10 @@ public class TreeServiceImpl implements TreeService {
                 //算level
                 childNode.setLevel(nowNode.getLevel() + 1);
                 //递推调用
-                computeAllCoordinate(childId, flag);
+                computeCoordinate(childId, flag);
             }
         }else{
+            Integer X_bias = nodeService.getSCALE() / 2; //设置合适的横向间距
             double childX = nowNode.getLeftX() + flag * (nowNode.getWidth() + X_bias);  //x轴 通过flag实现:左树累加、右树累减
 
             // 第一个子节点的位置
@@ -212,13 +209,13 @@ public class TreeServiceImpl implements TreeService {
                 childNode.setLeftX(childX);
                 //算y
                 delta -= childNode.getBlockHeight() / 2;
-                Double y = nowY + delta;
+                Double y = nowY - delta;    //注意正负号,javafx的坐标系和一般的不同
                 childNode.setTopY(y);
                 delta -= childNode.getBlockHeight() / 2;
                 //算level
                 childNode.setLevel(nowNode.getLevel() + 1);
                 //递推调用
-                computeAllCoordinate(childId, flag);
+                computeCoordinate(childId, flag);
             }
         }
     }

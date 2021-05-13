@@ -117,7 +117,7 @@ public class Controller {
             parentId = Main.nodeService.getParentNodeById(Generator.selectedNodeNum).getId();//当选中节点不是中心节点时，给选中节点添加兄弟节点
         else
             parentId = Generator.selectedNodeNum;//当选中节点为中心节点，给中心节点添加子节点
-        MapNode newNode = new MapNode(nodeId,Main.nodeService.getDefaultHeight(),Main.nodeService.getDefaultWidth());
+        MapNode newNode = new MapNode(nodeId,Main.nodeService.getDefaultHeight(),Main.nodeService.getDefaultWidth(),Main.nodeService.getSCALE());
         Main.nodeService.addNode(parentId, nodeId,newNode);
 
         if (Main.treeService.getRootNode().getBlockHeight()*2>mindMapPane.getHeight()){
@@ -135,7 +135,7 @@ public class Controller {
         while (Main.nodeService.getNodeList().get(k = (int)(Math.random()*10000)) ==null)
             break;
         Integer nodeId =  k;
-        MapNode newNode = new MapNode(nodeId,Main.nodeService.getDefaultHeight(),Main.nodeService.getDefaultWidth());
+        MapNode newNode = new MapNode(nodeId,Main.nodeService.getDefaultHeight(),Main.nodeService.getDefaultWidth(),Main.nodeService.getSCALE());
         Main.nodeService.addNode(parentId, nodeId,newNode);
 
         if (Main.treeService.getRootNode().getBlockHeight()*2>mindMapPane.getHeight()){

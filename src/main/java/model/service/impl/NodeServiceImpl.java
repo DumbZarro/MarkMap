@@ -16,7 +16,7 @@ public class NodeServiceImpl implements NodeService {
     private Integer SCALE =100;
 
     public NodeServiceImpl() {
-        MapNode centerNode= new MapNode(1,getDefaultHeight(),getDefaultWidth());
+        MapNode centerNode= new MapNode(1,getDefaultHeight(),getDefaultWidth(),getSCALE());
         centerNode.setContent("中心节点");
         nodeList.put(centerNode.getId(), centerNode);
     }
@@ -24,11 +24,12 @@ public class NodeServiceImpl implements NodeService {
     public NodeServiceImpl(MindMapDaoImpl dataBaseService){// 数据库服务的初始化方式
         this.dataBaseService=dataBaseService;
         if(dataBaseService.getColl().countDocuments()==0){
-            MapNode centerNode= new MapNode(1,getDefaultHeight(),getDefaultWidth());
+            MapNode centerNode= new MapNode(1,getDefaultHeight(),getDefaultWidth(),getSCALE());
             centerNode.setContent("中心节点");
             nodeList.put(centerNode.getId(), centerNode);
         }else{
             dataBaseService.loadMap(this.nodeList);
+            this.SCALE= nodeList.get(1).getScale();
             System.out.println(this.nodeList);
         }
 
@@ -56,8 +57,6 @@ public class NodeServiceImpl implements NodeService {
 
 
     private void addParentToSon(Integer parentId, Integer sonId) {
-//        getChildrenIdById(parentId).add(sonId);
-//        getNodeById(sonId).setParentId(parentId);
         MapNode parent = getNodeById(parentId);
         parent.setSonDisplay(true);
         parent.getChildrenId().add(sonId);//把子节点添加到父节点的子节点列表中
@@ -138,12 +137,12 @@ public class NodeServiceImpl implements NodeService {
     public void changeNodeSize(Integer scale){
         setSCALE(scale);
         for(MapNode node:nodeList.values()){
-            Integer preScale =  node.getSCALE();
+            Integer preScale =  node.getScale();
             Double nowHeight = (node.getHeight()*scale)/preScale;
             node.setHeight(nowHeight);
             Double nowWidth = (node.getWidth()*scale)/preScale;
             node.setWidth(nowWidth);
-            node.setSCALE(scale);
+            node.setScale(scale);
         }
     }
 

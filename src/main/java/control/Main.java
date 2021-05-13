@@ -31,7 +31,7 @@ import java.util.Objects;
 
 public class Main extends Application {
     // 创建服务
-    public static String mapName="map1";
+    public static String mapName = "map1";
     static MindMapDaoImpl dataBaseService = new MindMapDaoImpl(mapName);  //打开思维导图
     static NodeServiceImpl nodeService = new NodeServiceImpl(dataBaseService);
     static TreeServiceImpl treeService = new TreeServiceImpl(nodeService);
@@ -54,48 +54,48 @@ public class Main extends Application {
 
     private void stageSelfAdaption(Stage primaryStage) {
         primaryStage.widthProperty().addListener(new ChangeListener<Number>() {
-        @Override
-        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    Scene scene = primaryStage.getScene();
+             @Override
+             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                 Platform.runLater(new Runnable() {
+                     @Override
+                     public void run() {
+                         Scene scene = primaryStage.getScene();
 
-                    AnchorPane allPane = (AnchorPane) scene.getRoot().lookup("#allPane");
-                    ScrollPane scrollPane = (ScrollPane) scene.getRoot().lookup("#scrollPane");
-                    Pane topPane = (Pane) scene.getRoot().lookup("#topPane");
-                    Pane bottomPane = (Pane) scene.getRoot().lookup("#bottomPane");
-                    Pane butPane = (Pane) scene.getRoot().lookup("#butPane");
-                    Pane butBox = (Pane) scene.getRoot().lookup("#butBox");
-                    Pane layoutPane = (Pane) scene.getRoot().lookup("#layoutPane");
+                         AnchorPane allPane = (AnchorPane) scene.getRoot().lookup("#allPane");
+                         ScrollPane scrollPane = (ScrollPane) scene.getRoot().lookup("#scrollPane");
+                         Pane topPane = (Pane) scene.getRoot().lookup("#topPane");
+                         Pane bottomPane = (Pane) scene.getRoot().lookup("#bottomPane");
+                         Pane butPane = (Pane) scene.getRoot().lookup("#butPane");
+                         Pane butBox = (Pane) scene.getRoot().lookup("#butBox");
+                         Pane layoutPane = (Pane) scene.getRoot().lookup("#layoutPane");
 
-        // 重新计算坐标
-        treeService.getTree().setLayout("default");
-        nodeService.changeNodeSize(50);//能缩放了
-                    allPane.setMaxHeight(primaryStage.getHeight());
-                    allPane.setMaxWidth(primaryStage.getWidth());
-                    topPane.setPrefSize(allPane.getWidth(), 0.04 * allPane.getHeight());
-                    bottomPane.setPrefSize(allPane.getWidth(), 0.96 * allPane.getHeight());
-                    scrollPane.setPrefHeight(allPane.getHeight() * 5 / 6);
-                    scrollPane.setPrefWidth(allPane.getWidth());
-                    butPane.setLayoutX(allPane.getWidth() / 2 - 204);
-                    butBox.setLayoutX(allPane.getWidth() - 165);
-                    butPane.setLayoutY(-8);
-                    layoutPane.setLayoutX(allPane.getWidth() - 191);
-                }
-            });
-        }
-        }
+                         allPane.setMaxHeight(primaryStage.getHeight());
+                         allPane.setMaxWidth(primaryStage.getWidth());
+                         topPane.setPrefSize(allPane.getWidth(), 0.04 * allPane.getHeight());
+                         bottomPane.setPrefSize(allPane.getWidth(), 0.96 * allPane.getHeight());
+                         scrollPane.setPrefHeight(allPane.getHeight() * 5 / 6);
+                         scrollPane.setPrefWidth(allPane.getWidth());
+                         butPane.setLayoutX(allPane.getWidth() / 2 - 204);
+                         butBox.setLayoutX(allPane.getWidth() - 165);
+                         butPane.setLayoutY(-8);
+                         layoutPane.setLayoutX(allPane.getWidth() - 191);
+                     }
+                 });
+             }
+         }
         );
     }
 
     private void initialize() {
-        treeService.getTree().setLayout("right");
-        nodeService.changeNodeSize(50);
+        // 重新计算坐标
+        treeService.getTree().setLayout("default");
+        nodeService.changeNodeSize(60);//能缩放了
+        for(MapNode node:nodeService.getNodeList().values()){
+            node.setSelected(false);
+        }
         treeService.updateLayout();
 
         generator = new Generator(nodeService, treeService, root);
-
         generator.showMap();
 
         ScrollPane scrollPane = (ScrollPane) root.lookup("#scrollPane");

@@ -1,7 +1,5 @@
 package model.pojo;
 
-import org.bson.codecs.pojo.annotations.BsonId;
-
 import java.util.ArrayList;
 
 /**
@@ -29,7 +27,7 @@ public class MapNode {
     private Boolean isSonDisplay;  // 子节点是否显示 不可用子节点列表为空判断->可能只是没加载
     private Boolean isSelected; // 是否被选中
     private ArrayList<MapNode> extraEdge;   //除了父子间的线以外的关系线  将当前节点与列表中的节点分别连一根线
-    private Integer SCALE = 100; //默认高度 长宽高的单位 用于缩放导图
+    private Integer scale; //默认高度 长宽高的单位 用于缩放导图
 
     public MapNode() {
         this.content = "新建节点";
@@ -50,11 +48,12 @@ public class MapNode {
     }
 
 
-    public MapNode(int Id,double height,double width) {
+    public MapNode(int Id,double height,double width,int scale) {
         this();
         this.Id = Id;
         this.height=height;
         this.width=width;
+        this.scale =scale;
     }
     public int getId() {
         return Id;
@@ -226,12 +225,12 @@ public class MapNode {
         this.haveBlock = haveBlock;
     }
 
-    public Integer getSCALE() {
-        return SCALE;
+    public Integer getScale() {
+        return scale;
     }
 
-    public void setSCALE(Integer SCALE) {
-        this.SCALE = SCALE;
+    public void setScale(Integer scale) {
+        this.scale = scale;
     }
 
     @Override
@@ -258,6 +257,7 @@ public class MapNode {
                 ", isSonDisplay=" + isSonDisplay +
                 ", isSelected=" + isSelected +
                 ", extraEdge=" + extraEdge +
+                ", scale=" + scale +
                 '}';
     }
 }
