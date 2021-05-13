@@ -72,13 +72,11 @@
     <build>
         <resources>
             <resource>
-                <!-- 这里是放在 src/main/java-->
                 <directory>src/main/java/view/source</directory>
                 <includes>
-                    <include>**/*.css</include>
                     <include>**/*.fxml</include>
+                    <include>**/*.css</include>
                     <include>**/image/*.png</include>
-
                 </includes>
                 <filtering>false</filtering>
             </resource>
