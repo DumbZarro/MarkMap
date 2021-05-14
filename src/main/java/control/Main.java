@@ -24,21 +24,31 @@ import model.dao.impl.MindMapDaoImpl;
 import model.pojo.MapNode;
 import model.service.impl.NodeServiceImpl;
 import model.service.impl.TreeServiceImpl;
+import model.utils.ViewUtils;
 import view.Generator;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
 
 
 public class Main extends Application {
+    public static String mapName = null;
+    static {
+        ViewUtils.openBox();
+        System.out.println(ViewUtils.username);
+        System.out.println(ViewUtils.map);
+
+        mapName=ViewUtils.map;
+    }
     // 创建服务
     public static String mapName = "map1";
     static MindMapDaoImpl dataBaseService = new MindMapDaoImpl(mapName);  //打开思维导图
     static NodeServiceImpl nodeService = new NodeServiceImpl(dataBaseService);
     static TreeServiceImpl treeService = new TreeServiceImpl(nodeService);
     static Generator generator;
-    static public AnchorPane mindMapPane;
     private Parent root;
 
     @Override
@@ -102,6 +112,9 @@ public class Main extends Application {
 
     private void initialize() {
         treeService.getTree().setLayout("right");
+        nodeService.changeNodeSize(100);
+        // 重新计算坐标
+        treeService.getTree().setLayout("default");
         nodeService.changeNodeSize(60);//能缩放了
         for (MapNode node : nodeService.getNodeList().values()) {
             node.setSelected(false);
@@ -120,13 +133,19 @@ public class Main extends Application {
 
     private void addButton() {
         Button OutlineToMap = (Button) root.lookup("#OutlineToMap");
+        Button MapToOutline = (Button) root.lookup("#MapToOutline");
         OutlineToMap.setStyle("-fx-background-color: rgb(230, 230, 231);\n" +
                 "    -fx-text-fill: black;\n" +
                 "    -fx-font-size: 25px;\n" +
                 "    -fx-border-width: 2px;\n" +
                 "    -fx-border-radius: 30px;\n" +
                 "    -fx-background-radius: 30px; -fx-font-weight: bold");
-
+        MapToOutline.setStyle("-fx-background-color: rgb(244, 244, 244);\n" +
+                "    -fx-text-fill: rgb(125, 125, 125);\n" +
+                "    -fx-font-size: 25px;\n" +
+                "    -fx-border-width: 2px;\n" +
+                "    -fx-border-radius: 30px;\n" +
+                "    -fx-background-radius: 30px; ");
     }
 
     public static void main(String[] args) {

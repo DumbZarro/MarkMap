@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
@@ -15,7 +16,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
+import model.dao.impl.MindMapDaoImpl;
 import model.pojo.MapNode;
+import model.utils.ViewUtils;
 import view.Generator;
 
 import javax.imageio.ImageIO;
@@ -41,6 +44,13 @@ public class Controller {
     @FXML
     private Button OutlineToMap;
 
+
+    @FXML
+    private MenuItem mapInputButton;
+
+    @FXML
+    private MenuItem saveMapButton;
+
     @FXML
     private AnchorPane allPane;
 
@@ -53,7 +63,7 @@ public class Controller {
 
     @FXML
     void close(Event event) {
-        Main.treeService.saveToCloud();//结束时保存
+//        Main.treeService.saveToCloud();//结束时保存
         System.exit(0);
     }
 
@@ -123,9 +133,11 @@ public class Controller {
             Main.treeService.getRootNode().setTopY(mindMapPane.getHeight()-Main.treeService.getRootNode().getHeight()/2);
             mindMapPane.setPrefHeight(mindMapPane.getHeight()*2);
         }
+        ///////////
         if (Main.treeService.getRootNode().getBlockWidth()*2>mindMapPane.getWidth()){
             mindMapPane.setPrefWidth(mindMapPane.getWidth()*2);
         }
+        //////////
         Main.treeService.updateLayout();
         mindMapPane.getChildren().clear();
         Main.generator.showMap();
@@ -141,15 +153,17 @@ public class Controller {
         Main.nodeService.addNode(parentId, nodeId,newNode);
 
         if (Main.treeService.getRootNode().getBlockHeight()*2>mindMapPane.getHeight()){
+            Main.treeService.getRootNode().setTopY(mindMapPane.getHeight()-Main.nodeService.getNodeById(1).getHeight()/2);
             mindMapPane.setPrefHeight(mindMapPane.getHeight()*2);
         }
+        //////
         if (Main.treeService.getRootNode().getBlockWidth()*2>mindMapPane.getWidth()){
             mindMapPane.setPrefWidth(mindMapPane.getWidth()*2);
         }
+        //////
         Main.treeService.updateLayout();
         mindMapPane.getChildren().clear();
         Main.generator.showMap();
-
     }
     @FXML
     void extraLine(Event event){
@@ -197,8 +211,11 @@ public class Controller {
     }
     @FXML
     public void outputPNG(Event event) throws IOException {
-       WritableImage outputImage = mindMapPane.snapshot(new SnapshotParameters(),null);
-        File outputFile = new File(System.getProperty("user.dir")+File.separator+"node.png");
+        WritableImage outputImage = mindMapPane.snapshot(new SnapshotParameters(),null);
+        String path = ViewUtils.openPath();
+//        File outputFile = new File(System.getProperty("user.dir")+File.separator+"node.png");
+        File outputFile = new File(path+File.separator+"node.png");
+        ViewUtils.displayMessage("信息", "保存成功", "确定");
         ImageIO.write(SwingFXUtils.fromFXImage(outputImage,null),"png",outputFile);
     }
     @FXML
@@ -250,5 +267,16 @@ public class Controller {
     @FXML
     void keyEvenHandler(Event event) {
       System.out.println(event.getEventType().getName());
+    }
+
+    @FXML
+    void mapInput(Event event) {
+        ViewUtils.openBox();
+    }
+
+    @FXML
+    void saveMap(Event event) {
+        Main.treeService.saveToCloud();//结束时保存
+        ViewUtils.displayMessage("信息", "保存成功", "确定");
     }
 }
