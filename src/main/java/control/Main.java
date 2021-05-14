@@ -38,6 +38,7 @@ public class Main extends Application {
     static NodeServiceImpl nodeService = new NodeServiceImpl(dataBaseService);
     static TreeServiceImpl treeService = new TreeServiceImpl(nodeService);
     static Generator generator;
+    static public AnchorPane mindMapPane;
     private Parent root;
 
     @Override
@@ -48,6 +49,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
+        mindMapPane = (AnchorPane) root.lookup("#mindMapPane");
         initialize();
         addButton();
         stageSelfAdaption(primaryStage);
@@ -100,9 +102,6 @@ public class Main extends Application {
 
     private void initialize() {
         treeService.getTree().setLayout("right");
-        nodeService.changeNodeSize(100);
-        // 重新计算坐标
-        treeService.getTree().setLayout("default");
         nodeService.changeNodeSize(60);//能缩放了
         for (MapNode node : nodeService.getNodeList().values()) {
             node.setSelected(false);
@@ -121,19 +120,13 @@ public class Main extends Application {
 
     private void addButton() {
         Button OutlineToMap = (Button) root.lookup("#OutlineToMap");
-        Button MapToOutline = (Button) root.lookup("#MapToOutline");
         OutlineToMap.setStyle("-fx-background-color: rgb(230, 230, 231);\n" +
                 "    -fx-text-fill: black;\n" +
                 "    -fx-font-size: 25px;\n" +
                 "    -fx-border-width: 2px;\n" +
                 "    -fx-border-radius: 30px;\n" +
                 "    -fx-background-radius: 30px; -fx-font-weight: bold");
-        MapToOutline.setStyle("-fx-background-color: rgb(244, 244, 244);\n" +
-                "    -fx-text-fill: rgb(125, 125, 125);\n" +
-                "    -fx-font-size: 25px;\n" +
-                "    -fx-border-width: 2px;\n" +
-                "    -fx-border-radius: 30px;\n" +
-                "    -fx-background-radius: 30px; ");
+
     }
 
     public static void main(String[] args) {

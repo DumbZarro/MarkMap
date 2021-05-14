@@ -5,10 +5,7 @@ import control.Controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -51,12 +48,13 @@ public class Generator {
         nodeService.getNodeList().forEach((key,value)->{
             if (value.getVisible()) {
                 showNode((MapNode) value);
-                System.out.println(131);
             }
-            System.out.println(value.getVisible());
         });
         drawLine();
         treeView();
+        ScrollPane scrollPane = (ScrollPane) root.lookup("#scrollPane");
+        scrollPane.setVvalue(0.5);
+        scrollPane.setHvalue(0.5);
     }
     //    展示showNode
     private void showNode(MapNode showNode){
@@ -64,9 +62,12 @@ public class Generator {
         Rectangle nodeRectangle = nodeSelectedRectangle(showNode);//假若该节点被选中的长方形
         TextField text = nodeInputRectangle(showNode);
         Button sonVisibleNodeBut = storeButInit(showNode);
-        if (showNode.getExtraEdge()!=null)//当前显示节点有额外边的话调用画额外边的函数
+        if (showNode.getExtraEdge().size()!=0)//当前显示节点有额外边的话调用画额外边的函数
             for (MapNode extraTargetNode: showNode.getExtraEdge()){
-                drawextraLine(showNode,extraTargetNode);
+                if (showNode.getVisible()&&extraTargetNode.getVisible()) {
+                    drawextraLine(showNode, extraTargetNode);
+                    System.out.println(extraTargetNode.getId());
+                }
             }
 
         //输入框的鼠标事件
@@ -78,6 +79,7 @@ public class Generator {
                 if (Controller.extraLineButPressed){
                     drawextraLine(exChoosedNode,showNode);
                     exChoosedNode.getExtraEdge().add(showNode);
+                    Controller.extraLineButPressed = false;
                 }
                 showNode.setSelected(true);
                 nodeRectangleList.get(selectedNodeNum).setVisible(false);
@@ -94,12 +96,20 @@ public class Generator {
         text.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-
+                if (text.getLength() *15 > text.getWidth() )
+                {
+                    text.setPrefWidth(text.getWidth()*1.3);
+                    showNode.setWidth(text.getWidth()*1.3);
+                    nodeRectangle.setWidth(text.getWidth()*1.3+10);
+                    treeService.updateLayout();
+                    showMap();
+                }
             }
         });
 
         MindMapPane.getChildren().add(nodeRectangle);
         MindMapPane.getChildren().add(text);
+        if (showNode.getChildrenId().size()!=0)
         MindMapPane.getChildren().add(sonVisibleNodeBut);
     }
     //    画线
@@ -109,35 +119,84 @@ public class Generator {
         if(!rootNode.getSonDisplay()){//父节点没有可见子节点就不要划线了
             return;
         }
-        String layout = treeService.getTree().getLayout();
+        String layoutString = treeService.getTree().getLayout();
+        Integer layout = -100;
+        switch (layoutString){
+            case "right": layout=1;break;
+            case "left":    layout=-1;break;
+            case "default": layout =0;break;
+        }
         while(!notYetDrawPStack.empty()){
             MapNode notYetDrawP = notYetDrawPStack.pop();//有子节点的节点出栈
             ArrayList<Integer> childList = notYetDrawP.getChildrenId();//获取该节点的子节点列表
             ArrayList<Double> maxAndMinY = new ArrayList<>();//最大和最小的子节点y值
-            switch (layout){
-                case "right":maxAndMinY = rightDrawMapLine(childList);//右布局画线
-                    Line parNodeLine = new Line(notYetDrawP.getLeftX()+notYetDrawP.getWidth(),notYetDrawP.getTopY()+notYetDrawP.getHeight()/2,notYetDrawP.getLeftX()+notYetDrawP.getWidth()+(nodeService.getNodeById(childList.get(0)).getLeftX()-notYetDrawP.getLeftX()-notYetDrawP.getWidth())/2,notYetDrawP.getTopY()+notYetDrawP.getHeight()/2);
-                    parNodeLine.setStroke(Color.rgb(104, 151, 187));
-                    parNodeLine.setStrokeWidth(6);
-                    MindMapPane.getChildren().add(parNodeLine);
-                    Line veriticalLineRight = new Line(notYetDrawP.getLeftX()+notYetDrawP.getWidth()+(nodeService.getNodeById(childList.get(0)).getLeftX()-notYetDrawP.getLeftX()-notYetDrawP.getWidth())/2,maxAndMinY.get(0)+notYetDrawP.getHeight()/2,notYetDrawP.getLeftX()+notYetDrawP.getWidth()+(nodeService.getNodeById(childList.get(0)).getLeftX()-notYetDrawP.getLeftX()-notYetDrawP.getWidth())/2,maxAndMinY.get(1)+notYetDrawP.getHeight()/2);//链接所有节点的竖线
-                    veriticalLineRight.setStroke(Color.rgb(104, 151, 187));
-                    veriticalLineRight.setStrokeWidth(6);
-                    MindMapPane.getChildren().add(veriticalLineRight);
+            if (notYetDrawP.getSonDisplay())
+            {
+                switch (layout) {
+                    case 1: {
+                        maxAndMinY = rightDrawMapLine(childList);//右布局画线
+                        Line parNodeLine = new Line(notYetDrawP.getLeftX() + notYetDrawP.getWidth(), notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2, notYetDrawP.getLeftX() + notYetDrawP.getWidth() + (nodeService.getNodeById(childList.get(0)).getLeftX() - notYetDrawP.getLeftX() - notYetDrawP.getWidth()) / 2, notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2);
+                        parNodeLine.setStroke(Color.rgb(104, 151, 187));
+                        parNodeLine.setStrokeWidth(6);
+                        MindMapPane.getChildren().add(parNodeLine);
+                        Line veriticalLineRight = new Line(notYetDrawP.getLeftX() + notYetDrawP.getWidth() + (nodeService.getNodeById(childList.get(0)).getLeftX() - notYetDrawP.getLeftX() - notYetDrawP.getWidth()) / 2, maxAndMinY.get(0) + notYetDrawP.getHeight() / 2, notYetDrawP.getLeftX() + notYetDrawP.getWidth() + (nodeService.getNodeById(childList.get(0)).getLeftX() - notYetDrawP.getLeftX() - notYetDrawP.getWidth()) / 2, maxAndMinY.get(1) + notYetDrawP.getHeight() / 2);//链接所有节点的竖线
+                        veriticalLineRight.setStroke(Color.rgb(104, 151, 187));
+                        veriticalLineRight.setStrokeWidth(6);
+                        MindMapPane.getChildren().add(veriticalLineRight);
+                        break;
+                    }
+                    case -1: {
+                        maxAndMinY = leftDrawMapLine(childList);//左布局画线
+                        Line parNodeLineleft = new Line(notYetDrawP.getLeftX(), notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2, notYetDrawP.getLeftX() - (notYetDrawP.getLeftX() - (nodeService.getNodeById(childList.get(0))).getLeftX() - (nodeService.getNodeById(childList.get(0))).getWidth()) / 2, notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2);//父节点伸出一小段线
+                        parNodeLineleft.setStroke(Color.rgb(104, 151, 187));
+                        parNodeLineleft.setStrokeWidth(6);
+                        MindMapPane.getChildren().add(parNodeLineleft);
+                        Line veriticalLineLeft = new Line(notYetDrawP.getLeftX() - (notYetDrawP.getLeftX() - (nodeService.getNodeById(childList.get(0))).getLeftX() - (nodeService.getNodeById(childList.get(0))).getWidth()) / 2, maxAndMinY.get(0) + notYetDrawP.getHeight() / 2, notYetDrawP.getLeftX() - (notYetDrawP.getLeftX() - (nodeService.getNodeById(childList.get(0))).getLeftX() - (nodeService.getNodeById(childList.get(0))).getWidth()) / 2, maxAndMinY.get(1) + notYetDrawP.getHeight() / 2);//链接所有节点的竖线
+                        veriticalLineLeft.setStroke(Color.rgb(104, 151, 187));
+                        veriticalLineLeft.setStrokeWidth(6);
+                        MindMapPane.getChildren().add(veriticalLineLeft);
+                        break;
+                    }
+                    case 0: {
+                        Integer halfSize = childList.size() / 2;
+                        ArrayList rightChildList = new ArrayList(childList.subList(0, halfSize));
+                        ArrayList leftChildList = new ArrayList(childList.subList(halfSize, childList.size()));
 
-                    break;
-                case "left":maxAndMinY = leftDrawMapLine(childList);//左布局画线
-                    Line parNodeLineleft = new Line(notYetDrawP.getLeftX(),notYetDrawP.getTopY()+notYetDrawP.getHeight()/2,notYetDrawP.getLeftX()-(notYetDrawP.getLeftX()-(nodeService.getNodeById(childList.get(0))).getLeftX()-(nodeService.getNodeById(childList.get(0))).getWidth())/2,notYetDrawP.getTopY()+notYetDrawP.getHeight()/2);//父节点伸出一小段线
-                    parNodeLineleft.setStroke(Color.rgb(104, 151, 187));
-                    parNodeLineleft.setStrokeWidth(6);
-                    MindMapPane.getChildren().add(parNodeLineleft);
-                    Line veriticalLineLeft = new Line(notYetDrawP.getLeftX()-(notYetDrawP.getLeftX()-(nodeService.getNodeById(childList.get(0))).getLeftX()-(nodeService.getNodeById(childList.get(0))).getWidth())/2,maxAndMinY.get(0)+notYetDrawP.getHeight()/2,notYetDrawP.getLeftX()-(notYetDrawP.getLeftX()-(nodeService.getNodeById(childList.get(0))).getLeftX()-(nodeService.getNodeById(childList.get(0))).getWidth())/2,maxAndMinY.get(1)+notYetDrawP.getHeight()/2);//链接所有节点的竖线
-                    veriticalLineLeft.setStroke(Color.rgb(104, 151, 187));
-                    veriticalLineLeft.setStrokeWidth(6);
-                    MindMapPane.getChildren().add(veriticalLineLeft);
-                    break;
+                        ArrayList<Double> maxAndMinY1 = leftDrawMapLine(leftChildList);
+                        ArrayList<Double> maxAndMinY2 = rightDrawMapLine(rightChildList);
+                        MapNode leftChildNode = nodeService.getNodeById((Integer) leftChildList.get(0));
+                        MapNode rightChildNode = nodeService.getNodeById((Integer) rightChildList.get(0));
+                        Double leftHalfDistance = (leftChildNode.getLeftX() + leftChildNode.getWidth() - notYetDrawP.getLeftX()) / 2;//这里用小的减大的.搞错了,所以下面得用负号
+                        Double rightHalfDistance = (notYetDrawP.getLeftX() + notYetDrawP.getWidth() - rightChildNode.getLeftX()) / 2;
+                        Line parNodeLineleft = new Line(notYetDrawP.getLeftX(), notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2, notYetDrawP.getLeftX() + leftHalfDistance, notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2);
+                        parNodeLineleft.setStroke(Color.rgb(104, 151, 187));
+                        parNodeLineleft.setStrokeWidth(6);
+                        MindMapPane.getChildren().add(parNodeLineleft);
+                        Line veriticalLineLeft = new Line(notYetDrawP.getLeftX() + leftHalfDistance, maxAndMinY1.get(0) + leftChildNode.getHeight() / 2, notYetDrawP.getLeftX() + leftHalfDistance, maxAndMinY1.get(1) + leftChildNode.getHeight() / 2);
+                        veriticalLineLeft.setStroke(Color.rgb(104, 151, 187));
+                        veriticalLineLeft.setStrokeWidth(6);
+                        MindMapPane.getChildren().add(veriticalLineLeft);
+                        Line parNodeLine = new Line(notYetDrawP.getLeftX() + notYetDrawP.getWidth(), notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2, notYetDrawP.getLeftX() + notYetDrawP.getWidth() - rightHalfDistance, notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2);
+                        parNodeLine.setStroke(Color.rgb(104, 151, 187));
+                        parNodeLine.setStrokeWidth(6);
+                        MindMapPane.getChildren().add(parNodeLine);
+                        Line veriticalLineRight = new Line(notYetDrawP.getLeftX() + notYetDrawP.getWidth() - rightHalfDistance, maxAndMinY2.get(0) + rightChildNode.getHeight() / 2, notYetDrawP.getLeftX() + notYetDrawP.getWidth() - rightHalfDistance, maxAndMinY2.get(1) + rightChildNode.getHeight() / 2);
+                        veriticalLineRight.setStroke(Color.rgb(104, 151, 187));
+                        veriticalLineRight.setStrokeWidth(6);
+                        MindMapPane.getChildren().add(veriticalLineRight);
+                        break;
+                    }
+
+                }
             }
-
+            if (notYetDrawPStack.empty()==false){
+                if (notYetDrawP.getLeftX()>notYetDrawPStack.peek().getLeftX()){
+                    layout = -1;
+                }
+                else if (notYetDrawP.getLeftX()<notYetDrawPStack.peek().getLeftX()){
+                    layout = 1;
+                }
+            }
         }
     }
     //    右布局画线
@@ -183,7 +242,7 @@ public class Generator {
             if (currentNode.getTopY() < MINY) {
                 MINY = currentNode.getTopY();
             }
-            if (nodeService.getChildrenNodeByNode(currentNode).size() != 0)
+            if (nodeService.getChildrenNodeByNode(currentNode).size() != 0&&currentNode.getVisible())
                 notYetDrawPStack.push(currentNode);
             MapNode parentNode = nodeService.getParentNodeByNode(currentNode);
             Line nodeLine = new Line(currentNode.getLeftX()+currentNode.getWidth(), currentNode.getTopY() + currentNode.getHeight() / 2, currentNode.getLeftX()+currentNode.getWidth()+(parentNode.getLeftX()-currentNode.getLeftX()-currentNode.getWidth())/2, currentNode.getTopY() + currentNode.getHeight() / 2);
@@ -232,10 +291,10 @@ public class Generator {
         return text;
     }
     public Rectangle nodeSelectedRectangle(MapNode showNode){
-        Rectangle nodeRectangle = new Rectangle(nodeService.getDefaultWidth()*4/3,nodeService.getDefaultHeight()*4/3);//节点被选中的浮出框
+        Rectangle nodeRectangle = new Rectangle(showNode.getWidth()+10,showNode.getHeight()+10);//节点被选中的浮出框
         nodeRectangle.setFill(Color.rgb(84, 87, 83));
-        nodeRectangle.setLayoutY(showNode.getTopY()-nodeService.getDefaultHeight()/6);
-        nodeRectangle.setLayoutX(showNode.getLeftX()-nodeService.getDefaultWidth()/6);
+        nodeRectangle.setLayoutY(showNode.getTopY()-5);
+        nodeRectangle.setLayoutX(showNode.getLeftX()-5);
         nodeRectangle.setId("abc");
         nodeRectangle.setStroke(Color.rgb(73, 156, 84));//边框颜色
         nodeRectangle.setStrokeWidth(5);
@@ -256,29 +315,31 @@ public class Generator {
                 "    -fx-effect: dropshadow(one-pass-box, #72b9da, 10.0,0, 0, 0);\n" +
                 "    -fx-pref-width: 20px;\n" +
                 "    -fx-pref-height: 20px;");
-        storeBut.setLayoutX(showNode.getLeftX()+showNode.getWidth()/2-10);
-        storeBut.setLayoutY(showNode.getTopY()-20);
+        storeBut.setLayoutX(showNode.getLeftX()+showNode.getWidth()+10);
+        storeBut.setLayoutY(showNode.getTopY()+showNode.getHeight()/2);
 
         storeBut.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (showNode.getSonDisplay()){
-                    showNode.setSonDisplay(false);
-                    for (Integer sonNodeID:
-                            showNode.getChildrenId()) {
-                        nodeService.getNodeById(sonNodeID).setVisible(false);
+                if (showNode.getChildrenId().size()!=0)
+                {
+                    if (showNode.getSonDisplay()) {
+                        showNode.setSonDisplay(false);
+                        for (Integer sonNodeID :
+                                showNode.getChildrenId()) {
+                            nodeService.getNodeById(sonNodeID).setVisible(false);
+                        }
+                        treeService.updateLayout();
+                    } else {
+                        showNode.setSonDisplay(true);
+                        for (Integer sonNodeID :
+                                showNode.getChildrenId()) {
+                            nodeService.getNodeById(sonNodeID).setVisible(true);
+                        }
+                        treeService.updateLayout();
                     }
-                    treeService.updateLayout();
+                    showMap();
                 }
-                else {
-                    showNode.setSonDisplay(true);
-                    for (Integer sonNodeID:
-                            showNode.getChildrenId()) {
-                        nodeService.getNodeById(sonNodeID).setVisible(true);
-                    }
-                    treeService.updateLayout();
-                }
-                showMap();
             }
         });
         return  storeBut;

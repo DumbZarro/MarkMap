@@ -5,6 +5,7 @@ import model.dao.impl.MindMapDaoImpl;
 import model.pojo.MapNode;
 import model.pojo.MapTree;
 import model.service.TreeService;
+import view.Generator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -108,8 +109,8 @@ public class TreeServiceImpl implements TreeService {
     public void updateLayout() {
         toCountBlock();
         // 设置根节点位置
-        rootNode.setLeftX(1250.);//TODO 寻找合适的横坐标值
-        rootNode.setTopY(800.);
+        rootNode.setLeftX(Main.mindMapPane.getWidth()/2);//TODO 寻找合适的横坐标值
+        rootNode.setTopY(Main.mindMapPane.getHeight()/2);
         switch (tree.getLayout()) {
             case "default" -> defaultLayout();
             case "right" -> rightLayout();

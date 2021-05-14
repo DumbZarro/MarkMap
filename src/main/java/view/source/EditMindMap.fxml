@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="allPane" maxHeight="800.0" maxWidth="2500.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@EditMindMap.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.Controller">
+<AnchorPane fx:id="allPane" maxHeight="800.0" maxWidth="2500.0" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#keyEvenHandler" prefHeight="720.0" prefWidth="1280.0" stylesheets="@EditMindMap.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.Controller">
    <children>
       <Pane fx:id="topPane" maxHeight="70.0" maxWidth="2500.0" prefHeight="29.0" prefWidth="1288.0">
          <children>
@@ -91,7 +91,6 @@
       </Pane>
       <Pane fx:id="bottomPane" layoutY="38.0" maxHeight="730.0" maxWidth="2500.0" prefHeight="690.0" prefWidth="1288.0">
          <children>
-            <Button fx:id="MapToOutline" layoutX="175.0" layoutY="13.0" mnemonicParsing="false" onAction="#MapToOutline" styleClass="mindAC" text="大纲" />
             <Button fx:id="OutlineToMap" layoutX="41.0" layoutY="13.0" mnemonicParsing="false" onAction="#OutlineToMap" styleClass="mindAC" text="思维导图" />
             <Pane fx:id="butPane" layoutX="436.0" layoutY="2.0" prefHeight="74.0" prefWidth="458.0">
                <children>
@@ -166,9 +165,9 @@
             </Pane>
             <Pane fx:id="layoutPane" layoutX="1089.0" layoutY="2.0" prefHeight="74.0" prefWidth="191.0">
                <children>
-                  <Button layoutX="14.0" layoutY="7.0" mnemonicParsing="false" styleClass="chooseBut" />
-                  <Button layoutX="66.0" layoutY="7.0" mnemonicParsing="false" styleClass="chooseBut" />
-                  <Button layoutX="125.0" layoutY="7.0" mnemonicParsing="false" styleClass="chooseBut" />
+                  <Button layoutX="14.0" layoutY="7.0" mnemonicParsing="false" onAction="#setLeftLayout" styleClass="chooseBut" />
+                  <Button layoutX="66.0" layoutY="7.0" mnemonicParsing="false" onAction="#setRightLayout" styleClass="chooseBut" />
+                  <Button layoutX="125.0" layoutY="7.0" mnemonicParsing="false" onAction="#setDefaultLayout" styleClass="chooseBut" />
                   <Label layoutX="17.0" layoutY="57.0" styleClass="labelOfBut" text="左布局" />
                   <Label layoutX="66.0" layoutY="57.0" styleClass="labelOfBut" text="右布局" />
                   <Label layoutX="118.0" layoutY="57.0" styleClass="labelOfBut" text="中心布局" />

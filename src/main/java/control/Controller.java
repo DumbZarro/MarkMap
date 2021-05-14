@@ -1,18 +1,13 @@
 package control;
 
-import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.effect.Blend;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -26,7 +21,6 @@ import view.Generator;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 public class Controller {
 
@@ -59,7 +53,6 @@ public class Controller {
 
     @FXML
     void close(Event event) {
-        System.out.println("11111");
         Main.treeService.saveToCloud();//结束时保存
         System.exit(0);
     }
@@ -127,8 +120,11 @@ public class Controller {
         Main.nodeService.addNode(parentId, nodeId,newNode);
 
         if (Main.treeService.getRootNode().getBlockHeight()*2>mindMapPane.getHeight()){
-            Main.treeService.getRootNode().setTopY(mindMapPane.getHeight()-Main.nodeService.getNodeById(1).getHeight()/2);
+            Main.treeService.getRootNode().setTopY(mindMapPane.getHeight()-Main.treeService.getRootNode().getHeight()/2);
             mindMapPane.setPrefHeight(mindMapPane.getHeight()*2);
+        }
+        if (Main.treeService.getRootNode().getBlockWidth()*2>mindMapPane.getWidth()){
+            mindMapPane.setPrefWidth(mindMapPane.getWidth()*2);
         }
         Main.treeService.updateLayout();
         mindMapPane.getChildren().clear();
@@ -145,12 +141,15 @@ public class Controller {
         Main.nodeService.addNode(parentId, nodeId,newNode);
 
         if (Main.treeService.getRootNode().getBlockHeight()*2>mindMapPane.getHeight()){
-            Main.treeService.getRootNode().setTopY(mindMapPane.getHeight()-Main.nodeService.getNodeById(1).getHeight()/2);
             mindMapPane.setPrefHeight(mindMapPane.getHeight()*2);
+        }
+        if (Main.treeService.getRootNode().getBlockWidth()*2>mindMapPane.getWidth()){
+            mindMapPane.setPrefWidth(mindMapPane.getWidth()*2);
         }
         Main.treeService.updateLayout();
         mindMapPane.getChildren().clear();
         Main.generator.showMap();
+
     }
     @FXML
     void extraLine(Event event){
@@ -215,6 +214,41 @@ public class Controller {
     @FXML
     public void outLineBorder(){
         Integer choosedId = Generator.selectedNodeNum;
+        MapNode choosedNode = Main.nodeService.getNodeById(choosedId);
+        Rectangle choosedRectangle = new Rectangle();
+        choosedRectangle.setWidth(choosedNode.getBlockWidth()+10);
+        choosedRectangle.setHeight(choosedNode.getBlockHeight()+10);
+        choosedRectangle.setLayoutX(choosedNode.getLeftX());
+        choosedRectangle.setLayoutY((choosedNode.getHeight()-choosedNode.getBlockHeight())/2+choosedNode.getTopY()-5);
+        choosedRectangle.setFill(Color.TRANSPARENT);
+        choosedRectangle.setStroke(Color.RED);
+        choosedRectangle.setStrokeWidth(5);
+        choosedRectangle.setStyle("-fx-scale-z: -1");
+        choosedNode.setHaveBlock(true);
+        mindMapPane.getChildren().add(choosedRectangle);
+    }
+    @FXML
+    void setLeftLayout(Event event) {
+        Main.treeService.getTree().setLayout("left");
+        Main.treeService.updateLayout();
+        Main.generator.showMap();
+    }
 
+    @FXML
+    void setRightLayout(Event event) {
+        Main.treeService.getTree().setLayout("right");
+        Main.treeService.updateLayout();
+        Main.generator.showMap();
+    }
+
+    @FXML
+    void setDefaultLayout(Event event) {
+        Main.treeService.getTree().setLayout("default");
+        Main.treeService.updateLayout();
+        Main.generator.showMap();
+    }
+    @FXML
+    void keyEvenHandler(Event event) {
+      System.out.println(event.getEventType().getName());
     }
 }

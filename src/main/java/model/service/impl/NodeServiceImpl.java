@@ -74,12 +74,31 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public void deleteNode(Integer id) {
+        MapNode parentNode =getParentNodeById(id);
+        ArrayList<Integer> childrenIdList = parentNode.getChildrenId();//删除父节点记录
+        childrenIdList.remove(id);
 
-        getChildrenIdById(getParentIdById(id)).remove(id);//删除父节点记录
-        nodeList.remove(id);//删除自己
-        for (Integer childrenId : getChildrenIdById(id)) {//循环删除子节点
-            deleteNode(childrenId);
+        if(childrenIdList.size()==0){
+            parentNode.setSonDisplay(false);
+            nodeList.remove(id);
+            return;
         }
+        for (Integer childrenId : getChildrenIdById(id)) {//循环删除子节点
+            releaseNode(childrenId);
+        }
+        nodeList.remove(id);//最后再删除自己
+        System.out.println(nodeList);
+    }
+
+    public void releaseNode(Integer id){
+        if(getChildrenIdById(id).size()==0){
+            nodeList.remove(id);
+            return;
+        }
+        for (Integer childrenId : getChildrenIdById(id)) {//循环删除子节点
+            releaseNode(childrenId);
+        }
+        nodeList.remove(id);//最后再删除自己
     }
 
     @Override
