@@ -6,11 +6,8 @@ import model.service.impl.NodeServiceImpl;
 import model.service.impl.TreeServiceImpl;
 import model.utils.JdbcUtils;
 import org.junit.Test;
-import view.Generator;
 
 import java.util.HashMap;
-
-import static org.junit.Assert.*;
 
 /**
  * Description:
@@ -51,7 +48,7 @@ public class MindMapDaoImplTest {
         System.out.println(database.getName());
         System.out.println(database.getCollection("map").countDocuments());
 
-        db.saveMap(nodeService.getNodeList());
+        db.saveMapToCloud(nodeService.getNodeList());
         System.out.println("存储结束");
         System.out.println(database.getCollection("myCollection").countDocuments());
     }

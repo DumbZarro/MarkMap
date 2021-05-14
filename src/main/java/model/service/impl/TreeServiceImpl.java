@@ -132,24 +132,22 @@ public class TreeServiceImpl implements TreeService {
 
     private void computeCoordinate(Integer now_id, Integer flag) { //根据flag动态生成左树或者右树(从中心节点向外计算坐标)
         MapNode nowNode = nodeService.getNodeById(now_id);
-
         if (nowNode.getChildrenId() == null) {     //叶子节点直接返回,不继续递推
             return;
         }
         if (now_id == rootNode.getId()) {
             nowNode.setLevel(0);
         }
-        // 设定所有子节点的横坐标
 
         if(flag==0){//中心布局要特殊处理
             nowNode.setCounter(0);
-            int half = nowNode.getChildrenId().size()/2;
+            int half = (nowNode.getChildrenId().size()+1)/2;//加一是为了将编译器向下取整变成向上取整
             int leftSize = 0;
             int rightSize = 0;
 
             for (Integer childId : nowNode.getChildrenId()){//计算左右子树高度
                 MapNode childNode = nodeService.getNodeById(childId);
-                if(nowNode.getCounter()<half){
+                if(nowNode.getCounter()<half){ // 小于,左右平衡,
                     rightSize +=childNode.getBlockHeight();
                 }else {
                     leftSize +=childNode.getBlockHeight();
@@ -169,7 +167,7 @@ public class TreeServiceImpl implements TreeService {
                 MapNode childNode = nodeService.getNodeById(childId);
 
                 // 算y
-                if(nowNode.getCounter()<half){//前一半右树
+                if(nowNode.getCounter()<half){//前一半右树  // 小于,和上面保持一致
                     flag=1;//右树
                     delta -= childNode.getBlockHeight() / 2;
                     Double y = nowY - delta+leftSize;//还要计算偏移
@@ -195,7 +193,7 @@ public class TreeServiceImpl implements TreeService {
                 //递推调用
                 computeCoordinate(childId, flag);
             }
-        }else{
+        }else{  //左右单边的布局
             Integer X_bias = nodeService.getSCALE() / 2; //设置合适的横向间距
             double childX = nowNode.getLeftX() + flag * (nowNode.getWidth() + X_bias);  //x轴 通过flag实现:左树累加、右树累减
 
@@ -229,7 +227,7 @@ public class TreeServiceImpl implements TreeService {
     @Override
     public int saveToCloud() {
         MindMapDaoImpl db =new MindMapDaoImpl(Main.mapName);
-        db.saveMap(nodeService.getNodeList());
+        db.saveMapToCloud(nodeService.getNodeList());
         return 0;
     }
 

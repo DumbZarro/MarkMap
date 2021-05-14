@@ -24,16 +24,26 @@ import model.dao.impl.MindMapDaoImpl;
 import model.pojo.MapNode;
 import model.service.impl.NodeServiceImpl;
 import model.service.impl.TreeServiceImpl;
+import model.utils.ViewUtils;
 import view.Generator;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
 
 
 public class Main extends Application {
+    public static String mapName = null;
+    static {
+        ViewUtils.openBox();
+        System.out.println(ViewUtils.username);
+        System.out.println(ViewUtils.map);
+
+        mapName=ViewUtils.map;
+    }
     // 创建服务
-    public static String mapName = "map1";
     static MindMapDaoImpl dataBaseService = new MindMapDaoImpl(mapName);  //打开思维导图
     static NodeServiceImpl nodeService = new NodeServiceImpl(dataBaseService);
     static TreeServiceImpl treeService = new TreeServiceImpl(nodeService);
@@ -48,6 +58,8 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
+
+
         initialize();
         addButton();
         stageSelfAdaption(primaryStage);

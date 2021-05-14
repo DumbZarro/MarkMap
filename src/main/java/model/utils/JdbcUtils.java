@@ -16,7 +16,7 @@ import java.util.Arrays;
  */
 public class JdbcUtils {
     private static MongoClient client = null;
-    private static String dbName = "username";  //默认这个用户
+    private static final String dbName = ViewUtils.username;  //从导入界面获取连接的数据库名
 
     static {
         //连接数据库

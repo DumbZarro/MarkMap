@@ -10,6 +10,8 @@ import model.service.impl.NodeServiceImpl;
 import model.utils.JdbcUtils;
 import org.bson.Document;
 
+import javax.swing.*;
+import java.io.*;
 import java.util.HashMap;
 
 /**
@@ -43,7 +45,7 @@ public class MindMapDaoImpl extends BaseDao {
         return db;
     }
 
-    public void saveMap(HashMap<Integer, MapNode> nodeList){
+    public void saveMapToCloud(HashMap<Integer, MapNode> nodeList){
         if(coll.countDocuments()!=0){   //先清空再重新加入
             coll.drop();
         }
@@ -59,10 +61,6 @@ public class MindMapDaoImpl extends BaseDao {
         // 检索所有文档
         System.out.println("检索所有文档:");
         FindIterable<Document> findIterable = coll.find();  //获取迭代器FindIterable<Document>
-//        MongoCursor<Document> mongoCursor = findIterable.iterator();    //获取游标MongoCursor<Document>
-//        while (mongoCursor.hasNext()) {     //通过游标遍历检索出的文档集合
-//            System.out.println(mongoCursor.next());
-//        }
         System.out.println("去除 _id");
         for (Document document : findIterable) {     // 优化
             JSONObject jsonObject= JSONObject.parseObject(document.toJson());
@@ -74,7 +72,7 @@ public class MindMapDaoImpl extends BaseDao {
     }
 
     public void loadMap(HashMap<Integer, MapNode> nodeList){
-        System.out.println("Document ---> JavaBean");
+//        System.out.println("Document ---> JavaBean");
         FindIterable<Document> findIterable = coll.find();
         for (Document document : findIterable) {
             JSONObject jsonObject= JSONObject.parseObject(document.toJson());
@@ -83,11 +81,38 @@ public class MindMapDaoImpl extends BaseDao {
             MapNode node = JSONObject.parseObject(document2.toJson(), MapNode.class);
             nodeList.put(node.getId(), node);
         }
-        System.out.println(JSONObject.toJSONString(nodeList));
+//        System.out.println(JSONObject.toJSONString(nodeList));
     }
 
-
-
-
-
+    // TODO 本地读取
+//    public void readMapFromLocal()throws IOException{
+//        JFileChooser fileChooser = new JFileChooser("D:\\");
+//
+//        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//
+//        int returnVal = fileChooser.showOpenDialog(fileChooser);
+//
+//        if (returnVal == JFileChooser.APPROVE_OPTION) {
+//            String filePath = fileChooser.getSelectedFile().getAbsolutePath();//这个就是你选择的文件夹的
+//            System.out.println(filePath);
+//            File file = new File(filePath);
+//            InputStream in = new FileInputStream(file);
+//            in.readAllBytes();
+//        }
+//    }
+    // TODO 本地存储
+//    public void saveMapToLocal()throws IOException{
+//        JFileChooser fileChooser = new JFileChooser("D:\\");
+//
+//        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//
+//        int returnVal = fileChooser.showOpenDialog(fileChooser);
+//
+//        if (returnVal == JFileChooser.APPROVE_OPTION) {
+//            String filePath = fileChooser.getSelectedFile().getAbsolutePath();//这个就是你选择的文件夹的
+//            System.out.println(filePath);
+//            File file = new File(filePath);
+//            OutputStream out = new FileOutputStream(file);
+//        }
+//    }
 }
