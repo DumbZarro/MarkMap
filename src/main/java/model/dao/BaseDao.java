@@ -44,11 +44,12 @@ public abstract class BaseDao {
 
     /**
      * 执行返回一行一列的sql语句
-     * @param sql   执行的sql语句
-     * @param args  sql对应的参数值
+     *
+     * @param sql  执行的sql语句
+     * @param args sql对应的参数值
      * @return
      */
-    public Object queryForSingleValue(String sql, Object... args){
+    public Object queryForSingleValue(String sql, Object... args) {
         return null;
     }
 

@@ -108,8 +108,8 @@ public class TreeServiceImpl implements TreeService {
     public void updateLayout() {
         toCountBlock();
         // 设置根节点位置
-        rootNode.setLeftX(Main.mindMapPane.getWidth()/2);//TODO 寻找合适的横坐标值
-        rootNode.setTopY(Main.mindMapPane.getHeight()/2);
+        rootNode.setLeftX(Main.mindMapPane.getWidth() / 2);//TODO 寻找合适的横坐标值
+        rootNode.setTopY(Main.mindMapPane.getHeight() / 2);
         switch (tree.getLayout()) {
             case "default" -> defaultLayout();
             case "right" -> rightLayout();
@@ -139,24 +139,24 @@ public class TreeServiceImpl implements TreeService {
             nowNode.setLevel(0);
         }
 
-        if(flag==0){//中心布局要特殊处理
+        if (flag == 0) {//中心布局要特殊处理
             nowNode.setCounter(0);
-            int half = (nowNode.getChildrenId().size()+1)/2;//加一是为了将编译器向下取整变成向上取整
+            int half = (nowNode.getChildrenId().size() + 1) / 2;//加一是为了将编译器向下取整变成向上取整
             int leftSize = 0;
             int rightSize = 0;
 
-            for (Integer childId : nowNode.getChildrenId()){//计算左右子树高度
+            for (Integer childId : nowNode.getChildrenId()) {//计算左右子树高度
                 MapNode childNode = nodeService.getNodeById(childId);
-                if(nowNode.getCounter()<half){ // 小于,左右平衡,
-                    rightSize +=childNode.getBlockHeight();
-                }else {
-                    leftSize +=childNode.getBlockHeight();
+                if (nowNode.getCounter() < half) { // 小于,左右平衡,
+                    rightSize += childNode.getBlockHeight();
+                } else {
+                    leftSize += childNode.getBlockHeight();
                 }
                 //计数
-                nowNode.setCounter(nowNode.getCounter()+1);
+                nowNode.setCounter(nowNode.getCounter() + 1);
             }
-            rightSize/=2;
-            leftSize/=2;
+            rightSize /= 2;
+            leftSize /= 2;
 
             // 第一个子节点的位置
             Integer delta = nowNode.getBlockHeight() / 2;
@@ -167,16 +167,16 @@ public class TreeServiceImpl implements TreeService {
                 MapNode childNode = nodeService.getNodeById(childId);
 
                 // 算y
-                if(nowNode.getCounter()<half){//前一半右树  // 小于,和上面保持一致
-                    flag=1;//右树
+                if (nowNode.getCounter() < half) {//前一半右树  // 小于,和上面保持一致
+                    flag = 1;//右树
                     delta -= childNode.getBlockHeight() / 2;
-                    Double y = nowY - delta+leftSize;//还要计算偏移
+                    Double y = nowY - delta + leftSize;//还要计算偏移
                     childNode.setTopY(y);
                     delta -= childNode.getBlockHeight() / 2;
-                }else {
-                    flag=-1;//左树
+                } else {
+                    flag = -1;//左树
                     delta -= childNode.getBlockHeight() / 2;
-                    Double y = nowY - delta-rightSize;//还要计算偏移
+                    Double y = nowY - delta - rightSize;//还要计算偏移
                     childNode.setTopY(y);
                     delta -= childNode.getBlockHeight() / 2;
                 }
@@ -187,13 +187,13 @@ public class TreeServiceImpl implements TreeService {
                 childNode.setLeftX(childX);
 
                 //计数
-                nowNode.setCounter(nowNode.getCounter()+1);
+                nowNode.setCounter(nowNode.getCounter() + 1);
                 //算level
                 childNode.setLevel(nowNode.getLevel() + 1);
                 //递推调用
                 computeCoordinate(childId, flag);
             }
-        }else{  //左右单边的布局
+        } else {  //左右单边的布局
             Integer X_bias = nodeService.getSCALE() / 2; //设置合适的横向间距
             double childX = nowNode.getLeftX() + flag * (nowNode.getWidth() + X_bias);  //x轴 通过flag实现:左树累加、右树累减
 
@@ -226,7 +226,7 @@ public class TreeServiceImpl implements TreeService {
 
     @Override
     public int saveToCloud() {
-        MindMapDaoImpl db =new MindMapDaoImpl(Main.mapName);
+        MindMapDaoImpl db = new MindMapDaoImpl(Main.mapName);
         db.saveMapToCloud(nodeService.getNodeList());
         return 0;
     }

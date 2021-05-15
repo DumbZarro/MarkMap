@@ -34,6 +34,7 @@ public class MapNode {
         this.content = "新建节点";
         this.note = null;
         this.childrenId = new ArrayList<>();//节点列表要初始化
+        this.blockHeight = 0;
         this.cssClass = "default";
         this.counter = 0;
         this.isVisible = true;
@@ -41,22 +42,23 @@ public class MapNode {
         this.isSelected = false; // 默认被创建时选中
         this.isSonDisplay = false;//新创节点无子则不可见
         this.extraEdge = null;
-        this.leftX=0.;
-        this.topY=0.;
-        this.level=0;
+        this.leftX = 0.;
+        this.topY = 0.;
+        this.level = 0;
         this.flag = false;
-        this.haveBlock=false;
+        this.haveBlock = false;
         this.isNoteVisible = false;
     }
 
 
-    public MapNode(int Id,double height,double width,int scale) {
+    public MapNode(int Id, double height, double width, int scale) {
         this();
         this.Id = Id;
-        this.height=height;
-        this.width=width;
-        this.scale =scale;
+        this.height = height;
+        this.width = width;
+        this.scale = scale;
     }
+
     public int getId() {
         return Id;
     }
@@ -210,9 +212,11 @@ public class MapNode {
     public Boolean getNoteVisible() {
         return isNoteVisible;
     }
+
     public void setNoteVisible(Boolean noteVisible) {
         isNoteVisible = noteVisible;
     }
+
     public void setExtraEdge(ArrayList<MapNode> extraEdge) {
         this.extraEdge = extraEdge;
     }

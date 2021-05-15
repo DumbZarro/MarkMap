@@ -8,10 +8,14 @@ import java.util.ArrayList;
  * Description:
  */
 public interface NodeService {
-    void addNode(Integer parentNodeId, Integer sonNodeId,MapNode sonNode);
+    void addNode(Integer parentNodeId, Integer sonNodeId, MapNode sonNode);
+
     void deleteNode(Integer id);
+
     MapNode getNodeById(Integer id);
+
     ArrayList<Integer> getChildrenIdById(Integer id);
+
     Integer getParentIdById(Integer id);
 //    int updateNode(Integer node);
 
