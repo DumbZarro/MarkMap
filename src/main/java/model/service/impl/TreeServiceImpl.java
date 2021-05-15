@@ -5,7 +5,6 @@ import model.dao.impl.MindMapDaoImpl;
 import model.pojo.MapNode;
 import model.pojo.MapTree;
 import model.service.TreeService;
-import view.Generator;
 
 import java.util.ArrayList;
 import java.util.Collections;

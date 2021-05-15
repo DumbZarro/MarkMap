@@ -1,9 +1,6 @@
 package model.utils;
 
-import com.mongodb.client.MongoDatabase;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Description:

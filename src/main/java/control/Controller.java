@@ -16,7 +16,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
-import model.dao.impl.MindMapDaoImpl;
 import model.pojo.MapNode;
 import model.utils.ViewUtils;
 import view.Generator;
@@ -278,5 +277,26 @@ public class Controller {
     void saveMap(Event event) {
         Main.treeService.saveToCloud();//结束时保存
         ViewUtils.displayMessage("信息", "保存成功", "确定");
+    }
+
+    @FXML
+    void subScale(Event event) {
+        int scale =Main.nodeService.getSCALE();
+        Main.nodeService.changeNodeSize(scale-10);
+        Main.treeService.updateLayout();
+        Main.generator.showMap();
+    }
+
+    @FXML
+    void addScale(Event event) {
+        int scale =Main.nodeService.getSCALE();
+        Main.nodeService.changeNodeSize(scale+10);//能缩放了
+        Main.treeService.updateLayout();
+        Main.generator.showMap();
+    }
+    @FXML
+    void notedNode(Event event){
+        Main.nodeService.getNodeById(Generator.selectedNodeNum).setNoted(true);
+        Main.generator.showMap();
     }
 }

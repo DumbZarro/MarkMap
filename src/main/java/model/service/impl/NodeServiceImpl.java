@@ -165,5 +165,16 @@ public class NodeServiceImpl implements NodeService {
             node.setScale(scale);
         }
     }
+    public void setVisible(Integer id,boolean flag){
+        MapNode node = getNodeById(id);
+        node.setVisible(flag);
+        ArrayList<Integer> child = node.getChildrenId();
+        if(child.size()==0){
+            return;
+        }
+        for (Integer son:node.getChildrenId()) {
+            setVisible(son,flag);
+        }
+    }
 
 }

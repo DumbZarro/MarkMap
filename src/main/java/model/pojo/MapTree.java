@@ -1,8 +1,5 @@
 package model.pojo;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 /**
  * Description:思维导图树的类,实际上就是节点列表加上布局
  */

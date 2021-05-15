@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
+<?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane fx:id="allPane" maxHeight="800.0" maxWidth="2500.0" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#keyEvenHandler" prefHeight="720.0" prefWidth="1280.0" stylesheets="@EditMindMap.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.Controller">
@@ -93,7 +92,7 @@
       <Pane fx:id="bottomPane" layoutY="38.0" maxHeight="730.0" maxWidth="2500.0" prefHeight="690.0" prefWidth="1288.0">
          <children>
             <Button fx:id="OutlineToMap" layoutX="41.0" layoutY="13.0" mnemonicParsing="false" onAction="#OutlineToMap" styleClass="mindAC" text="思维导图" />
-            <Pane fx:id="butPane" layoutX="436.0" layoutY="2.0" prefHeight="74.0" prefWidth="458.0">
+            <Pane fx:id="butPane" layoutX="380.0" layoutY="2.0" prefHeight="74.0" prefWidth="578.0">
                <children>
                   <Button layoutX="339.0" layoutY="7.0" mnemonicParsing="false" styleClass="chooseBut">
                      <graphic>
@@ -104,7 +103,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button layoutX="277.0" layoutY="7.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="45.0" styleClass="chooseBut">
+                  <Button layoutX="277.0" layoutY="7.0" mnemonicParsing="false" onAction="#notedNode" prefHeight="29.0" prefWidth="45.0" styleClass="chooseBut">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -149,26 +148,69 @@
                         </ImageView>
                      </graphic>
                   </Button>
+                  <Button layoutX="519.0" layoutY="7.0" mnemonicParsing="false" onAction="#subScale" prefHeight="32.0" prefWidth="161.0" styleClass="chooseBut">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@image/shrink.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="459.0" layoutY="7.0" mnemonicParsing="false" onAction="#addScale" prefHeight="32.0" prefWidth="161.0" styleClass="chooseBut">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@image/enlarge.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                   <Label layoutX="349.0" layoutY="60.0" styleClass="labelOfBut" text="笔记" />
                   <Label layoutX="287.0" layoutY="60.0" styleClass="labelOfBut" text="概要" />
                   <Label layoutX="221.0" layoutY="60.0" styleClass="labelOfBut" text="外框" />
                   <Label layoutX="157.0" layoutY="60.0" styleClass="labelOfBut" text="联系" />
                   <Label layoutX="85.0" layoutY="60.0" styleClass="labelOfBut" text="子主题" />
                   <Label layoutX="28.0" layoutY="60.0" styleClass="labelOfBut" text="主题" />
-                  <Button layoutX="399.0" layoutY="7.0" mnemonicParsing="false" onAction="#deleteNode" styleClass="chooseBut" />
-                  <ImageView fitHeight="20.0" fitWidth="23.0" layoutX="411.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../target/classes/image/减号.png" />
-                     </image>
-                  </ImageView>
-                  <Label layoutX="391.0" layoutY="60.0" styleClass="labelOfBut" text="删除主题" />
+                  <Button layoutX="399.0" layoutY="7.0" mnemonicParsing="false" onAction="#deleteNode" styleClass="chooseBut">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@image/delete.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Label layoutX="397.0" layoutY="60.0" styleClass="labelOfBut" text="删除主题" />
+                  <Label layoutX="470.0" layoutY="60.0" styleClass="labelOfBut" text="放大" />
+                  <Label layoutX="528.0" layoutY="60.0" styleClass="labelOfBut" text="缩小" />
                </children>
             </Pane>
             <Pane fx:id="layoutPane" layoutX="1089.0" layoutY="2.0" prefHeight="74.0" prefWidth="191.0">
                <children>
-                  <Button layoutX="14.0" layoutY="7.0" mnemonicParsing="false" onAction="#setLeftLayout" styleClass="chooseBut" />
-                  <Button layoutX="66.0" layoutY="7.0" mnemonicParsing="false" onAction="#setRightLayout" styleClass="chooseBut" />
-                  <Button layoutX="125.0" layoutY="7.0" mnemonicParsing="false" onAction="#setDefaultLayout" styleClass="chooseBut" />
+                  <Button layoutX="14.0" layoutY="7.0" mnemonicParsing="false" onAction="#setLeftLayout" styleClass="chooseBut">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@image/leftLayout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button layoutX="66.0" layoutY="7.0" mnemonicParsing="false" onAction="#setRightLayout" styleClass="chooseBut">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@image/rightLayout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button layoutX="125.0" layoutY="7.0" mnemonicParsing="false" onAction="#setDefaultLayout" styleClass="chooseBut">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@image/centerLayout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
                   <Label layoutX="17.0" layoutY="57.0" styleClass="labelOfBut" text="左布局" />
                   <Label layoutX="66.0" layoutY="57.0" styleClass="labelOfBut" text="右布局" />
                   <Label layoutX="118.0" layoutY="57.0" styleClass="labelOfBut" text="中心布局" />

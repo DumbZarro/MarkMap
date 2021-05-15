@@ -23,7 +23,8 @@ public class MapNode {
     private Boolean haveBlock;  //是否有外框
     private Boolean flag;   //标志位,主要用于判断节点是否计算了blockWidth
     private Boolean isVisible;  // 节点是否显示 懒加载有的节点加载而不显示  ********
-    private Boolean isAlong;    // 孤立 无父无子  [由MapTree来决定]
+    private Boolean isNoted;    // 节点是否有注释
+    private Boolean isNoteVisible;//节点的注释框是否可见
     private Boolean isSonDisplay;  // 子节点是否显示 不可用子节点列表为空判断->可能只是没加载
     private Boolean isSelected; // 是否被选中
     private ArrayList<MapNode> extraEdge;   //除了父子间的线以外的关系线  将当前节点与列表中的节点分别连一根线
@@ -37,6 +38,7 @@ public class MapNode {
         this.cssClass = "default";
         this.counter = 0;
         this.isVisible = true;
+        this.isNoted = false;
         this.isSelected = false; // 默认被创建时选中
         this.isSonDisplay = false;//新创节点无子则不可见
         this.extraEdge = null;
@@ -45,6 +47,7 @@ public class MapNode {
         this.level=0;
         this.flag = false;
         this.haveBlock=false;
+        this.isNoteVisible = false;
     }
 
 
@@ -175,12 +178,12 @@ public class MapNode {
         isVisible = visible;
     }
 
-    public Boolean getAlong() {
-        return isAlong;
+    public Boolean getNoted() {
+        return isNoted;
     }
 
-    public void setAlong(Boolean along) {
-        isAlong = along;
+    public void setNoted(Boolean noted) {
+        isNoted = noted;
     }
 
     public Boolean getSonDisplay() {
@@ -205,6 +208,12 @@ public class MapNode {
         return extraEdge;
     }
 
+    public Boolean getNoteVisible() {
+        return isNoteVisible;
+    }
+    public void setNoteVisible(Boolean noteVisible) {
+        isNoteVisible = noteVisible;
+    }
     public void setExtraEdge(ArrayList<MapNode> extraEdge) {
         this.extraEdge = extraEdge;
     }
@@ -253,7 +262,7 @@ public class MapNode {
                 ", haveBlock=" + haveBlock +
                 ", flag=" + flag +
                 ", isVisible=" + isVisible +
-                ", isAlong=" + isAlong +
+                ", isNoted=" + isNoted +
                 ", isSonDisplay=" + isSonDisplay +
                 ", isSelected=" + isSelected +
                 ", extraEdge=" + extraEdge +

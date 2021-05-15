@@ -78,3 +78,12 @@
     -fx-pref-width: 45px;
     -fx-pref-height: 45px;
 }
+#annotaionBut{
+   -fx-background-color: white;
+   -fx-effect: dropshadow(one-pass-box, #72b9da, 10.0,0, 0, 0);
+   -fx-pref-width: 15px;
+   -fx-pref-height: 15px;
+}
+#annotaionBut:hover{
+    -fx-background-color: rgb(230,230,230);
+}

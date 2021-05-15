@@ -2,11 +2,8 @@ package control;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,11 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TreeView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.stage.StageStyle;
 import model.dao.impl.MindMapDaoImpl;
 import model.pojo.MapNode;
@@ -27,15 +22,12 @@ import model.service.impl.TreeServiceImpl;
 import model.utils.ViewUtils;
 import view.Generator;
 
-import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Objects;
 
 
 public class Main extends Application {
     public static String mapName = null;
+    public static AnchorPane mindMapPane;
     static {
         ViewUtils.openBox();
         System.out.println(ViewUtils.username);
@@ -44,7 +36,6 @@ public class Main extends Application {
         mapName=ViewUtils.map;
     }
     // 创建服务
-    public static String mapName = "map1";
     static MindMapDaoImpl dataBaseService = new MindMapDaoImpl(mapName);  //打开思维导图
     static NodeServiceImpl nodeService = new NodeServiceImpl(dataBaseService);
     static TreeServiceImpl treeService = new TreeServiceImpl(nodeService);
@@ -61,7 +52,6 @@ public class Main extends Application {
         primaryStage.show();
         mindMapPane = (AnchorPane) root.lookup("#mindMapPane");
         initialize();
-        addButton();
         stageSelfAdaption(primaryStage);
 
     }
@@ -112,10 +102,7 @@ public class Main extends Application {
 
     private void initialize() {
         treeService.getTree().setLayout("right");
-        nodeService.changeNodeSize(100);
-        // 重新计算坐标
-        treeService.getTree().setLayout("default");
-        nodeService.changeNodeSize(60);//能缩放了
+        nodeService.changeNodeSize(100);//能缩放了
         for (MapNode node : nodeService.getNodeList().values()) {
             node.setSelected(false);
         }
@@ -130,24 +117,6 @@ public class Main extends Application {
         scrollPane.setHvalue(0.5);
 
     }
-
-    private void addButton() {
-        Button OutlineToMap = (Button) root.lookup("#OutlineToMap");
-        Button MapToOutline = (Button) root.lookup("#MapToOutline");
-        OutlineToMap.setStyle("-fx-background-color: rgb(230, 230, 231);\n" +
-                "    -fx-text-fill: black;\n" +
-                "    -fx-font-size: 25px;\n" +
-                "    -fx-border-width: 2px;\n" +
-                "    -fx-border-radius: 30px;\n" +
-                "    -fx-background-radius: 30px; -fx-font-weight: bold");
-        MapToOutline.setStyle("-fx-background-color: rgb(244, 244, 244);\n" +
-                "    -fx-text-fill: rgb(125, 125, 125);\n" +
-                "    -fx-font-size: 25px;\n" +
-                "    -fx-border-width: 2px;\n" +
-                "    -fx-border-radius: 30px;\n" +
-                "    -fx-background-radius: 30px; ");
-    }
-
     public static void main(String[] args) {
         launch(args);
     }
