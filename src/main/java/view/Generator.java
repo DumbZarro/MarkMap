@@ -231,9 +231,9 @@ public class Generator {
                 }
             }
             if (notYetDrawPStack.empty() == false) {
-                if (notYetDrawP.getLeftX() > notYetDrawPStack.peek().getLeftX()) {
+                if (notYetDrawP.getLeftX() > notYetDrawPStack.peek().getLeftX()&&layoutString=="default") {
                     layout = -1;
-                } else if (notYetDrawP.getLeftX() < notYetDrawPStack.peek().getLeftX()) {
+                } else if (notYetDrawP.getLeftX() < notYetDrawPStack.peek().getLeftX()&&layoutString=="default") {
                     layout = 1;
                 }
             }
