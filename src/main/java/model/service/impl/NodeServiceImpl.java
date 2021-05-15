@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class NodeServiceImpl implements NodeService {
     private HashMap<Integer, MapNode> nodeList= new HashMap<Integer, MapNode>();
     MindMapDaoImpl dataBaseService;
-    private Integer SCALE =100;
+    private Integer SCALE =100;     //新图默认大小
 
     public NodeServiceImpl() {
         MapNode centerNode= new MapNode(1,getDefaultHeight(),getDefaultWidth(),getSCALE());
