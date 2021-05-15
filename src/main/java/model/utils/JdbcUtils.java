@@ -17,7 +17,7 @@ public class JdbcUtils {
         //连接数据库
         // 用户认证信息
 //        final String uriString = "mongodb://localhost:27017";
-        final String uriString = "mongodb://mapUser:201925310306@mongodb.dumbzarro.top:27017/"+dbName;//要预先填数据库,否则认证会失败
+        final String uriString = "mongodb://mapUser:201925310306@mongodb.dumbzarro.top:27017/" + dbName;//要预先填数据库,否则认证会失败
         client = MongoClients.create(uriString);//url版
 
         //我*@$%&#^&$%^&$,下面这个配置不行,直接有上面的url就行,我!#$!%$@#$%^#!@#$
@@ -38,13 +38,15 @@ public class JdbcUtils {
 //        System.out.println("数据库用户初始化!");
 
     }
+
     //获取数据库
-    public static MongoDatabase getDatabase(){
+    public static MongoDatabase getDatabase() {
         return client.getDatabase(dbName);
     }
+
     //获取数据库中的集合
-    public static MongoCollection<Document> getCollection(String collName){
-        MongoDatabase database =client.getDatabase(dbName);
+    public static MongoCollection<Document> getCollection(String collName) {
+        MongoDatabase database = client.getDatabase(dbName);
         return database.getCollection(collName);
     }
 }

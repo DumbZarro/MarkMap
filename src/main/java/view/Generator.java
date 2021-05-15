@@ -5,25 +5,18 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import model.pojo.MapNode;
 import model.service.impl.NodeServiceImpl;
 import model.service.impl.TreeServiceImpl;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
@@ -36,7 +29,6 @@ public class Generator {
     static public Integer selectedNodeNum = 1;
     AnchorPane MindMapPane;
     Stack<MapNode> notYetDrawPStack = new Stack<>();
-
     Color lineColor = Color.BLUE;
 
     public Generator(NodeServiceImpl nodeService, TreeServiceImpl treeService, Parent root) {
@@ -56,9 +48,6 @@ public class Generator {
         });
         drawLine();
         treeView();
-        ScrollPane scrollPane = (ScrollPane) root.lookup("#scrollPane");
-        scrollPane.setVvalue(0.5);
-        scrollPane.setHvalue(0.5);
     }
 
     //    展示showNode
@@ -118,7 +107,7 @@ public class Generator {
         if (showNode.getChildrenId().size() != 0)
             MindMapPane.getChildren().add(sonVisibleNodeBut);
         if (showNode.getNoted())
-        MindMapPane.getChildren().add(annotaionBut);
+            MindMapPane.getChildren().add(annotaionBut);
         annotaionBut.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -135,16 +124,13 @@ public class Generator {
             }
         });
         if (showNode.getNoteVisible())
-        MindMapPane.getChildren().add(textArea);
+            MindMapPane.getChildren().add(textArea);
     }
 
     //    画线
     public void drawLine() {
         MapNode rootNode = treeService.getRootNode();
         notYetDrawPStack.push(rootNode);
-        if (!rootNode.getSonDisplay()) {//父节点没有可见子节点就不要划线了
-            return;
-        }
         String layoutString = treeService.getTree().getLayout();
         Integer layout = -100;
         switch (layoutString) {
@@ -161,7 +147,6 @@ public class Generator {
         while (!notYetDrawPStack.empty()) {
             MapNode notYetDrawP = notYetDrawPStack.pop();//有子节点的节点出栈
             ArrayList<Integer> childList = notYetDrawP.getChildrenId();//获取该节点的子节点列表
-
             ArrayList<Double> maxAndMinY = new ArrayList<>();//最大和最小的子节点y值
             if (notYetDrawP.getSonDisplay()) {
                 switch (layout) {
@@ -169,11 +154,11 @@ public class Generator {
                         maxAndMinY = rightDrawMapLine(childList);//右布局画线
                         Line parNodeLine = new Line(notYetDrawP.getLeftX() + notYetDrawP.getWidth(), notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2, notYetDrawP.getLeftX() + notYetDrawP.getWidth() + (nodeService.getNodeById(childList.get(0)).getLeftX() - notYetDrawP.getLeftX() - notYetDrawP.getWidth()) / 2, notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2);
                         parNodeLine.setStroke(Color.rgb(104, 151, 187));
-                        parNodeLine.setStrokeWidth(6.0*nodeService.getSCALE()/100);
+                        parNodeLine.setStrokeWidth(6.0 * nodeService.getSCALE() / 100);
                         MindMapPane.getChildren().add(parNodeLine);
                         Line veriticalLineRight = new Line(notYetDrawP.getLeftX() + notYetDrawP.getWidth() + (nodeService.getNodeById(childList.get(0)).getLeftX() - notYetDrawP.getLeftX() - notYetDrawP.getWidth()) / 2, maxAndMinY.get(0) + notYetDrawP.getHeight() / 2, notYetDrawP.getLeftX() + notYetDrawP.getWidth() + (nodeService.getNodeById(childList.get(0)).getLeftX() - notYetDrawP.getLeftX() - notYetDrawP.getWidth()) / 2, maxAndMinY.get(1) + notYetDrawP.getHeight() / 2);//链接所有节点的竖线
                         veriticalLineRight.setStroke(Color.rgb(104, 151, 187));
-                        veriticalLineRight.setStrokeWidth(6.0*nodeService.getSCALE()/100);
+                        veriticalLineRight.setStrokeWidth(6.0 * nodeService.getSCALE() / 100);
                         MindMapPane.getChildren().add(veriticalLineRight);
                         break;
                     }
@@ -181,11 +166,11 @@ public class Generator {
                         maxAndMinY = leftDrawMapLine(childList);//左布局画线
                         Line parNodeLineleft = new Line(notYetDrawP.getLeftX(), notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2, notYetDrawP.getLeftX() - (notYetDrawP.getLeftX() - (nodeService.getNodeById(childList.get(0))).getLeftX() - (nodeService.getNodeById(childList.get(0))).getWidth()) / 2, notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2);//父节点伸出一小段线
                         parNodeLineleft.setStroke(Color.rgb(104, 151, 187));
-                        parNodeLineleft.setStrokeWidth(6.0*nodeService.getSCALE()/100);
+                        parNodeLineleft.setStrokeWidth(6.0 * nodeService.getSCALE() / 100);
                         MindMapPane.getChildren().add(parNodeLineleft);
                         Line veriticalLineLeft = new Line(notYetDrawP.getLeftX() - (notYetDrawP.getLeftX() - (nodeService.getNodeById(childList.get(0))).getLeftX() - (nodeService.getNodeById(childList.get(0))).getWidth()) / 2, maxAndMinY.get(0) + notYetDrawP.getHeight() / 2, notYetDrawP.getLeftX() - (notYetDrawP.getLeftX() - (nodeService.getNodeById(childList.get(0))).getLeftX() - (nodeService.getNodeById(childList.get(0))).getWidth()) / 2, maxAndMinY.get(1) + notYetDrawP.getHeight() / 2);//链接所有节点的竖线
                         veriticalLineLeft.setStroke(Color.rgb(104, 151, 187));
-                        veriticalLineLeft.setStrokeWidth(6.0*nodeService.getSCALE()/100);
+                        veriticalLineLeft.setStrokeWidth(6.0 * nodeService.getSCALE() / 100);
                         MindMapPane.getChildren().add(veriticalLineLeft);
                         break;
                     }
@@ -193,12 +178,10 @@ public class Generator {
                         Integer halfSize = childList.size() / 2;
                         ArrayList rightChildList;
                         ArrayList leftChildList;
-                        if (childList.size()%2!=0) {
+                        if (childList.size() % 2 != 0) {
                             rightChildList = new ArrayList(childList.subList(0, halfSize + 1));
                             leftChildList = new ArrayList(childList.subList(halfSize + 1, childList.size()));
-                        }
-                        else
-                        {
+                        } else {
                             rightChildList = new ArrayList(childList.subList(0, halfSize));
                             leftChildList = new ArrayList(childList.subList(halfSize, childList.size()));
                         }
@@ -211,19 +194,19 @@ public class Generator {
                         Double rightHalfDistance = (notYetDrawP.getLeftX() + notYetDrawP.getWidth() - rightChildNode.getLeftX()) / 2;
                         Line parNodeLineleft = new Line(notYetDrawP.getLeftX(), notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2, notYetDrawP.getLeftX() + leftHalfDistance, notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2);
                         parNodeLineleft.setStroke(Color.rgb(104, 151, 187));
-                        parNodeLineleft.setStrokeWidth(6.0*nodeService.getSCALE()/100);
+                        parNodeLineleft.setStrokeWidth(6.0 * nodeService.getSCALE() / 100);
                         MindMapPane.getChildren().add(parNodeLineleft);//父节点的左延伸线
                         Line veriticalLineLeft = new Line(notYetDrawP.getLeftX() + leftHalfDistance, maxAndMinY1.get(0) + leftChildNode.getHeight() / 2, notYetDrawP.getLeftX() + leftHalfDistance, maxAndMinY1.get(1) + leftChildNode.getHeight() / 2);
                         veriticalLineLeft.setStroke(Color.rgb(104, 151, 187));
-                        veriticalLineLeft.setStrokeWidth(6.0*nodeService.getSCALE()/100);
+                        veriticalLineLeft.setStrokeWidth(6.0 * nodeService.getSCALE() / 100);
                         MindMapPane.getChildren().add(veriticalLineLeft);//竖线of左边子节点的
                         Line parNodeLine = new Line(notYetDrawP.getLeftX() + notYetDrawP.getWidth(), notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2, notYetDrawP.getLeftX() + notYetDrawP.getWidth() - rightHalfDistance, notYetDrawP.getTopY() + notYetDrawP.getHeight() / 2);
                         parNodeLine.setStroke(Color.rgb(104, 151, 187));
-                        parNodeLine.setStrokeWidth(6.0*nodeService.getSCALE()/100);
+                        parNodeLine.setStrokeWidth(6.0 * nodeService.getSCALE() / 100);
                         MindMapPane.getChildren().add(parNodeLine);//父节点的右延伸线
                         Line veriticalLineRight = new Line(notYetDrawP.getLeftX() + notYetDrawP.getWidth() - rightHalfDistance, maxAndMinY2.get(0) + rightChildNode.getHeight() / 2, notYetDrawP.getLeftX() + notYetDrawP.getWidth() - rightHalfDistance, maxAndMinY2.get(1) + rightChildNode.getHeight() / 2);
                         veriticalLineRight.setStroke(Color.rgb(104, 151, 187));
-                        veriticalLineRight.setStrokeWidth(6.0*nodeService.getSCALE()/100);
+                        veriticalLineRight.setStrokeWidth(6.0 * nodeService.getSCALE() / 100);
                         MindMapPane.getChildren().add(veriticalLineRight);//竖线of右边子节点的
                         break;
                     }
@@ -231,9 +214,11 @@ public class Generator {
                 }
             }
             if (notYetDrawPStack.empty() == false) {
-                if (notYetDrawP.getLeftX() > notYetDrawPStack.peek().getLeftX()&&layoutString=="default") {
+                if (notYetDrawP.getLeftX() > notYetDrawPStack.peek().getLeftX()) {
+                    System.out.println(13);
                     layout = -1;
-                } else if (notYetDrawP.getLeftX() < notYetDrawPStack.peek().getLeftX()&&layoutString=="default") {
+                } else if (notYetDrawP.getLeftX() < notYetDrawPStack.peek().getLeftX() ) {
+                    System.out.println(14);
                     layout = 1;
                 }
             }
@@ -260,7 +245,7 @@ public class Generator {
             MapNode parentNode = nodeService.getParentNodeByNode(currentNode);
             Line nodeLine = new Line(currentNode.getLeftX() - (currentNode.getLeftX() - (parentNode.getLeftX() + parentNode.getWidth())) / 2, currentNode.getTopY() + currentNode.getHeight() / 2, currentNode.getLeftX(), currentNode.getTopY() + currentNode.getHeight() / 2);
             nodeLine.setStroke(Color.rgb(104, 151, 187));
-            nodeLine.setStrokeWidth(6.0*nodeService.getSCALE()/100);
+            nodeLine.setStrokeWidth(6.0 * nodeService.getSCALE() / 100);
             MindMapPane.getChildren().add(nodeLine);
         }
         ArrayList<Double> maxAndMinY = new ArrayList<>();
@@ -289,7 +274,7 @@ public class Generator {
             MapNode parentNode = nodeService.getParentNodeByNode(currentNode);
             Line nodeLine = new Line(currentNode.getLeftX() + currentNode.getWidth(), currentNode.getTopY() + currentNode.getHeight() / 2, currentNode.getLeftX() + currentNode.getWidth() + (parentNode.getLeftX() - currentNode.getLeftX() - currentNode.getWidth()) / 2, currentNode.getTopY() + currentNode.getHeight() / 2);
             nodeLine.setStroke(Color.rgb(104, 151, 187));
-            nodeLine.setStrokeWidth(6.0*nodeService.getSCALE()/100);
+            nodeLine.setStrokeWidth(6.0 * nodeService.getSCALE() / 100);
             MindMapPane.getChildren().add(nodeLine);
         }
         ArrayList<Double> maxAndMinY = new ArrayList<>();
@@ -406,23 +391,25 @@ public class Generator {
         });
         treeView.setRoot(searchMap.get(1));
     }
-    private Button annotaionBut(MapNode showNode){
+
+    private Button annotaionBut(MapNode showNode) {
         ImageView imageView = new ImageView(new Image("image/概要.png"));
         imageView.setFitWidth(5);
         imageView.setFitHeight(5);
-        Button annotaionBut = new Button(new String(),imageView);
+        Button annotaionBut = new Button(new String(), imageView);
         annotaionBut.setId("#annotaionBut");
-        annotaionBut.setLayoutY(showNode.getTopY()+35);
-        annotaionBut.setLayoutX(showNode.getLeftX()+showNode.getContent().length()*15+15);
+        annotaionBut.setLayoutY(showNode.getTopY() + 35);
+        annotaionBut.setLayoutX(showNode.getLeftX() + showNode.getContent().length() * 15 + 15);
         return annotaionBut;
     }
-    private TextArea noteText(MapNode showNode){
+
+    private TextArea noteText(MapNode showNode) {
         TextArea textField = new TextArea();
         textField.setText(showNode.getNote());
-        textField.setPrefHeight(nodeService.getSCALE()*2);
-        textField.setPrefWidth(nodeService.getSCALE()*4);
-        textField.setLayoutX(showNode.getLeftX()-nodeService.getSCALE());
-        textField.setLayoutY(showNode.getTopY()-10-nodeService.getSCALE()*2);
+        textField.setPrefHeight(nodeService.getSCALE() * 2);
+        textField.setPrefWidth(nodeService.getSCALE() * 4);
+        textField.setLayoutX(showNode.getLeftX() - nodeService.getSCALE());
+        textField.setLayoutY(showNode.getTopY() - 10 - nodeService.getSCALE() * 2);
         return textField;
     }
 }

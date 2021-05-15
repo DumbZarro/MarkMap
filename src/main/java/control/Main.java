@@ -7,7 +7,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TreeView;
@@ -28,13 +27,15 @@ import java.util.Objects;
 public class Main extends Application {
     public static String mapName = null;
     public static AnchorPane mindMapPane;
+
     static {
         ViewUtils.openBox();
         System.out.println(ViewUtils.username);
         System.out.println(ViewUtils.map);
 
-        mapName=ViewUtils.map;
+        mapName = ViewUtils.map;
     }
+
     // 创建服务
     static MindMapDaoImpl dataBaseService = new MindMapDaoImpl(mapName);  //打开思维导图
     static NodeServiceImpl nodeService = new NodeServiceImpl(dataBaseService);
@@ -57,7 +58,7 @@ public class Main extends Application {
     }
 
     private void stageSelfAdaption(Stage primaryStage) {
-         primaryStage.widthProperty().addListener(new ChangeListener<Number>() {
+        primaryStage.widthProperty().addListener(new ChangeListener<Number>() {
                                                      @Override
                                                      public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                                                          Platform.runLater(new Runnable() {
@@ -117,6 +118,7 @@ public class Main extends Application {
         scrollPane.setHvalue(0.5);
 
     }
+
     public static void main(String[] args) {
         launch(args);
     }

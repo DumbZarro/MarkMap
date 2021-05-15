@@ -14,8 +14,8 @@ import javafx.stage.Stage;
 import javax.swing.*;
 
 public class ViewUtils {
-    public static String username=null;
-    public static String map=null;
+    public static String username = null;
+    public static String map = null;
 
     public static void displayMessage(String title, String message, String buttonStirng) {
         Stage window = new Stage();
@@ -39,6 +39,7 @@ public class ViewUtils {
         // 使用showAndWait()先处理这个窗口，而如果不处理，main中的那个窗口不能响应
         window.showAndWait();
     }
+
     public static void openBox() {
         Stage window = new Stage();
         window.setTitle("打开导图");
@@ -57,15 +58,14 @@ public class ViewUtils {
         inputID2.setPromptText("map");
 
 
-
         Button button = new Button("打开");
         button.setOnAction((ActionEvent e) -> {
 //            System.out.println(inputID.getText());
             username = inputID.getText();
             map = inputID2.getText();
-            if(username==null||map==null){
+            if (username == null || map == null) {
                 displayMessage("警告", "非法输入人", "确认");
-            }else {
+            } else {
 //                System.out.println(username);
 //                System.out.println(map);
                 window.close();
@@ -79,7 +79,7 @@ public class ViewUtils {
         line2.setAlignment(Pos.CENTER);
         line3.setAlignment(Pos.CENTER_RIGHT);
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(line1, line2,line3);
+        layout.getChildren().addAll(line1, line2, line3);
         layout.setStyle("-fx-padding: 5;");
 
         Scene scene = new Scene(layout);
@@ -87,9 +87,10 @@ public class ViewUtils {
         // 使用showAndWait()先处理这个窗口，而如果不处理，main中的那个窗口不能响应
         window.showAndWait();
     }
-    public static String openPath(){
+
+    public static String openPath() {
         JFileChooser fileChooser = new JFileChooser("D:\\");
-        String filePath="D:\\";
+        String filePath = "D:\\";
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
         int returnVal = fileChooser.showOpenDialog(fileChooser);

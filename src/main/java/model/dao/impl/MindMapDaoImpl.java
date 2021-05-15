@@ -42,12 +42,12 @@ public class MindMapDaoImpl extends BaseDao {
         return db;
     }
 
-    public void saveMapToCloud(HashMap<Integer, MapNode> nodeList){
-        if(coll.countDocuments()!=0){   //先清空再重新加入
+    public void saveMapToCloud(HashMap<Integer, MapNode> nodeList) {
+        if (coll.countDocuments() != 0) {   //先清空再重新加入
             coll.drop();
         }
         // 遍历加入
-        for (Integer id:nodeList.keySet()) {
+        for (Integer id : nodeList.keySet()) {
             MapNode node = nodeList.get(id);
             Document document = Document.parse(JSONObject.toJSONString(node));
             coll.insertOne(document);
@@ -60,7 +60,7 @@ public class MindMapDaoImpl extends BaseDao {
         FindIterable<Document> findIterable = coll.find();  //获取迭代器FindIterable<Document>
         System.out.println("去除 _id");
         for (Document document : findIterable) {     // 优化
-            JSONObject jsonObject= JSONObject.parseObject(document.toJson());
+            JSONObject jsonObject = JSONObject.parseObject(document.toJson());
             jsonObject.remove("_id");
             Document document2 = Document.parse(jsonObject.toJSONString());
             System.out.println(document2);
@@ -68,11 +68,11 @@ public class MindMapDaoImpl extends BaseDao {
 
     }
 
-    public void loadMap(HashMap<Integer, MapNode> nodeList){
+    public void loadMap(HashMap<Integer, MapNode> nodeList) {
 //        System.out.println("Document ---> JavaBean");
         FindIterable<Document> findIterable = coll.find();
         for (Document document : findIterable) {
-            JSONObject jsonObject= JSONObject.parseObject(document.toJson());
+            JSONObject jsonObject = JSONObject.parseObject(document.toJson());
             jsonObject.remove("_id");
             Document document2 = Document.parse(jsonObject.toJSONString());
             MapNode node = JSONObject.parseObject(document2.toJson(), MapNode.class);

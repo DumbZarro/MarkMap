@@ -11,25 +11,25 @@ import java.util.HashMap;
  * Description:
  */
 public class NodeServiceImpl implements NodeService {
-    private HashMap<Integer, MapNode> nodeList= new HashMap<Integer, MapNode>();
+    private HashMap<Integer, MapNode> nodeList = new HashMap<Integer, MapNode>();
     MindMapDaoImpl dataBaseService;
-    private Integer SCALE =100;
+    private Integer SCALE = 100;
 
     public NodeServiceImpl() {
-        MapNode centerNode= new MapNode(1,getDefaultHeight(),getDefaultWidth(),getSCALE());
+        MapNode centerNode = new MapNode(1, getDefaultHeight(), getDefaultWidth(), getSCALE());
         centerNode.setContent("中心节点");
         nodeList.put(centerNode.getId(), centerNode);
     }
 
-    public NodeServiceImpl(MindMapDaoImpl dataBaseService){// 数据库服务的初始化方式
-        this.dataBaseService=dataBaseService;
-        if(dataBaseService.getColl().countDocuments()==0){
-            MapNode centerNode= new MapNode(1,getDefaultHeight(),getDefaultWidth(),getSCALE());
+    public NodeServiceImpl(MindMapDaoImpl dataBaseService) {// 数据库服务的初始化方式
+        this.dataBaseService = dataBaseService;
+        if (dataBaseService.getColl().countDocuments() == 0) {
+            MapNode centerNode = new MapNode(1, getDefaultHeight(), getDefaultWidth(), getSCALE());
             centerNode.setContent("中心节点");
             nodeList.put(centerNode.getId(), centerNode);
-        }else{
+        } else {
             dataBaseService.loadMap(this.nodeList);
-            this.SCALE= nodeList.get(1).getScale();
+            this.SCALE = nodeList.get(1).getScale();
             System.out.println(this.nodeList);
         }
 
@@ -74,11 +74,11 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public void deleteNode(Integer id) {
-        MapNode parentNode =getParentNodeById(id);
+        MapNode parentNode = getParentNodeById(id);
         ArrayList<Integer> childrenIdList = parentNode.getChildrenId();//删除父节点记录
         childrenIdList.remove(id);
 
-        if(childrenIdList.size()==0){
+        if (childrenIdList.size() == 0) {
             parentNode.setSonDisplay(false);
             nodeList.remove(id);
             return;
@@ -90,8 +90,8 @@ public class NodeServiceImpl implements NodeService {
         System.out.println(nodeList);
     }
 
-    public void releaseNode(Integer id){
-        if(getChildrenIdById(id).size()==0){
+    public void releaseNode(Integer id) {
+        if (getChildrenIdById(id).size() == 0) {
             nodeList.remove(id);
             return;
         }
@@ -110,7 +110,7 @@ public class NodeServiceImpl implements NodeService {
     //1. get id by id
     @Override
     public ArrayList<Integer> getChildrenIdById(Integer id) {
-        if(getNodeById(id).getChildrenId() == null) {
+        if (getNodeById(id).getChildrenId() == null) {
             ArrayList<Integer> childNodeList = new ArrayList<Integer>();
             getNodeById(id).setChildrenId(childNodeList);
         }
@@ -147,33 +147,36 @@ public class NodeServiceImpl implements NodeService {
     }
 
 
-    public Integer getDefaultHeight(){
+    public Integer getDefaultHeight() {
         return SCALE;
     }
-    public Integer getDefaultWidth(){
-        return getDefaultHeight()*2;
+
+    public Integer getDefaultWidth() {
+        return getDefaultHeight() * 2;
     }
 
-    public void changeNodeSize(Integer scale){
+    public void changeNodeSize(Integer scale) {
         setSCALE(scale);
-        for(MapNode node:nodeList.values()){
-            Integer preScale =  node.getScale();
-            Double nowHeight = (node.getHeight()*scale)/preScale;
+        for (MapNode node : nodeList.values()) {
+            Integer preScale = node.getScale();
+            Double nowHeight = (node.getHeight() * scale) / preScale;
             node.setHeight(nowHeight);
-            Double nowWidth = (node.getWidth()*scale)/preScale;
+            Double nowWidth = (node.getWidth() * scale) / preScale;
             node.setWidth(nowWidth);
             node.setScale(scale);
         }
     }
-    public void setVisible(Integer id,boolean flag){
+
+    public void setVisible(Integer id, boolean flag) {
         MapNode node = getNodeById(id);
         node.setVisible(flag);
+
         ArrayList<Integer> child = node.getChildrenId();
-        if(child.size()==0){
+        if (child.size() == 0) {
             return;
         }
-        for (Integer son:node.getChildrenId()) {
-            setVisible(son,flag);
+        for (Integer son : node.getChildrenId()) {
+            setVisible(son, flag);
         }
     }
 

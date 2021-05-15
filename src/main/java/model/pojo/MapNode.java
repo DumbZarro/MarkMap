@@ -14,8 +14,8 @@ public class MapNode {
     private Integer level;   // 节点的级别 也就是深度(以树的角度来看) [由MapTree来决定] ********
     private Double topY;    // 节点左上角的Y坐标    [由MapTree来决定]
     private Double leftX;   // 节点左上角的X坐标    [由MapTree来决定]
-    private Double height=0.;  // 节点的高度,一般都是一样高,超过最大宽度则变成两行高
-    private Double width=0.;   // 节点的宽度
+    private Double height = 0.;  // 节点的高度,一般都是一样高,超过最大宽度则变成两行高
+    private Double width = 0.;   // 节点的宽度
     private Integer blockHeight;   // 块高
     private Integer blockWidth;     // 块宽
     private String cssClass;    // 节点的样式
@@ -42,22 +42,23 @@ public class MapNode {
         this.isSelected = false; // 默认被创建时选中
         this.isSonDisplay = false;//新创节点无子则不可见
         this.extraEdge = null;
-        this.leftX=0.;
-        this.topY=0.;
-        this.level=0;
+        this.leftX = 0.;
+        this.topY = 0.;
+        this.level = 0;
         this.flag = false;
-        this.haveBlock=false;
+        this.haveBlock = false;
         this.isNoteVisible = false;
     }
 
 
-    public MapNode(int Id,double height,double width,int scale) {
+    public MapNode(int Id, double height, double width, int scale) {
         this();
         this.Id = Id;
-        this.height=height;
-        this.width=width;
-        this.scale =scale;
+        this.height = height;
+        this.width = width;
+        this.scale = scale;
     }
+
     public int getId() {
         return Id;
     }
@@ -211,9 +212,11 @@ public class MapNode {
     public Boolean getNoteVisible() {
         return isNoteVisible;
     }
+
     public void setNoteVisible(Boolean noteVisible) {
         isNoteVisible = noteVisible;
     }
+
     public void setExtraEdge(ArrayList<MapNode> extraEdge) {
         this.extraEdge = extraEdge;
     }
