@@ -28,24 +28,42 @@ public class Main extends Application {
     public static String mapName = null;
     public static AnchorPane mindMapPane;
 
-    static {
+    // 创建服务
+    static MindMapDaoImpl dataBaseService;  //打开思维导图
+    static NodeServiceImpl nodeService;
+    static TreeServiceImpl treeService;
+    static Generator generator;
+
+    private Parent root;
+
+//    public MindMapDaoImpl getDataBaseService() {
+//        return dataBaseService;
+//    }
+//
+//    public NodeServiceImpl getNodeService() {
+//        return nodeService;
+//    }
+//
+//    public TreeServiceImpl getTreeService() {
+//        return treeService;
+//    }
+
+    static void initService(){
         ViewUtils.openBox();
         System.out.println(ViewUtils.username);
         System.out.println(ViewUtils.map);
-
         mapName = ViewUtils.map;
-    }
 
-    // 创建服务
-    static MindMapDaoImpl dataBaseService = new MindMapDaoImpl(mapName);  //打开思维导图
-    static NodeServiceImpl nodeService = new NodeServiceImpl(dataBaseService);
-    static TreeServiceImpl treeService = new TreeServiceImpl(nodeService);
-    static Generator generator;
-    private Parent root;
+        dataBaseService = new MindMapDaoImpl(mapName);  //打开思维导图
+        nodeService = new NodeServiceImpl(dataBaseService);
+        treeService = new TreeServiceImpl(nodeService);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../EditMindMap.fxml")));
+        initService();
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/mindmap.fxml")));
+
         primaryStage.setTitle("思维导图");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);

@@ -23,7 +23,7 @@ public class MindMapDaoImpl extends BaseDao {
     }
 
     public MindMapDaoImpl(String collName) {
-        this.coll = JdbcUtils.getCollection(collName);//默认导图
+        this.coll = JdbcUtils.getCollection(collName);
     }
 
     public void setDb(MongoDatabase db) {

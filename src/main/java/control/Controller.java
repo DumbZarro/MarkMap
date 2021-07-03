@@ -59,7 +59,6 @@ public class Controller {
     private Double mouseY;
     static public Boolean extraLineButPressed = false;
 
-
     @FXML
     void close(Event event) {
 //        Main.treeService.saveToCloud();//结束时保存
@@ -274,8 +273,24 @@ public class Controller {
     }
 
     @FXML
-    void mapInput(Event event) {
-        ViewUtils.openBox();
+    void mapInput(Event event) throws IOException, InterruptedException {//打开新的导图(多个)
+
+        //外部程序命令，这里是shell 脚本
+        String cmds[] = {"java","-jar","D:\\86186\\Documents\\JavaCode\\IDEA\\MarkMap\\target\\MarkMap-1.0-SNAPSHOT-jar-with-dependencies.jar"};
+
+        ProcessBuilder builder = new ProcessBuilder(cmds);
+        System.out.println(builder);
+        Process process = builder.start();
+        System.out.println(process);
+//        while(process.isAlive()) {//判断进程是否还存活
+//            Thread.sleep(1000);
+//        }
+//        System.out.println("进程退出值:"+process.exitValue());
+
+
+//        String[] args = new String[0];
+//        LaunchMain.main(args);//Application launch must not be called more than once
+//        ViewUtils.openBox();
     }
 
     @FXML

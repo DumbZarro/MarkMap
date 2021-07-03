@@ -22,7 +22,7 @@ public class MapNode {
     private Integer counter;    //用于计数
     private Boolean haveBlock;  //是否有外框
     private Boolean flag;   //标志位,主要用于判断节点是否计算了blockWidth
-    private Boolean isVisible;  // 节点是否显示 懒加载有的节点加载而不显示
+    private Boolean isVisible; // 节点是否显示 懒加载有的节点加载而不显示
     private Boolean isNoted;    // 节点是否有注释
     private Boolean isNoteVisible;//节点的注释框是否可见
     private Boolean isSonDisplay;  // 子节点是否显示 不可用子节点列表为空判断->可能只是没加载

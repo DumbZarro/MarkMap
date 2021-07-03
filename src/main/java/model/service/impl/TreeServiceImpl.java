@@ -12,7 +12,7 @@ import java.util.Comparator;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
- * Description:
+ * Description:提供一些操作Map的方法,主要负责计算布局
  */
 public class TreeServiceImpl implements TreeService {
     private MapTree tree;   // 包含布局信息和根节点信息
@@ -65,8 +65,6 @@ public class TreeServiceImpl implements TreeService {
                 node.setBlockHeight(defaultSize);//这里的大小决定纵向间距的大小
                 CounterQueue.add(node);
             }
-
-
         }
     }
 
