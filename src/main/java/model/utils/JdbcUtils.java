@@ -20,12 +20,12 @@ public class JdbcUtils {
         //连接数据库
         // 用户认证信息
 //        final String uriString = "mongodb://localhost:27017";
-        final String uriString = "mongodb://mapUser:201925310306@mongodb.dumbzarro.top:27017/" + dbName;//要预先填数据库,否则认证会失败
+        final String uriString = "mongodb://xxxx:xxxx@xxx.xxx.xxx:27017/" + dbName;//要预先填数据库,否则认证会失败
         client = MongoClients.create(uriString);//url版
         //我*@$%&#^&$%^&$,下面这个配置不行,直接有上面的url就行,我!#$!%$@#$%^#!@#$
-//        String user="dumbzarro"; // 用户名
-//        String database="username"; // 要连接的数据库
-//        char[] password="dumbzarro".toCharArray(); // 密码(字符列表)
+//        String user="xxxxx"; // 用户名
+//        String database="xxx"; // 要连接的数据库
+//        char[] password="xxx".toCharArray(); // 密码(字符列表)
 //        ServerAddress address = new ServerAddress("mongodb.dumbzarro.top",27017);//服务器地址
 //
 //        MongoCredential credential = MongoCredential.createCredential(user,database,password);
